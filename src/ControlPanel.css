@@ -9,8 +9,12 @@
   font-size: 13px;
   line-height: 2;
   color: #6b6b76;
-  /* text-transform: uppercase; */
   outline: none;
+  /* display: block; */
+}
+
+.source-link {
+  display: block;
 }
 
 label {
