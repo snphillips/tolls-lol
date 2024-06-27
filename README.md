@@ -1,7 +1,8 @@
-# React + TypeScript + Vite
+# Obscured License Plate Complaints Visualized
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Visualizing New York City's complaint data for obscured license plates.
 
+-----
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
