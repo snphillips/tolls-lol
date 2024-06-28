@@ -1,5 +1,5 @@
 
-export interface Complaint {
+export interface ComplaintType {
   unique_key: string;
   created_date: string;
   closed_date?: string;
@@ -51,3 +51,27 @@ export interface Complaint {
   police_precincts: string;
   police_precinct: string;
 }
+
+export type ResolutionDescriptionsType = {
+  no_resolution: string;
+  summons: string;
+  took_action: string;
+  no_violation: string;
+  not_police_jurisdiction: string;
+  no_police_action: string;
+  those_responsible_gone: string;
+  provided_additional_information: string;
+};
+
+export type DisplayResolutionType = {
+  no_resolution: boolean;
+  summons: boolean;
+  took_action: boolean;
+  no_violation: boolean;
+  not_police_jurisdiction: boolean;
+  no_police_action: boolean;
+  those_responsible_gone: boolean;
+  provided_additional_information: boolean;
+};
+
+
