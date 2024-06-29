@@ -1,4 +1,3 @@
-
 export interface ComplaintType {
   unique_key: string;
   created_date: string;
@@ -16,18 +15,18 @@ export interface ComplaintType {
   intersection_street_1?: string;
   intersection_street_2?: string;
   address_type: string;
-  city: string;
-  landmark: string;
+  city?: string;
+  landmark?: string;
   facility_type: undefined;
   status: 'In Progress' | 'Closed';
   due_date: undefined;
   resolution_description?: string;
   resolution_action_updated_date?: string;
   community_board: string;
-  bbl: string;
+  bbl?: string;
   borough: string;
-  x_coordinate_state_plane: string;
-  y_coordinate_state_plane: string;
+  x_coordinate_state_plane?: string;
+  y_coordinate_state_plane?: string;
   open_data_channel_type: 'MOBILE' | 'ONLINE' | 'MOBILE';
   park_facility_name: 'Unspecified';
   park_borough: 'BROOKLYN' | 'BRONX' | 'QUEENS' | 'MANHATTAN' | 'STATEN ISLAND';
@@ -38,18 +37,18 @@ export interface ComplaintType {
   bridge_highway_direction?: string;
   road_ramp?: string;
   bridge_highway_segment?: string;
-  latitude: string;
-  longitude: string;
-  location: {
+  latitude?: string;
+  longitude?: string;
+  location?: {
     latitude: string;
     longitude: string;
   };
-  zip_codes: string;
-  community_districts: string;
-  borough_boundaries: '1' | '2' | '3' | '4' | '5' ;
-  city_council_districts: string;
-  police_precincts: string;
-  police_precinct: string;
+  zip_codes?: string;
+  community_districts?: string;
+  borough_boundaries?: '1' | '2' | '3' | '4' | '5' ;
+  city_council_districts?: string;
+  police_precincts?: string;
+  police_precinct?: string;
 }
 
 export type ResolutionDescriptionsType = {
@@ -63,15 +62,14 @@ export type ResolutionDescriptionsType = {
   provided_additional_information: string;
 };
 
-export type DisplayResolutionType = {
-  no_resolution: boolean;
-  summons: boolean;
-  took_action: boolean;
-  no_violation: boolean;
-  not_police_jurisdiction: boolean;
-  no_police_action: boolean;
-  those_responsible_gone: boolean;
-  provided_additional_information: boolean;
+export type ResolutionDescriptionType = {
+  resolution?: string;
+  label: string;
+  visibility: boolean;
 };
+
+export type ResolutionDescriptionsArrayType = ResolutionDescriptionType[];
+
+
 
 

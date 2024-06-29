@@ -1,27 +1,27 @@
 import React from 'react';
 import './ControlPanel.css';
 import { 
-  ResolutionDescriptionsType,
-  DisplayResolutionType
+  ResolutionDescriptionsArrayType
 }  
 from './types.ts';
 
 type Props = {
-  resolutionDescriptions: ResolutionDescriptionsType;
-  displayResolution: DisplayResolutionType;
-  setDisplayResolution: any;
+  resolutionDescriptionsArray: ResolutionDescriptionsArrayType;
+  setResolutionDescriptionsArray: any;
 };
 
-function ControlPanel({ resolutionDescriptions, displayResolution, setDisplayResolution}: Props) {
+function ControlPanel({ resolutionDescriptionsArray, setResolutionDescriptionsArray}: Props) {
 
-  const handleCheckboxChange = (key: keyof DisplayResolutionType) => {
-    console.log('setDisplayResolution', key, displayResolution);
-    setDisplayResolution((prev: DisplayResolutionType) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
-  };
-
+      const handleCheckboxChange = (label: string) => {
+        console.log('handleCheckboxChange', label);
+        setResolutionDescriptionsArray(prevState =>
+          prevState.map(resolutionDescription =>
+            resolutionDescription.label === label
+              ? { ...resolutionDescription, visibility: !resolutionDescription.visibility }
+              : resolutionDescription
+          )
+        );
+      };
 
   return (
     <div className="control-panel">
@@ -45,16 +45,22 @@ function ControlPanel({ resolutionDescriptions, displayResolution, setDisplayRes
       </div>
       <hr />
       <h3>Resolution</h3>
-{Object.entries(resolutionDescriptions).map(([key, value]) => (
-  <div key={key} className="input">
-    <label>{value}</label>
-    <input
-      type="checkbox"
-      checked={displayResolution[key as keyof DisplayResolutionType]}
-      onChange={() => handleCheckboxChange(key as keyof DisplayResolutionType)}
-    />
-  </div>
-))}
+
+
+
+      {
+  resolutionDescriptionsArray.map((resolutionDescription) => (
+    <div key={resolutionDescription.label} className="input">
+      <label>{resolutionDescription.label}</label>
+      <input
+        type="checkbox"
+        checked={resolutionDescription.visibility}
+        onChange={() => handleCheckboxChange(resolutionDescription.label)}
+      />
+    </div>
+  ))
+}
+
       <h3>Time to Resolution</h3>
       {/* https://visgl.github.io/react-map-gl/examples/geojson */}
       <input type="range" min="1" max="100" value='50'/>
