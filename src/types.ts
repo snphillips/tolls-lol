@@ -45,7 +45,7 @@ export interface ComplaintType {
   };
   zip_codes?: string;
   community_districts?: string;
-  borough_boundaries?: '1' | '2' | '3' | '4' | '5' ;
+  borough_boundaries?: '1' | '2' | '3' | '4' | '5';
   city_council_districts?: string;
   police_precincts?: string;
   police_precinct?: string;
@@ -69,7 +69,3 @@ export type ResolutionDescriptionType = {
 };
 
 export type ResolutionDescriptionsArrayType = ResolutionDescriptionType[];
-
-
-
-

@@ -1,31 +1,34 @@
 import React from 'react';
 import './ControlPanel.css';
-import { 
-  ResolutionDescriptionsArrayType
-}  
-from './types.ts';
+import { ResolutionDescriptionsArrayType } from './types.ts';
 
 type Props = {
   resolutionDescriptionsArray: ResolutionDescriptionsArrayType;
-  setResolutionDescriptionsArray: React.Dispatch<React.SetStateAction<ResolutionDescriptionsArrayType>>
-  ;
+  setResolutionDescriptionsArray: React.Dispatch<
+    React.SetStateAction<ResolutionDescriptionsArrayType>
+  >;
 };
 
-function ControlPanel({ resolutionDescriptionsArray, setResolutionDescriptionsArray}: Props) {
-
-      const handleCheckboxChange = (label: string) => {
-                console.log('handleCheckboxChange', label);
-        setResolutionDescriptionsArray(prevState =>
-          prevState.map(resolutionDescription =>
-            resolutionDescription.label === label
-              ? { ...resolutionDescription, visibility: !resolutionDescription.visibility }
-              : resolutionDescription
-          )
-        );
-      };
+function ControlPanel({
+  resolutionDescriptionsArray,
+  setResolutionDescriptionsArray,
+}: Props) {
+  const handleCheckboxChange = (label: string) => {
+    console.log('handleCheckboxChange', label);
+    setResolutionDescriptionsArray((prevState) =>
+      prevState.map((resolutionDescription) =>
+        resolutionDescription.label === label
+          ? {
+              ...resolutionDescription,
+              visibility: !resolutionDescription.visibility,
+            }
+          : resolutionDescription
+      )
+    );
+  };
 
   return (
-            <div className="control-panel">
+    <div className="control-panel">
       <h1>Obscured License Plates in NYC</h1>
       <h2>Visualizing 311 Complaint Data for 2024</h2>
       <div>
@@ -33,7 +36,7 @@ function ControlPanel({ resolutionDescriptionsArray, setResolutionDescriptionsAr
           className="source-link"
           href="https://github.com/snphillips/obscured-license-plate-visualizer.git"
           target="_new"
-          >
+        >
           View Code ↗
         </a>
         <a
@@ -47,24 +50,20 @@ function ControlPanel({ resolutionDescriptionsArray, setResolutionDescriptionsAr
       <hr />
       <h3>Resolution</h3>
 
-
-
-      {
-  resolutionDescriptionsArray.map((resolutionDescription) => (
-    <div key={resolutionDescription.label} className="input">
-      <label>{resolutionDescription.label}</label>
-      <input
-        type="checkbox"
-        checked={resolutionDescription.visibility}
-        onChange={() => handleCheckboxChange(resolutionDescription.label)}
-      />
-    </div>
-  ))
-}
+      {resolutionDescriptionsArray.map((resolutionDescription) => (
+        <div key={resolutionDescription.label} className="input">
+          <label>{resolutionDescription.label}</label>
+          <input
+            type="checkbox"
+            checked={resolutionDescription.visibility}
+            onChange={() => handleCheckboxChange(resolutionDescription.label)}
+          />
+        </div>
+      ))}
 
       <h3>Time to Resolution</h3>
       {/* https://visgl.github.io/react-map-gl/examples/geojson */}
-      <input type="range" min="1" max="100" value='50'/>
+      <input type="range" min="1" max="100" value="50" />
     </div>
   );
 }
