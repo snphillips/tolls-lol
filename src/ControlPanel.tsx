@@ -7,13 +7,14 @@ from './types.ts';
 
 type Props = {
   resolutionDescriptionsArray: ResolutionDescriptionsArrayType;
-  setResolutionDescriptionsArray: any;
+  setResolutionDescriptionsArray: React.Dispatch<React.SetStateAction<ResolutionDescriptionsArrayType>>
+  ;
 };
 
 function ControlPanel({ resolutionDescriptionsArray, setResolutionDescriptionsArray}: Props) {
 
       const handleCheckboxChange = (label: string) => {
-        console.log('handleCheckboxChange', label);
+                console.log('handleCheckboxChange', label);
         setResolutionDescriptionsArray(prevState =>
           prevState.map(resolutionDescription =>
             resolutionDescription.label === label
@@ -24,7 +25,7 @@ function ControlPanel({ resolutionDescriptionsArray, setResolutionDescriptionsAr
       };
 
   return (
-    <div className="control-panel">
+            <div className="control-panel">
       <h1>Obscured License Plates in NYC</h1>
       <h2>Visualizing 311 Complaint Data for 2024</h2>
       <div>

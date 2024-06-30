@@ -47,6 +47,13 @@ h3 {
   line-height: 1.1;
 }
 
+h4 {
+  font-size: 1em;
+  line-height: 1.1;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
