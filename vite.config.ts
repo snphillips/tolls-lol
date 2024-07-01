@@ -10,4 +10,9 @@ export default defineConfig({
       exclude: ['node_modules'],
     }),
   ],
+  resolve: {
+    alias: {
+      '@': '/src',
+    },
+  },
 });
