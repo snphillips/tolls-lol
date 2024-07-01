@@ -1,28 +1,33 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import './ControlPanel.css';
-import { ResolutionDescriptionsArrayType } from './types.ts';
+import {
+  ResolutionDescriptionsArrayType,
+  DisplayResolutionArrayType,
+} from './types.ts';
 
 type Props = {
   resolutionDescriptionsArray: ResolutionDescriptionsArrayType;
-  setResolutionDescriptionsArray: React.Dispatch<
-    React.SetStateAction<ResolutionDescriptionsArrayType>
+  displayResolutionArray: DisplayResolutionArrayType;
+  setDisplayResolutionArray: React.Dispatch<
+    React.SetStateAction<DisplayResolutionArrayType>
   >;
 };
 
 function ControlPanel({
-  resolutionDescriptionsArray,
-  setResolutionDescriptionsArray,
+  displayResolutionArray,
+  setDisplayResolutionArray,
 }: Props) {
   const handleCheckboxChange = (label: string) => {
     console.log('handleCheckboxChange', label);
-    setResolutionDescriptionsArray((prevState) =>
-      prevState.map((resolutionDescription) =>
-        resolutionDescription.label === label
+    setDisplayResolutionArray((prevState) =>
+      prevState.map((item) =>
+        item.label === label
           ? {
-              ...resolutionDescription,
-              visibility: !resolutionDescription.visibility,
+              ...item,
+              visibility: !item.visibility,
             }
-          : resolutionDescription
+          : item
       )
     );
   };
@@ -50,17 +55,17 @@ function ControlPanel({
       <hr />
       <h3>Resolution</h3>
 
-      {resolutionDescriptionsArray.map((resolutionDescription) => (
-        <div key={resolutionDescription.label} className="input">
-          <label>{resolutionDescription.label}</label>
+      {displayResolutionArray.map((item) => (
+        <div key={item.label} className="input">
+          <label>{item.label}</label>
           <input
             type="checkbox"
-            checked={resolutionDescription.visibility}
-            onChange={() => handleCheckboxChange(resolutionDescription.label)}
+            checked={item.visibility}
+            onChange={() => handleCheckboxChange(item.label)}
           />
         </div>
       ))}
-
+      <hr />
       <h3>Time to Resolution</h3>
       {/* https://visgl.github.io/react-map-gl/examples/geojson */}
       <input type="range" min="1" max="100" value="50" />

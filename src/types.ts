@@ -65,7 +65,14 @@ export type ResolutionDescriptionsType = {
 export type ResolutionDescriptionType = {
   resolution?: string;
   label: string;
-  visibility: boolean;
+  color: string;
 };
 
 export type ResolutionDescriptionsArrayType = ResolutionDescriptionType[];
+
+export type DisplayResolutionType = {
+  label: string;
+  visibility: boolean;
+};
+
+export type DisplayResolutionArrayType = DisplayResolutionType[];

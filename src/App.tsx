@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import Map, { Marker, Popup } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ControlPanel from './ControlPanel';
 import './App.css';
-import { ComplaintType, ResolutionDescriptionsArrayType } from './types.ts';
+import {
+  ComplaintType,
+  ResolutionDescriptionsArrayType,
+  DisplayResolutionArrayType,
+} from './types.ts';
 
 // City of NY Open Data API Endpoint
 const dataURL =
@@ -19,6 +24,42 @@ function App() {
   const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>(
     []
   );
+  const [displayResolutionArray, setDisplayResolutionArray] =
+    useState<DisplayResolutionArrayType>([
+      {
+        label: `No resolution`,
+        visibility: true,
+      },
+      {
+        label: `Summons issued`,
+        visibility: true,
+      },
+      {
+        label: `Took action to fix the condition`,
+        visibility: true,
+      },
+      {
+        label: `No evidence of the violation`,
+        visibility: true,
+      },
+      {
+        label: `Not NYPD's jurisdiction`,
+        visibility: true,
+      },
+      {
+        label: `Determined that action was not necessary`,
+        visibility: true,
+      },
+      {
+        label: `Upon arrival those responsible were gone`,
+        visibility: true,
+      },
+      {
+        label: 'Provided additional information below (',
+        visibility: true,
+      },
+    ]);
+
   const [selectedComplaint, setSelectedComplaint] =
     useState<ComplaintType | null>(null);
   const [resolutionDescriptionsArray, setResolutionDescriptionsArray] =
@@ -26,45 +67,45 @@ function App() {
       {
         resolution: undefined,
         label: `No resolution`,
-        visibility: true,
+        color: `#FFE74C`,
       },
       {
         resolution: `The Police Department issued a summons in response to the complaint.`,
         label: `Summons issued`,
-        visibility: true,
+        color: `#FF5964`,
       },
       {
         resolution: `The Police Department responded to the complaint and took action to fix the condition.`,
         label: `Took action to fix the condition`,
-        visibility: true,
+        color: `#38618C`,
       },
       {
         resolution: `The Police Department responded to the complaint and with the information available observed no evidence of the violation at that time.`,
         label: `No evidence of the violation`,
-        visibility: true,
+        color: `#35A7FF`,
       },
       {
         resolution: `This complaint does not fall under the Police Department's jurisdiction.`,
         label: `Not NYPD's jurisdiction`,
-        visibility: true,
+        color: `#B7B561`,
       },
       {
         resolution:
           'The Police Department responded to the complaint and determined that police action was not necessary.',
         label: `Determined that action was not necessary`,
-        visibility: true,
+        color: `#6667E9`,
       },
       {
         resolution:
           'The Police Department responded and upon arrival those responsible for the condition were gone.',
         label: `Upon arrival those responsible were gone`,
-        visibility: true,
+        color: `#494A81`,
       },
       {
         resolution:
           'The Police Department reviewed your complaint and provided additional information below.',
         label: 'Provided additional information below (',
-        visibility: true,
+        color: `#AFAFDC`,
       },
     ]);
 
@@ -100,8 +141,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const visibleResolutions = resolutionDescriptionsArray
+    const visibleLabels = displayResolutionArray
       .filter((item) => item.visibility)
+      .map((item) => item.label);
+
+    const visibleResolutions = resolutionDescriptionsArray
+      .filter((item) => visibleLabels.includes(item.label))
       .map((item) => item.resolution);
 
     const filteredData = complaints.filter((complaint) => {
@@ -113,7 +158,7 @@ function App() {
     });
 
     setFilteredComplaints(filteredData);
-  }, [resolutionDescriptionsArray, complaints]);
+  }, [displayResolutionArray, complaints, resolutionDescriptionsArray]);
 
   return (
     <>
@@ -142,7 +187,12 @@ function App() {
                     setSelectedComplaint(complaint);
                   }}
                 >
-                  <div className="marker"></div>
+                  <div
+                    style={{
+                      backgroundColor: resolutionDescriptionsArray[6].color,
+                    }}
+                    className="marker"
+                  ></div>
                 </button>
               </Marker>
             ) : null
@@ -158,7 +208,11 @@ function App() {
                 closeButton={true}
               >
                 <div className="popup-content">
-                  <h3>{selectedComplaint.incident_address}</h3>
+                  <h3 id="incident_address">
+                    {selectedComplaint.incident_address
+                      .toLowerCase()
+                      .replace(/\b\w/g, (char) => char.toUpperCase())}
+                  </h3>
                   <h4>Complaint opened:</h4>
                   <p>
                     {new Date(selectedComplaint.created_date).toLocaleString(
@@ -193,12 +247,14 @@ function App() {
                       ? howLongTillComplaintResolved()
                       : ''}
                   </p>
+                  <h4>Responding Precinct:</h4>
+                  <p>hi{selectedComplaint.police_precinct}</p>
                 </div>
               </Popup>
             )}
           <ControlPanel
-            resolutionDescriptionsArray={resolutionDescriptionsArray}
-            setResolutionDescriptionsArray={setResolutionDescriptionsArray}
+            displayResolutionArray={displayResolutionArray}
+            setDisplayResolutionArray={setDisplayResolutionArray}
           />
         </Map>
       </div>
