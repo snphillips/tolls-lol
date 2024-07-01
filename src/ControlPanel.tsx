@@ -1,13 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import './ControlPanel.css';
-import {
-  ResolutionDescriptionsArrayType,
-  DisplayResolutionArrayType,
-} from './types.ts';
+import { DisplayResolutionArrayType } from './types';
 
 type Props = {
-  resolutionDescriptionsArray: ResolutionDescriptionsArrayType;
   displayResolutionArray: DisplayResolutionArrayType;
   setDisplayResolutionArray: React.Dispatch<
     React.SetStateAction<DisplayResolutionArrayType>
@@ -62,6 +58,7 @@ function ControlPanel({
             type="checkbox"
             checked={item.visibility}
             onChange={() => handleCheckboxChange(item.label)}
+            // style={{ color: 'red' }}
           />
         </div>
       ))}

@@ -64,15 +64,26 @@ export type ResolutionDescriptionsType = {
 
 export type ResolutionDescriptionType = {
   resolution?: string;
-  label: string;
+  label: ResolutionLabel;
   color: string;
 };
 
 export type ResolutionDescriptionsArrayType = ResolutionDescriptionType[];
 
 export type DisplayResolutionType = {
-  label: string;
+  label: ResolutionLabel;
   visibility: boolean;
 };
 
 export type DisplayResolutionArrayType = DisplayResolutionType[];
+
+// Define a type for resolution descriptions
+export type ResolutionLabel =
+  | 'No resolution'
+  | 'Summons issued'
+  | 'Took action to fix the condition'
+  | 'No evidence of the violation'
+  | `Not NYPD's jurisdiction`
+  | 'Determined that action was not necessary'
+  | 'Upon arrival those responsible were gone'
+  | 'Provided additional information below';

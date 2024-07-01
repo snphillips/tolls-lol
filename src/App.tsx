@@ -6,8 +6,8 @@ import ControlPanel from './ControlPanel';
 import './App.css';
 import {
   ComplaintType,
-  ResolutionDescriptionsArrayType,
   DisplayResolutionArrayType,
+  ResolutionLabel,
 } from './types';
 import { resolutionDescriptionsArray } from './ResolutionDescriptionsArray';
 
@@ -80,6 +80,15 @@ function App() {
     }${diffHours} hours, and ${diffMinutes} minutes`;
   };
 
+  const determineMarkerColor = (
+    resolutionDescription: ResolutionLabel
+  ): string => {
+    const resolution = resolutionDescriptionsArray.find(
+      (res) => res.resolution === resolutionDescription
+    );
+    return resolution ? resolution.color : 'black'; // Default to black if no match is found
+  };
+
   useEffect(() => {
     fetch(dataURL)
       .then((response) => response.json())
@@ -144,7 +153,9 @@ function App() {
                 >
                   <div
                     style={{
-                      backgroundColor: resolutionDescriptionsArray[6].color,
+                      backgroundColor: determineMarkerColor(
+                        complaint.resolution_description as ResolutionLabel
+                      ),
                     }}
                     className="marker"
                   ></div>
@@ -202,8 +213,10 @@ function App() {
                       ? howLongTillComplaintResolved()
                       : ''}
                   </p>
-                  <h4>Responding Precinct:</h4>
-                  <p>hi{selectedComplaint.police_precinct}</p>
+                  <h4>
+                    Responding Precinct:{' '}
+                    {selectedComplaint[':@computed_region_7mpf_4k6g']}
+                  </h4>
                 </div>
               </Popup>
             )}
