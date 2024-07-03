@@ -79,7 +79,8 @@ export type DisplayResolutionArrayType = DisplayResolutionType[];
 
 // Define a type for resolution descriptions
 export type ResolutionLabel =
-  | 'No resolution'
+  | `View all Obscured License Plates complaints`
+  | 'Complaint still open'
   | 'Summons issued'
   | 'Took action to fix the condition'
   | 'No evidence of the violation'
