@@ -25,5 +25,14 @@ label {
 }
 
 input {
-  margin-left: 20px;
+  /* margin-left: 16px; */
+}
+
+.marker-example {
+  width: 10px;
+  height: 10px;
+  background-color: aqua;
+  border-radius: 6px;
+  display: inline-block;
+  margin-right: 6px;
 }

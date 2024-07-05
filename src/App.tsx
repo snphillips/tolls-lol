@@ -33,38 +33,48 @@ function App() {
     useState<DisplayResolutionArrayType>([
       {
         label: `View all Obscured License Plates complaints`,
+        color: `#F4A698`, // pink
         visibility: true,
       },
       {
         label: `Complaint still open`,
+        color: `#EBBC6F`, // earth yellow
         visibility: true,
       },
       {
         label: `Summons issued`,
+        color: `#FF5964`, // red
         visibility: true,
       },
       {
         label: `Took action to fix the condition`,
+        color: `#38618C`, // dark green
         visibility: true,
       },
       {
         label: `No evidence of the violation`,
+        color: `#6B9080`, // orange
         visibility: true,
       },
       {
         label: `Not NYPD's jurisdiction`,
+        color: `#B7B561`, // puce (replace)
         visibility: true,
       },
       {
         label: `Determined that action was not necessary`,
+        color: `#6667E9`, // purple
         visibility: true,
       },
       {
         label: `Upon arrival those responsible were gone`,
+        color: `#18C9C3`, // robin egg blue
         visibility: true,
       },
       {
         label: 'Provided additional information below',
+        color: `#9A6D38`, // brown
+        // color: `#F3F7F2`, // baby powder
         visibility: true,
       },
     ]);
@@ -226,7 +236,7 @@ function App() {
                   </p>
                   <h4>
                     Responding Precinct:{' '}
-                    {/* this isn't right but maybe I'm not understanding */}
+                    {/* this isn't right but maybe I'm not understanding what the data is meant to be */}
                     {selectedComplaint[':@computed_region_7mpf_4k6g']}
                   </h4>
                 </div>

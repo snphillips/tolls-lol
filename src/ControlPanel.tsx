@@ -50,9 +50,12 @@ function ControlPanel({
       </div>
       <hr />
       <h3>How Complaint was Resolved:</h3>
-
       {displayResolutionArray.map((item) => (
         <div key={item.label} className="input">
+          <span
+            className="marker-example"
+            style={{ backgroundColor: item.color }}
+          />
           <label>{item.label}</label>
           <input
             type="checkbox"
