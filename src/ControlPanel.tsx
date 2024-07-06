@@ -15,13 +15,13 @@ function ControlPanel({
   setDisplayResolutionArray,
 }: Props) {
   const handleCheckboxChange = (label: string) => {
-    console.log('handleCheckboxChange', label);
+    console.log('handleCheckboxChange: ', label);
     setDisplayResolutionArray((prevState) =>
       prevState.map((item) =>
         item.label === label
           ? {
               ...item,
-              visibility: !item.visibility,
+              displayColor: !item.displayColor,
             }
           : item
       )
@@ -49,7 +49,13 @@ function ControlPanel({
         </a>
       </div>
       <hr />
-      <h3>How Complaint was Resolved:</h3>
+      <div>
+        {' '}
+        <span className="marker-example" />
+        All obscured license plates complaints
+      </div>
+      <hr />
+      <h3>Complaint Resolution:</h3>
       {displayResolutionArray.map((item) => (
         <div key={item.label} className="input">
           <span
@@ -59,7 +65,7 @@ function ControlPanel({
           <label>{item.label}</label>
           <input
             type="checkbox"
-            checked={item.visibility}
+            checked={item.displayColor}
             onChange={() => handleCheckboxChange(item.label)}
           />
         </div>

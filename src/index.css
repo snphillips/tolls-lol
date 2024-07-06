@@ -85,6 +85,10 @@ button:focus-visible {
   margin: 0 auto;
 }
 
+hr {
+  border: 1px solid #4b5268;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
