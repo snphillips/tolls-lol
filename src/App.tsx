@@ -7,9 +7,9 @@ import './App.css';
 import {
   ComplaintType,
   DisplayResolutionArrayType,
-  ResolutionLabelType,
+  ResolutionLabel,
 } from './types';
-import { resolutionArray } from './ResolutionArray';
+import { resolutionDescriptionsArray } from './ResolutionDescriptionsArray';
 
 // City of NY Open Data API Endpoint
 const dataURL =
@@ -32,55 +32,40 @@ function App() {
   const [displayResolutionArray, setDisplayResolutionArray] =
     useState<DisplayResolutionArrayType>([
       {
+        label: `View all Obscured License Plates complaints`,
+        visibility: true,
+      },
+      {
         label: `Complaint still open`,
-        resolution: undefined,
-        color: `#EBBC6F`, // earth yellow
-        displayColor: false,
+        visibility: true,
       },
       {
         label: `Summons issued`,
-        resolution: `The Police Department issued a summons in response to the complaint.`,
-        color: `#FF5964`, // red
-        displayColor: false,
+        visibility: true,
       },
       {
         label: `Took action to fix the condition`,
-        resolution: `The Police Department responded to the complaint and took action to fix the condition.`,
-        color: `#38618C`, // dark green
-        displayColor: false,
+        visibility: true,
       },
       {
         label: `No evidence of the violation`,
-        resolution: `The Police Department responded to the complaint and with the information available observed no evidence of the violation at that time.`,
-        color: `#6B9080`, // orange
-        displayColor: false,
+        visibility: true,
       },
       {
         label: `Not NYPD's jurisdiction`,
-        resolution: `This complaint does not fall under the Police Department's jurisdiction.`,
-        color: `#B7B561`, // puce (replace)
-        displayColor: false,
+        visibility: true,
       },
       {
         label: `Determined that action was not necessary`,
-        resolution:
-          'The Police Department responded to the complaint and determined that police action was not necessary.',
-        color: `#6667E9`, // purple
-        displayColor: false,
+        visibility: true,
       },
       {
         label: `Upon arrival those responsible were gone`,
-        resolution:
-          'The Police Department responded and upon arrival those responsible for the condition were gone.',
-        color: `#18C9C3`, // robin egg blue
-        displayColor: false,
+        visibility: true,
       },
       {
         label: 'Provided additional information below',
-        resolution:
-          'The Police Department reviewed your complaint and provided additional information below.',
-        color: `#9A6D38`, // brown
-        displayColor: false,
+        visibility: true,
       },
     ]);
 
@@ -103,14 +88,13 @@ function App() {
     }${diffHours} hours, and ${diffMinutes} minutes`;
   };
 
-  const determineMarkerColor = (resDescription: string): string | undefined => {
-    console.log('resDescription:', resDescription);
-    const resolution = displayResolutionArray.find(
-      (res) => res.resolution === resDescription
+  const determineMarkerColor = (
+    resolutionDescription: ResolutionLabel
+  ): string => {
+    const resolution = resolutionDescriptionsArray.find(
+      (res) => res.resolution === resolutionDescription
     );
-    if (resolution?.displayColor === false) return;
-    // Default to light gray if no match is found
-    return resolution ? resolution.color : '#c5c4c4';
+    return resolution ? resolution.color : 'black'; // Default to black if no match is found
   };
 
   useEffect(() => {
@@ -128,25 +112,25 @@ function App() {
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
-  // useEffect(() => {
-  //   const visibleLabels = displayResolutionArray
-  //     .filter((item) => item.displayColor)
-  //     .map((item) => item.label);
+  useEffect(() => {
+    const visibleLabels = displayResolutionArray
+      .filter((item) => item.visibility)
+      .map((item) => item.label);
 
-  //   const visibleResolutions = resolutionArray
-  //     .filter((item) => visibleLabels.includes(item.label))
-  //     .map((item) => item.resolution);
+    const visibleResolutions = resolutionDescriptionsArray
+      .filter((item) => visibleLabels.includes(item.label))
+      .map((item) => item.resolution);
 
-  //   const filteredData = complaints.filter((complaint) => {
-  //     if (complaint.resolution_description === undefined) {
-  //       // Check if undefined (which corresponds to 'No resolution') is in the visibleResolutions
-  //       return visibleResolutions.includes(undefined);
-  //     }
-  //     return visibleResolutions.includes(complaint.resolution_description);
-  //   });
+    const filteredData = complaints.filter((complaint) => {
+      if (complaint.resolution_description === undefined) {
+        // Check if undefined (which corresponds to 'No resolution') is in the visibleResolutions
+        return visibleResolutions.includes(undefined);
+      }
+      return visibleResolutions.includes(complaint.resolution_description);
+    });
 
-  //   setFilteredComplaints(filteredData);
-  // }, [displayResolutionArray, complaints]);
+    setFilteredComplaints(filteredData);
+  }, [displayResolutionArray, complaints]);
 
   return (
     <>
@@ -178,7 +162,7 @@ function App() {
                   <div
                     style={{
                       backgroundColor: determineMarkerColor(
-                        complaint.resolution_description as ResolutionLabelType
+                        complaint.resolution_description as ResolutionLabel
                       ),
                     }}
                     className="marker"
@@ -242,7 +226,7 @@ function App() {
                   </p>
                   <h4>
                     Responding Precinct:{' '}
-                    {/* this isn't right but maybe I'm not understanding what the data is meant to be */}
+                    {/* this isn't right but maybe I'm not understanding */}
                     {selectedComplaint[':@computed_region_7mpf_4k6g']}
                   </h4>
                 </div>

@@ -25,19 +25,5 @@ label {
 }
 
 input {
-  /* margin-left: 16px; */
-}
-
-.marker-example {
-  width: 10px;
-  height: 10px;
-  background-color: #c5c4c4;
-  border-radius: 6px;
-  display: inline-block;
-  margin-right: 6px;
-}
-
-hr {
-  background-color: #4b5268;
-  color: #4b5268;
+  margin-left: 20px;
 }

@@ -51,19 +51,35 @@ export interface ComplaintType {
   police_precinct?: string;
 }
 
-// export type resDescriptionsType = {
-//   no_resolution: string;
-//   summons: string;
-//   took_action: string;
-//   no_violation: string;
-//   not_police_jurisdiction: string;
-//   no_police_action: string;
-//   those_responsible_gone: string;
-//   provided_additional_information: string;
-// };
+export type ResolutionDescriptionsType = {
+  no_resolution: string;
+  summons: string;
+  took_action: string;
+  no_violation: string;
+  not_police_jurisdiction: string;
+  no_police_action: string;
+  those_responsible_gone: string;
+  provided_additional_information: string;
+};
 
-export type ResolutionLabelType =
-  | `Obscured License Plates complaints`
+export type ResolutionDescriptionType = {
+  resolution?: string;
+  label: ResolutionLabel;
+  color: string;
+};
+
+export type ResolutionDescriptionsArrayType = ResolutionDescriptionType[];
+
+export type DisplayResolutionType = {
+  label: ResolutionLabel;
+  visibility: boolean;
+};
+
+export type DisplayResolutionArrayType = DisplayResolutionType[];
+
+// Define a type for resolution descriptions
+export type ResolutionLabel =
+  | `View all Obscured License Plates complaints`
   | 'Complaint still open'
   | 'Summons issued'
   | 'Took action to fix the condition'
@@ -72,20 +88,3 @@ export type ResolutionLabelType =
   | 'Determined that action was not necessary'
   | 'Upon arrival those responsible were gone'
   | 'Provided additional information below';
-
-export type resDescriptionType = {
-  resolution?: string;
-  label: ResolutionLabelType;
-  color: string;
-};
-
-export type resDescriptionsArrayType = resDescriptionType[];
-
-export type DisplayResolutionType = {
-  resolution?: string;
-  label: ResolutionLabelType;
-  color: string;
-  displayColor: boolean;
-};
-
-export type DisplayResolutionArrayType = DisplayResolutionType[];
