@@ -73,15 +73,14 @@ function App() {
         resolution:
           'The Police Department responded and upon arrival those responsible for the condition were gone.',
         color: `#18C9C3`, // robin egg blue
-        displayColor: true,
+        displayColor: false,
       },
       {
         label: 'Provided additional information below',
         resolution:
           'The Police Department reviewed your complaint and provided additional information below.',
         color: `#9A6D38`, // brown
-        // color: `#F3F7F2`, // baby powder
-        displayColor: true,
+        displayColor: false,
       },
     ]);
 
