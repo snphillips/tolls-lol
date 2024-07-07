@@ -1,12 +1,6 @@
 # Obscured License Plate Complaints Visualized
 
-Visualizing New York City's complaint data for obscured license plates.
-
----
-
-# License Plate Obscured Complaints Visualizer
-
-This React application uses Mapbox to visualize complaints about obscured license plates in New York City. It fetches data from the City of New York's Open Data API and displays the complaints on an interactive map. The application caches the data to optimize performance, fetching new data only if the cached data is older than 12 hours.
+This React application uses Mapbox to visualize 311 complaints about obscured license plates in New York City. It fetches data from the City of New York's Open Data API and displays the complaints on an interactive map. The application caches the data to optimize performance, fetching new data only if the cached data is older than 12 hours.
 
 ## Features
 
@@ -71,7 +65,7 @@ Follow these instructions to get a copy of the project up and running on your lo
    yarn dev
    ```
 
-   The application will be available at `http://localhost:3000`.
+   The application will be available at `http://localhost:5173/`.
 
 ## Usage
 
@@ -100,7 +94,3 @@ This project is licensed under the MIT License.
 
 - [Mapbox](https://www.mapbox.com/) for the interactive map.
 - [City of New York Open Data](https://opendata.cityofnewyork.us/) for the complaint data.
-
----
-
-By following these steps, other developers can install, run, and contribute to the License Plate Obscured Complaints Visualizer project.
