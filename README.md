@@ -2,6 +2,10 @@
 
 This React application uses Mapbox to visualize 311 complaints about obscured license plates in New York City. It fetches data from the City of New York's Open Data API and displays the complaints on an interactive map. The application caches the data to optimize performance, fetching new data only if the cached data is older than 12 hours.
 
+## Background
+
+Obscuring motor vehicle licenses plate is illegal in New York City. Those with obscured plates cost New York state money in lost toll revenue and removes the incentive not to speed where red light cameras are in operation. Obscured plates also hinder the ability of law enforcement to investigate crimes. Citizens may make 311 complaints online or by phone to report an obscured plate.
+
 ## Features
 
 - Interactive Mapbox map to visualize complaints.
@@ -12,7 +16,7 @@ This React application uses Mapbox to visualize 311 complaints about obscured li
 
 ## Getting Started
 
-Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
+Follow these instructions to get a copy of the project up and running on your local machine.
 
 ### Prerequisites
 
