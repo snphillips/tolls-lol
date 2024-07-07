@@ -28,6 +28,11 @@ function ControlPanel({
     );
   };
 
+  const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('event.target.value:', event.target.value);
+    // You can update the state here if needed
+  };
+
   return (
     <div className="control-panel">
       <h1>Obscured License Plates in NYC</h1>
@@ -53,6 +58,10 @@ function ControlPanel({
 
       {displayResolutionArray.map((item) => (
         <div key={item.label} className="input">
+          <span
+            className="marker-example"
+            style={{ backgroundColor: item.color }}
+          />
           <label>{item.label}</label>
           <input
             type="checkbox"
@@ -64,7 +73,13 @@ function ControlPanel({
       <hr />
       <h3>Time to Resolution</h3>
       {/* https://visgl.github.io/react-map-gl/examples/geojson */}
-      <input type="range" min="1" max="100" value="50" />
+      <input
+        type="range"
+        min="1"
+        max="100"
+        value="50"
+        onChange={handleRangeChange}
+      />
     </div>
   );
 }

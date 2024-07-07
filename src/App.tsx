@@ -13,7 +13,8 @@ import { resolutionDescriptionsArray } from './ResolutionDescriptionsArray';
 
 // City of NY Open Data API Endpoint
 const dataURL =
-  'https://data.cityofnewyork.us/resource/erm2-nwe9.json?$query=SELECT%0A%20%20%60unique_key%60%2C%0A%20%20%60created_date%60%2C%0A%20%20%60closed_date%60%2C%0A%20%20%60agency%60%2C%0A%20%20%60agency_name%60%2C%0A%20%20%60complaint_type%60%2C%0A%20%20%60descriptor%60%2C%0A%20%20%60location_type%60%2C%0A%20%20%60incident_zip%60%2C%0A%20%20%60incident_address%60%2C%0A%20%20%60street_name%60%2C%0A%20%20%60cross_street_1%60%2C%0A%20%20%60cross_street_2%60%2C%0A%20%20%60intersection_street_1%60%2C%0A%20%20%60intersection_street_2%60%2C%0A%20%20%60address_type%60%2C%0A%20%20%60city%60%2C%0A%20%20%60landmark%60%2C%0A%20%20%60facility_type%60%2C%0A%20%20%60status%60%2C%0A%20%20%60due_date%60%2C%0A%20%20%60resolution_description%60%2C%0A%20%20%60resolution_action_updated_date%60%2C%0A%20%20%60community_board%60%2C%0A%20%20%60bbl%60%2C%0A%20%20%60borough%60%2C%0A%20%20%60x_coordinate_state_plane%60%2C%0A%20%20%60y_coordinate_state_plane%60%2C%0A%20%20%60open_data_channel_type%60%2C%0A%20%20%60park_facility_name%60%2C%0A%20%20%60park_borough%60%2C%0A%20%20%60vehicle_type%60%2C%0A%20%20%60taxi_company_borough%60%2C%0A%20%20%60taxi_pick_up_location%60%2C%0A%20%20%60bridge_highway_name%60%2C%0A%20%20%60bridge_highway_direction%60%2C%0A%20%20%60road_ramp%60%2C%0A%20%20%60bridge_highway_segment%60%2C%0A%20%20%60latitude%60%2C%0A%20%20%60longitude%60%2C%0A%20%20%60location%60%2C%0A%20%20%60%3A%40computed_region_efsh_h5xi%60%2C%0A%20%20%60%3A%40computed_region_f5dn_yrer%60%2C%0A%20%20%60%3A%40computed_region_yeji_bk3q%60%2C%0A%20%20%60%3A%40computed_region_92fq_4b7q%60%2C%0A%20%20%60%3A%40computed_region_sbqj_enih%60%2C%0A%20%20%60%3A%40computed_region_7mpf_4k6g%60%0AWHERE%0A%20%20caseless_one_of(%60complaint_type%60%2C%20%22Illegal%20Parking%22)%0A%20%20AND%20(caseless_one_of(%60descriptor%60%2C%20%22License%20Plate%20Obscured%22)%0A%20%20%20%20%20%20%20%20%20AND%20(%60created_date%60%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3E%20%222024-01-01T00%3A00%3A00%22%20%3A%3A%20floating_timestamp))%0AORDER%20BY%20%60created_date%60%20DESC%20NULL%20FIRST';
+  'https://data.cityofnewyork.us/resource/erm2-nwe9.json?$query=SELECT%0A%20%20%60unique_key%60%2C%0A%20%20%60created_date%60%2C%0A%20%20%60closed_date%60%2C%0A%20%20%60agency%60%2C%0A%20%20%60complaint_type%60%2C%0A%20%20%60descriptor%60%2C%0A%20%20%60incident_zip%60%2C%0A%20%20%60incident_address%60%2C%0A%20%20%60street_name%60%2C%0A%20%20%60cross_street_1%60%2C%0A%20%20%60cross_street_2%60%2C%0A%20%20%60intersection_street_1%60%2C%0A%20%20%60intersection_street_2%60%2C%0A%20%20%60city%60%2C%0A%20%20%60landmark%60%2C%0A%20%20%60status%60%2C%0A%20%20%60resolution_description%60%2C%0A%20%20%60resolution_action_updated_date%60%2C%0A%20%20%60community_board%60%2C%0A%20%20%60bbl%60%2C%0A%20%20%60borough%60%2C%0A%20%20%60x_coordinate_state_plane%60%2C%0A%20%20%60y_coordinate_state_plane%60%2C%0A%20%20%60open_data_channel_type%60%2C%0A%20%20%60park_borough%60%2C%0A%20%20%60latitude%60%2C%0A%20%20%60longitude%60%2C%0A%20%20%60location%60%2C%0A%20%20%60%3A%40computed_region_efsh_h5xi%60%2C%0A%20%20%60%3A%40computed_region_f5dn_yrer%60%2C%0A%20%20%60%3A%40computed_region_yeji_bk3q%60%2C%0A%20%20%60%3A%40computed_region_92fq_4b7q%60%2C%0A%20%20%60%3A%40computed_region_sbqj_enih%60%2C%0A%20%20%60%3A%40computed_region_7mpf_4k6g%60%0AWHERE%0A%20%20caseless_one_of(%60complaint_type%60%2C%20%22Illegal%20Parking%22)%0A%20%20AND%20(caseless_one_of(%60descriptor%60%2C%20%22License%20Plate%20Obscured%22)%0A%20%20%20%20%20%20%20%20%20AND%20(%60created_date%60%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3E%20%222024-01-01T00%3A00%3A00%22%20%3A%3A%20floating_timestamp))%0AORDER%20BY%20%60created_date%60%20DESC%20NULL%20FIRST';
+
 // const mapStyle = 'mapbox://styles/mapbox/streets-v12';
 const mapStyle = 'mapbox://styles/mapbox/dark-v11';
 
@@ -32,39 +33,43 @@ function App() {
   const [displayResolutionArray, setDisplayResolutionArray] =
     useState<DisplayResolutionArrayType>([
       {
-        label: `View all Obscured License Plates complaints`,
-        visibility: true,
-      },
-      {
         label: `Complaint still open`,
+        color: `#FFE74C`,
         visibility: true,
       },
       {
         label: `Summons issued`,
+        color: `#FF5964`, // red
         visibility: true,
       },
       {
         label: `Took action to fix the condition`,
+        color: `#38618C`, // dark green
         visibility: true,
       },
       {
         label: `No evidence of the violation`,
+        color: `#6B9080`, // orange
         visibility: true,
       },
       {
         label: `Not NYPD's jurisdiction`,
+        color: `#B7B561`, // puce (replace)
         visibility: true,
       },
       {
         label: `Determined that action was not necessary`,
+        color: `#6667E9`, // purple
         visibility: true,
       },
       {
         label: `Upon arrival those responsible were gone`,
+        color: `#18C9C3`, // robin egg blue
         visibility: true,
       },
       {
         label: 'Provided additional information below',
+        color: `#9A6D38`, // brown
         visibility: true,
       },
     ]);
@@ -98,18 +103,45 @@ function App() {
   };
 
   useEffect(() => {
-    fetch(dataURL)
-      .then((response) => response.json())
-      .then((data) => {
-        const filteredData = data.filter(
-          (item: ComplaintType) => item.latitude && item.longitude
-        );
-        setComplaints(filteredData);
-        setFilteredComplaints(filteredData);
-        console.log('Data:', data);
-        console.log('filteredData:', filteredData);
-      })
-      .catch((error) => console.error('Error fetching data:', error));
+    const fetchData = async () => {
+      console.log('Data is older than 12hrs. Fetching new data from the API');
+      const response = await fetch(dataURL);
+      const data = await response.json();
+      const filteredData = data.filter(
+        (item: ComplaintType) => item.latitude && item.longitude
+      );
+      setComplaints(filteredData);
+      setFilteredComplaints(filteredData);
+      // Store the fetched data and the current timestamp in localStorage
+      localStorage.setItem('complaints', JSON.stringify(filteredData));
+      localStorage.setItem('lastFetch', new Date().toISOString());
+    };
+
+    // Retrieve the last fetch timestamp from localStorage
+    const lastFetch = localStorage.getItem('lastFetch');
+    const now = new Date().toISOString();
+
+    // Check if the last fetch timestamp is older than 12 hours or if it doesn't exist
+    if (
+      !lastFetch ||
+      new Date(now).getTime() - new Date(lastFetch).getTime() >
+        12 * 60 * 60 * 1000
+    ) {
+      console.log('No cached data found or cached data is older than 12 hours');
+      fetchData();
+    } else {
+      // Retrieve the cached data from localStorage
+      const cachedData = localStorage.getItem('complaints');
+      if (cachedData) {
+        console.log('Data is less than 12hrs old. Using cached data');
+        const parsedData = JSON.parse(cachedData);
+        setComplaints(parsedData);
+        setFilteredComplaints(parsedData);
+      } else {
+        console.log('Cached data not found, fetching new data');
+        fetchData();
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -182,6 +214,8 @@ function App() {
                 closeButton={true}
               >
                 <div className="popup-container">
+                  {/* temporary while in dev */}
+                  <p>{selectedComplaint.unique_key}</p>
                   <h3 id="incident_address">
                     {selectedComplaint.incident_address
                       .toLowerCase()

@@ -27,7 +27,7 @@ export interface ComplaintType {
   borough: string;
   x_coordinate_state_plane?: string;
   y_coordinate_state_plane?: string;
-  open_data_channel_type: 'MOBILE' | 'ONLINE' | 'MOBILE';
+  open_data_channel_type: 'MOBILE' | 'ONLINE' | 'PHONE';
   park_facility_name: 'Unspecified';
   park_borough: 'BROOKLYN' | 'BRONX' | 'QUEENS' | 'MANHATTAN' | 'STATEN ISLAND';
   vehicle_type?: string;
@@ -51,16 +51,16 @@ export interface ComplaintType {
   police_precinct?: string;
 }
 
-export type ResolutionDescriptionsType = {
-  no_resolution: string;
-  summons: string;
-  took_action: string;
-  no_violation: string;
-  not_police_jurisdiction: string;
-  no_police_action: string;
-  those_responsible_gone: string;
-  provided_additional_information: string;
-};
+// Define a type for resolution descriptions
+export type ResolutionLabel =
+  | 'Complaint still open'
+  | 'Summons issued'
+  | 'Took action to fix the condition'
+  | 'No evidence of the violation'
+  | `Not NYPD's jurisdiction`
+  | 'Determined that action was not necessary'
+  | 'Upon arrival those responsible were gone'
+  | 'Provided additional information below';
 
 export type ResolutionDescriptionType = {
   resolution?: string;
@@ -72,19 +72,8 @@ export type ResolutionDescriptionsArrayType = ResolutionDescriptionType[];
 
 export type DisplayResolutionType = {
   label: ResolutionLabel;
+  color: string;
   visibility: boolean;
 };
 
 export type DisplayResolutionArrayType = DisplayResolutionType[];
-
-// Define a type for resolution descriptions
-export type ResolutionLabel =
-  | `View all Obscured License Plates complaints`
-  | 'Complaint still open'
-  | 'Summons issued'
-  | 'Took action to fix the condition'
-  | 'No evidence of the violation'
-  | `Not NYPD's jurisdiction`
-  | 'Determined that action was not necessary'
-  | 'Upon arrival those responsible were gone'
-  | 'Provided additional information below';
