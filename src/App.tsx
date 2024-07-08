@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Map, { Marker, Popup } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import pluralize from 'pluralize';
 import ControlPanel from './ControlPanel';
 import './App.css';
 import {
@@ -89,8 +90,11 @@ function App() {
     );
     const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
     return `Issue resolved in: ${
-      diffDays > 0 ? `${diffDays} days, ` : ''
-    }${diffHours} hours, and ${diffMinutes} minutes`;
+      diffDays > 0 ? `${diffDays} ${pluralize('day', diffDays)}, ` : ''
+    }${diffHours} ${pluralize(
+      'hour',
+      diffHours
+    )}, and ${diffMinutes} ${pluralize('minute', diffMinutes)}`;
   };
 
   const determineMarkerColor = (
@@ -121,7 +125,7 @@ function App() {
     const lastFetch = localStorage.getItem('lastFetch');
     const now = new Date().toISOString();
 
-    // Check if the last fetch timestamp is older than 12 hours or if it doesn't exist
+    // Check if the last fetch timestamp is older than 12 hours OR if lastFetch doesn't exist
     if (
       !lastFetch ||
       new Date(now).getTime() - new Date(lastFetch).getTime() >
@@ -133,7 +137,7 @@ function App() {
       // Retrieve the cached data from localStorage
       const cachedData = localStorage.getItem('complaints');
       if (cachedData) {
-        console.log('Data is less than 12hrs old. Using cached data');
+        console.log(Date(), 'Data is less than 12hrs old. Using cached data');
         const parsedData = JSON.parse(cachedData);
         setComplaints(parsedData);
         setFilteredComplaints(parsedData);
