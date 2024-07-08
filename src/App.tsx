@@ -215,7 +215,7 @@ function App() {
               >
                 <div className="popup-container">
                   {/* temporary while in dev */}
-                  <p>{selectedComplaint.unique_key}</p>
+                  <p>temp while in dev: {selectedComplaint.unique_key}</p>
                   <h3 id="incident_address">
                     {selectedComplaint.incident_address
                       .toLowerCase()
@@ -260,7 +260,7 @@ function App() {
                   </p>
                   <h4>
                     Responding Precinct:{' '}
-                    {/* this isn't right but maybe I'm not understanding */}
+                    {/* this isn't right but maybe I'm not understanding what it's supposed to mean*/}
                     {selectedComplaint[':@computed_region_7mpf_4k6g']}
                   </h4>
                 </div>

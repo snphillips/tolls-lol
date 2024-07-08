@@ -77,3 +77,7 @@ export type DisplayResolutionType = {
 };
 
 export type DisplayResolutionArrayType = DisplayResolutionType[];
+
+export type setDisplayResolutionArrayType = React.Dispatch<
+  React.SetStateAction<DisplayResolutionArrayType>
+>;

@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import './ControlPanel.css';
-import { DisplayResolutionArrayType } from './types';
+import {
+  DisplayResolutionArrayType,
+  setDisplayResolutionArrayType,
+} from './types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
-  setDisplayResolutionArray: React.Dispatch<
-    React.SetStateAction<DisplayResolutionArrayType>
-  >;
+  setDisplayResolutionArray: setDisplayResolutionArrayType;
 };
 
 function ControlPanel({
@@ -15,7 +16,6 @@ function ControlPanel({
   setDisplayResolutionArray,
 }: Props) {
   const handleCheckboxChange = (label: string) => {
-    console.log('handleCheckboxChange', label);
     setDisplayResolutionArray((prevState) =>
       prevState.map((item) =>
         item.label === label
@@ -54,7 +54,7 @@ function ControlPanel({
         </a>
       </div>
       <hr />
-      <h3>How Complaint was Resolved:</h3>
+      <h3>Complaint Resolution:</h3>
 
       {displayResolutionArray.map((item) => (
         <div key={item.label} className="input">
