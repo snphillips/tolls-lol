@@ -12,7 +12,7 @@ export const resolutionDescriptionsArray = [
   {
     resolution: `The Police Department responded to the complaint and took action to fix the condition.`,
     label: `Took action to fix the condition`,
-    color: `#38618C`, // dark green
+    color: `#faa2f7`, // pink
   },
   {
     resolution: `The Police Department responded to the complaint and with the information available observed no evidence of the violation at that time.`,

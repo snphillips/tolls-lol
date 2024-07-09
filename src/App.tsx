@@ -43,7 +43,7 @@ function App() {
       },
       {
         label: `Took action to fix the condition`,
-        color: `#38618C`, // dark green
+        color: `#faa2f7`, // pink
         visibility: true,
       },
       {
@@ -121,49 +121,9 @@ function App() {
     return resolution ? resolution.color : 'black'; // Default to black if no match is found
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     console.log('Data is older than 12hrs. Fetching new data from the API');
-  //     const response = await fetch(dataURL);
-  //     const data = await response.json();
-  //     const filteredData = data.filter(
-  //       (item: ComplaintType) => item.latitude && item.longitude
-  //     );
-  //     setComplaints(filteredData);
-  //     setFilteredComplaints(filteredData);
-  //     // Store the fetched data and the current timestamp in localStorage
-  //     localStorage.setItem('complaints', JSON.stringify(filteredData));
-  //     localStorage.setItem('lastFetch', new Date().toISOString());
-  //   };
-
-  //   // Retrieve the last fetch timestamp from localStorage
-  //   const lastFetch = localStorage.getItem('lastFetch');
-  //   const now = new Date().toISOString();
-
-  //   // Check if the last fetch timestamp is older than 12 hours OR if lastFetch doesn't exist
-  //   if (
-  //     !lastFetch ||
-  //     new Date(now).getTime() - new Date(lastFetch).getTime() >
-  //       12 * 60 * 60 * 1000
-  //   ) {
-  //     console.log('No cached data found or cached data is older than 12 hours');
-  //     fetchData();
-  //   } else {
-  //     // Retrieve the cached data from localStorage
-  //     const cachedData = localStorage.getItem('complaints');
-  //     if (cachedData) {
-  //       console.log(Date(), 'Data is less than 12hrs old. Using cached data');
-  //       const parsedData = JSON.parse(cachedData);
-  //       setComplaints(parsedData);
-  //       setFilteredComplaints(parsedData);
-  //     } else {
-  //       console.log('Cached data not found, fetching new data');
-  //       fetchData();
-  //     }
-  //   }
-  // }, []);
-
-  // // ***keep for now***
+  // *****************************************************
+  // works but data is too large for session storage
+  // *****************************************************
   useEffect(() => {
     const fetchData = async () => {
       console.log('Fetching new data from the API');
@@ -229,9 +189,9 @@ function App() {
     // Directly call fetchData to always retrieve fresh data during development
     fetchData();
 
-    // **************************************************************
+    // ==============================================================
     // The code below might be commented out for development purposes
-    // **************************************************************
+    // ==============================================================
 
     // Retrieve the last fetch timestamp from localStorage
     const lastFetch = localStorage.getItem('lastFetch');
