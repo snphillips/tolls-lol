@@ -12,9 +12,7 @@ import {
 } from './types';
 import { resolutionDescriptionsArray } from './ResolutionDescriptionsArray';
 
-// City of NY Open Data API Endpoint
-const dataURL =
-  'https://data.cityofnewyork.us/resource/erm2-nwe9.json?$query=SELECT%0A%20%20%60unique_key%60%2C%0A%20%20%60created_date%60%2C%0A%20%20%60closed_date%60%2C%0A%20%20%60agency%60%2C%0A%20%20%60complaint_type%60%2C%0A%20%20%60descriptor%60%2C%0A%20%20%60incident_zip%60%2C%0A%20%20%60incident_address%60%2C%0A%20%20%60street_name%60%2C%0A%20%20%60cross_street_1%60%2C%0A%20%20%60cross_street_2%60%2C%0A%20%20%60intersection_street_1%60%2C%0A%20%20%60intersection_street_2%60%2C%0A%20%20%60city%60%2C%0A%20%20%60landmark%60%2C%0A%20%20%60status%60%2C%0A%20%20%60resolution_description%60%2C%0A%20%20%60resolution_action_updated_date%60%2C%0A%20%20%60community_board%60%2C%0A%20%20%60bbl%60%2C%0A%20%20%60borough%60%2C%0A%20%20%60x_coordinate_state_plane%60%2C%0A%20%20%60y_coordinate_state_plane%60%2C%0A%20%20%60open_data_channel_type%60%2C%0A%20%20%60park_borough%60%2C%0A%20%20%60latitude%60%2C%0A%20%20%60longitude%60%2C%0A%20%20%60location%60%2C%0A%20%20%60%3A%40computed_region_efsh_h5xi%60%2C%0A%20%20%60%3A%40computed_region_f5dn_yrer%60%2C%0A%20%20%60%3A%40computed_region_yeji_bk3q%60%2C%0A%20%20%60%3A%40computed_region_92fq_4b7q%60%2C%0A%20%20%60%3A%40computed_region_sbqj_enih%60%2C%0A%20%20%60%3A%40computed_region_7mpf_4k6g%60%0AWHERE%0A%20%20caseless_one_of(%60complaint_type%60%2C%20%22Illegal%20Parking%22)%0A%20%20AND%20(caseless_one_of(%60descriptor%60%2C%20%22License%20Plate%20Obscured%22)%0A%20%20%20%20%20%20%20%20%20AND%20(%60created_date%60%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3E%20%222024-01-01T00%3A00%3A00%22%20%3A%3A%20floating_timestamp))%0AORDER%20BY%20%60created_date%60%20DESC%20NULL%20FIRST';
+const dataURL = 'https://data.cityofnewyork.us/resource/erm2-nwe9.json';
 
 // const mapStyle = 'mapbox://styles/mapbox/streets-v12';
 const mapStyle = 'mapbox://styles/mapbox/dark-v11';
@@ -123,20 +121,117 @@ function App() {
     return resolution ? resolution.color : 'black'; // Default to black if no match is found
   };
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     console.log('Data is older than 12hrs. Fetching new data from the API');
+  //     const response = await fetch(dataURL);
+  //     const data = await response.json();
+  //     const filteredData = data.filter(
+  //       (item: ComplaintType) => item.latitude && item.longitude
+  //     );
+  //     setComplaints(filteredData);
+  //     setFilteredComplaints(filteredData);
+  //     // Store the fetched data and the current timestamp in localStorage
+  //     localStorage.setItem('complaints', JSON.stringify(filteredData));
+  //     localStorage.setItem('lastFetch', new Date().toISOString());
+  //   };
+
+  //   // Retrieve the last fetch timestamp from localStorage
+  //   const lastFetch = localStorage.getItem('lastFetch');
+  //   const now = new Date().toISOString();
+
+  //   // Check if the last fetch timestamp is older than 12 hours OR if lastFetch doesn't exist
+  //   if (
+  //     !lastFetch ||
+  //     new Date(now).getTime() - new Date(lastFetch).getTime() >
+  //       12 * 60 * 60 * 1000
+  //   ) {
+  //     console.log('No cached data found or cached data is older than 12 hours');
+  //     fetchData();
+  //   } else {
+  //     // Retrieve the cached data from localStorage
+  //     const cachedData = localStorage.getItem('complaints');
+  //     if (cachedData) {
+  //       console.log(Date(), 'Data is less than 12hrs old. Using cached data');
+  //       const parsedData = JSON.parse(cachedData);
+  //       setComplaints(parsedData);
+  //       setFilteredComplaints(parsedData);
+  //     } else {
+  //       console.log('Cached data not found, fetching new data');
+  //       fetchData();
+  //     }
+  //   }
+  // }, []);
+
+  // // ***keep for now***
   useEffect(() => {
     const fetchData = async () => {
-      console.log('Data is older than 12hrs. Fetching new data from the API');
-      const response = await fetch(dataURL);
-      const data = await response.json();
-      const filteredData = data.filter(
-        (item: ComplaintType) => item.latitude && item.longitude
-      );
-      setComplaints(filteredData);
-      setFilteredComplaints(filteredData);
-      // Store the fetched data and the current timestamp in localStorage
-      localStorage.setItem('complaints', JSON.stringify(filteredData));
-      localStorage.setItem('lastFetch', new Date().toISOString());
+      console.log('Fetching new data from the API');
+      let allData: ComplaintType[] = [];
+      let offset = 0;
+      const limit = 1000;
+      let totalFetched;
+
+      try {
+        do {
+          const query = `
+            SELECT
+              unique_key, created_date, closed_date, complaint_type, descriptor, incident_zip,
+              incident_address, city, status, resolution_description,
+              community_board, bbl, borough,
+              x_coordinate_state_plane, y_coordinate_state_plane, open_data_channel_type,
+              latitude, longitude, location,
+              :@computed_region_f5dn_yrer,
+              :@computed_region_92fq_4b7q, :@computed_region_7mpf_4k6g
+            WHERE
+              caseless_one_of(complaint_type, 'Illegal Parking') AND
+              caseless_one_of(descriptor, 'License Plate Obscured') AND
+              created_date > '2024-01-01T00:00:00' :: floating_timestamp
+            ORDER BY created_date DESC NULL FIRST
+            LIMIT ${limit} OFFSET ${offset}
+          `;
+          const encodedQuery = encodeURIComponent(query);
+          const url = `${dataURL}?$query=${encodedQuery}`;
+          console.log(`Fetching URL: ${url}`);
+
+          const response = await fetch(url);
+
+          if (!response.ok) {
+            throw new Error(`Error fetching data: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+
+          if (!Array.isArray(data)) {
+            throw new Error('Data is not an array');
+          }
+
+          allData = [...allData, ...data];
+          totalFetched = data.length;
+          offset += totalFetched;
+        } while (totalFetched === limit);
+
+        const filteredData = allData.filter(
+          (item: ComplaintType) => item.latitude && item.longitude
+        );
+
+        setComplaints(filteredData);
+        setFilteredComplaints(filteredData);
+
+        // Store the fetched data and the current timestamp in localStorage
+        localStorage.setItem('complaints', JSON.stringify(filteredData));
+        localStorage.setItem('lastFetch', new Date().toISOString());
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
+
+    // Directly call fetchData to always retrieve fresh data during development
+    fetchData();
+
+    // **************************************************************
+    // The code below might be commented out for development purposes
+    // **************************************************************
 
     // Retrieve the last fetch timestamp from localStorage
     const lastFetch = localStorage.getItem('lastFetch');
