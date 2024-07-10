@@ -39,7 +39,7 @@ export const resolutionDescriptionsArray = [
   {
     resolution:
       'The Police Department reviewed your complaint and provided additional information below.',
-    label: 'Provided additional information below (',
+    label: 'Provided additional information below',
     color: `#9A6D38`, // brown
   },
 ];
