@@ -136,13 +136,9 @@ function App() {
         do {
           const query = `
             SELECT
-              unique_key, created_date, closed_date, complaint_type, descriptor, incident_zip,
-              incident_address, city, status, resolution_description,
-              community_board, bbl, borough,
-              x_coordinate_state_plane, y_coordinate_state_plane, open_data_channel_type,
-              latitude, longitude, location,
-              :@computed_region_f5dn_yrer,
-              :@computed_region_92fq_4b7q, :@computed_region_7mpf_4k6g
+              unique_key, created_date, closed_date,
+              incident_address, status, resolution_description, open_data_channel_type,
+              latitude, longitude
             WHERE
               caseless_one_of(complaint_type, 'Illegal Parking') AND
               caseless_one_of(descriptor, 'License Plate Obscured') AND
