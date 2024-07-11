@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import './ControlPanel.css';
+import { resolutionDescriptionsArray } from './ResolutionDescriptionsArray';
 import { DisplayResolutionArrayType, setDisplayResolutionArrayType } from './types';
 
 type Props = {
@@ -27,6 +28,11 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray }: Pro
     // TODO: figure out time to resolution
   };
 
+  const getMarkerBackgroundColor = (label: string): string => {
+    const resolution = resolutionDescriptionsArray.find((item) => item.label === label);
+    return resolution ? resolution.color : '#fff'; // default color if not found
+  };
+
   return (
     <div className="control-panel">
       <h1>Obscured License Plates in NYC</h1>
@@ -46,9 +52,10 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray }: Pro
       <hr />
       <h3>Complaint Resolution:</h3>
 
+      {/* TODO: get the backgroundColor of marker-example from resolutionDescriptionsArray */}
       {displayResolutionArray.map((item) => (
         <div key={item.label} className="input">
-          <span className="marker-example" style={{ backgroundColor: item.color }} />
+          <span className="marker-example" style={{ backgroundColor: getMarkerBackgroundColor(item.label) }} />
           <label>{item.label}</label>
           <input type="checkbox" checked={item.visibility} onChange={() => handleCheckboxChange(item.label)} />
         </div>

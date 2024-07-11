@@ -31,57 +31,46 @@ function App() {
   const [displayResolutionArray, setDisplayResolutionArray] = useState<DisplayResolutionArrayType>([
     {
       label: `Complaint still open`,
-      color: `#DD614A`, // jasper
       visibility: true,
     },
     {
       label: `Summons issued`,
-      color: `green`, // green
       visibility: true,
     },
     {
       label: `Took action to fix the condition`,
-      color: `#faa2f7`, // pink
       visibility: true,
     },
     {
       label: `A report was prepared`,
-      color: `purple`, // purple
       visibility: true,
     },
     {
       label: `No evidence of the violation`,
-      color: `orange`, // orange
       visibility: true,
     },
     {
       label: `Not NYPD's jurisdiction`,
-      color: `#B7B561`, // puce (replace)
       visibility: true,
     },
     {
       label: `Determined that action was not necessary`,
-      color: `#6667E9`, // purple
       visibility: true,
     },
     {
       label: `Upon arrival those responsible were gone`,
-      color: `#18C9C3`, // robin egg blue
       visibility: true,
     },
     {
       label: 'Provided additional information below',
-      color: `#9A6D38`, // brown
       visibility: true,
     },
     {
       label: 'Officers unable to gain entry to premises',
-      color: `red`, // red
       visibility: true,
     },
     {
       label: `No action. Insufficient contact information`,
-      color: `yellow`, // yellow
       visibility: true,
     },
   ]);
@@ -133,7 +122,7 @@ function App() {
         const filteredData = allData.filter((item: ComplaintType) => item.latitude && item.longitude);
 
         // Categorize markers by resolution type, place into arrays
-        const categorizedMarkers = filteredData.reduce((accumulator, marker) => {
+        const categorizedResolutionArrays = filteredData.reduce((accumulator, marker) => {
           const resolutionType = marker.resolution_description;
           if (resolutionType) {
             if (!accumulator[resolutionType]) {
@@ -143,7 +132,7 @@ function App() {
           }
           return accumulator;
         }, {} as Record<string, ComplaintType[]>);
-        console.log('HI! categorizedMarkers', categorizedMarkers);
+        console.log('HI! categorizedResolutionArrays', categorizedResolutionArrays);
 
         // note: change this? why setting both setComplaints & setFiltredComplaints?
         setAllComplaints(filteredData);
@@ -159,13 +148,6 @@ function App() {
         console.error('Error fetching data:', error);
       }
     };
-
-    // Directly call fetchData to always retrieve fresh data during development
-    fetchData();
-
-    // ==============================================================
-    // The code below might be commented out for development purposes
-    // ==============================================================
 
     // Retrieve the last fetch timestamp from localStorage
     const lastFetch = localStorage.getItem('lastFetch');
@@ -220,7 +202,6 @@ function App() {
                   className="marker-btn"
                   onClick={(event) => {
                     event.preventDefault();
-                    console.log('clicked', complaint.incident_address, complaint.resolution_description);
                     setSelectedComplaint(complaint);
                   }}
                 >
@@ -229,7 +210,7 @@ function App() {
                       backgroundColor: determineMarkerColor(complaint.resolution_description as string, resolutionDescriptionsArray),
                     }}
                     className="marker"
-                  ></div>
+                  />
                 </button>
               </Marker>
             ) : null
