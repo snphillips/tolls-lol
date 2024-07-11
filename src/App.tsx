@@ -2,9 +2,8 @@
 import { useState, useEffect } from 'react';
 import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-
-// import pluralize from 'pluralize';
 import ControlPanel from './ControlPanel';
+import LoadingSpinner from './LoadingSpinner';
 import PopUp from './PopUp';
 import { howLongTillComplaintResolved, determineMarkerColor } from './helper-functions';
 import './App.css';
@@ -13,7 +12,6 @@ import { resolutionDescriptionsArray } from './ResolutionDescriptionsArray';
 
 const dataURL = 'https://data.cityofnewyork.us/resource/erm2-nwe9.json';
 
-// const mapStyle = 'mapbox://styles/mapbox/streets-v12';
 const mapStyle = 'mapbox://styles/mapbox/dark-v11';
 
 function App() {
@@ -24,6 +22,7 @@ function App() {
   });
 
   // 40.69211842795016, -73.960938659505
+  const [loading, setLoading] = useState<boolean>(false);
   const [markersByResolution, setMarkersByResolution] = useState({});
   const [allComplaints, setAllComplaints] = useState<ComplaintType[]>([]);
   const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
@@ -78,6 +77,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       console.log('Fetching new data from the API');
+      setLoading(true);
       let allData: ComplaintType[] = [];
       let offset = 0;
       const limit = 1000;
@@ -118,11 +118,12 @@ function App() {
           offset += totalFetched;
         } while (totalFetched === limit);
 
-        // what's going on here?
-        const filteredData = allData.filter((item: ComplaintType) => item.latitude && item.longitude);
+        // Returns a new array containing only the items
+        // that have both a latitude & longitude properties with truthy values.
+        const dataWithLatLong = allData.filter((item: ComplaintType) => item.latitude && item.longitude);
 
         // Categorize markers by resolution type, place into arrays
-        const categorizedResolutionArrays = filteredData.reduce((accumulator, marker) => {
+        const categorizedResolutionArrays = dataWithLatLong.reduce((accumulator, marker) => {
           const resolutionType = marker.resolution_description;
           if (resolutionType) {
             if (!accumulator[resolutionType]) {
@@ -135,17 +136,19 @@ function App() {
         console.log('HI! categorizedResolutionArrays', categorizedResolutionArrays);
 
         // note: change this? why setting both setComplaints & setFiltredComplaints?
-        setAllComplaints(filteredData);
-        setFilteredComplaints(filteredData);
+        setAllComplaints(dataWithLatLong);
+        setFilteredComplaints(dataWithLatLong);
 
         // Store categorized markers for further use
         // setMarkersByResolution(categorizedMarkers);
 
         // Store the fetched data and the current timestamp in localStorage
-        localStorage.setItem('complaints', JSON.stringify(filteredData));
+        localStorage.setItem('complaints', JSON.stringify(dataWithLatLong));
         localStorage.setItem('lastFetch', new Date().toISOString());
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -180,7 +183,7 @@ function App() {
       .filter((item) => visibleLabels.includes(item.label))
       .map((item) => item.resolution);
 
-    const filteredData = allComplaints.filter((complaint) => {
+    const dataWithLatLong = allComplaints.filter((complaint) => {
       if (complaint.resolution_description === undefined) {
         // Check if undefined (which corresponds to 'No resolution') is in the visibleResolutions
         return visibleResolutions.includes(undefined);
@@ -188,16 +191,24 @@ function App() {
       return visibleResolutions.includes(complaint.resolution_description);
     });
 
-    setFilteredComplaints(filteredData);
+    setFilteredComplaints(dataWithLatLong);
   }, [displayResolutionArray, allComplaints]);
 
   return (
     <>
       <div id="map">
-        <Map mapboxAccessToken={import.meta.env.VITE_REACT_APP_MAPBOX_TOKEN} initialViewState={viewport} mapStyle={mapStyle}>
+        <Map
+          mapboxAccessToken={import.meta.env.VITE_REACT_APP_MAPBOX_TOKEN}
+          initialViewState={viewport}
+          mapStyle={mapStyle}
+        >
           {filteredComplaints.map((complaint) =>
             complaint.latitude && complaint.longitude ? (
-              <Marker key={complaint.unique_key} latitude={parseFloat(complaint.latitude)} longitude={parseFloat(complaint.longitude)}>
+              <Marker
+                key={complaint.unique_key}
+                latitude={parseFloat(complaint.latitude)}
+                longitude={parseFloat(complaint.longitude)}
+              >
                 <button
                   className="marker-btn"
                   onClick={(event) => {
@@ -207,7 +218,10 @@ function App() {
                 >
                   <div
                     style={{
-                      backgroundColor: determineMarkerColor(complaint.resolution_description as string, resolutionDescriptionsArray),
+                      backgroundColor: determineMarkerColor(
+                        complaint.resolution_description as string,
+                        resolutionDescriptionsArray
+                      ),
                     }}
                     className="marker"
                   />
@@ -219,7 +233,11 @@ function App() {
             <PopUp selectedComplaint={selectedComplaint} setSelectedComplaint={setSelectedComplaint} />
           )}
           ;
-          <ControlPanel displayResolutionArray={displayResolutionArray} setDisplayResolutionArray={setDisplayResolutionArray} />
+          <ControlPanel
+            displayResolutionArray={displayResolutionArray}
+            setDisplayResolutionArray={setDisplayResolutionArray}
+            loading={loading}
+          />
         </Map>
       </div>
     </>

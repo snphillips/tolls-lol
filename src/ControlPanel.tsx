@@ -2,14 +2,16 @@
 import React from 'react';
 import './ControlPanel.css';
 import { resolutionDescriptionsArray } from './ResolutionDescriptionsArray';
+import LoadingSpinner from './LoadingSpinner';
 import { DisplayResolutionArrayType, setDisplayResolutionArrayType } from './types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
   setDisplayResolutionArray: setDisplayResolutionArrayType;
+  loading: boolean;
 };
 
-function ControlPanel({ displayResolutionArray, setDisplayResolutionArray }: Props) {
+function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, loading }: Props) {
   const handleCheckboxChange = (label: string) => {
     setDisplayResolutionArray((prevState) =>
       prevState.map((item) =>
@@ -38,7 +40,11 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray }: Pro
       <h1>Obscured License Plates in NYC</h1>
       <h2>Visualizing 311 Complaint Data for 2024</h2>
       <div>
-        <a className="source-link" href="https://github.com/snphillips/obscured-license-plate-visualizer.git" target="_new">
+        <a
+          className="source-link"
+          href="https://github.com/snphillips/obscured-license-plate-visualizer.git"
+          target="_new"
+        >
           View code in Github ↗
         </a>
         <a
@@ -48,6 +54,7 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray }: Pro
         >
           View nyc.gov source data ↗
         </a>
+        <LoadingSpinner loading={loading} />
       </div>
       <hr />
       <h3>Complaint Resolution:</h3>
