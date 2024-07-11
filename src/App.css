@@ -67,3 +67,7 @@
   pointer-events: auto;
   position: relative;
 }
+
+.control-panel-links-and-loader {
+  display: flex;
+}

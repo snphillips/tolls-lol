@@ -23,7 +23,7 @@ function App() {
 
   // 40.69211842795016, -73.960938659505
   const [loading, setLoading] = useState<boolean>(false);
-  const [markersByResolution, setMarkersByResolution] = useState({});
+  const [complaintsByResolution, setComplaintsByResolution] = useState({});
   const [allComplaints, setAllComplaints] = useState<ComplaintType[]>([]);
   const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintType | null>(null);
@@ -135,12 +135,11 @@ function App() {
         }, {} as Record<string, ComplaintType[]>);
         console.log('HI! categorizedResolutionArrays', categorizedResolutionArrays);
 
-        // note: change this? why setting both setComplaints & setFiltredComplaints?
+        // TODO: Change this?
+        // why are we setting both setComplaints & setFiltredComplaints?
         setAllComplaints(dataWithLatLong);
         setFilteredComplaints(dataWithLatLong);
-
-        // Store categorized markers for further use
-        // setMarkersByResolution(categorizedMarkers);
+        // setcomplaintsByResolution(categorizedMarkers);
 
         // Store the fetched data and the current timestamp in localStorage
         localStorage.setItem('complaints', JSON.stringify(dataWithLatLong));
