@@ -2,7 +2,7 @@ export const resolutionDescriptionsArray = [
   {
     resolution: undefined,
     label: `No resolution`,
-    color: `#FFE74C`,
+    color: `#DD614A`, // jasper
   },
   {
     resolution: `The Police Department issued a summons in response to the complaint.`,

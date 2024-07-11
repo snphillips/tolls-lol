@@ -26,3 +26,4 @@ export type ResolutionDisplayType = {
 export type DisplayResolutionArrayType = ResolutionDisplayType[];
 
 export type setDisplayResolutionArrayType = React.Dispatch<React.SetStateAction<DisplayResolutionArrayType>>;
+export type SetSelectedComplaintType = React.Dispatch<React.SetStateAction<ComplaintType | null>>;

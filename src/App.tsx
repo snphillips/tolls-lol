@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
-import Map, { Marker, Popup } from 'react-map-gl';
+import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 // import pluralize from 'pluralize';
 import ControlPanel from './ControlPanel';
-import { howLongTillComplaintResolved } from './helper-functions';
+import PopUp from './PopUp';
+import { howLongTillComplaintResolved, determineMarkerColor } from './helper-functions';
 import './App.css';
 import { ComplaintType, DisplayResolutionArrayType, ResolutionDescriptionType } from './types';
 import { resolutionDescriptionsArray } from './ResolutionDescriptionsArray';
@@ -30,7 +31,7 @@ function App() {
   const [displayResolutionArray, setDisplayResolutionArray] = useState<DisplayResolutionArrayType>([
     {
       label: `Complaint still open`,
-      color: `#FFE74C`,
+      color: `#DD614A`, // jasper
       visibility: true,
     },
     {
@@ -84,42 +85,6 @@ function App() {
       visibility: true,
     },
   ]);
-
-  // const howLongTillComplaintResolved = (): string | null => {
-  //   // Return null if no complaint is selected
-  //   if (!selectedComplaint) return null;
-
-  //   // Parse the creation and closure dates of the complaint
-  //   const createdDate = new Date(selectedComplaint.created_date);
-  //   if (!selectedComplaint.closed_date) return 'Complaint is still open';
-  //   const closedDate = new Date(selectedComplaint.closed_date);
-
-  //   // Calculate the time difference between creation and closure in milliseconds
-  //   const diffTime = closedDate.getTime() - createdDate.getTime();
-
-  //   // Calculate the difference in days, hours, and minutes
-  //   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  //   const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  //   const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
-
-  //   // If the issue is resolved in less than 1 hour, display only the minutes
-  //   if (diffDays === 0 && diffHours === 0) {
-  //     return `Issue resolved in: ${diffMinutes} ${pluralize('minute', diffMinutes)}`;
-  //   }
-
-  //   // Otherwise, display the days, hours, and minutes
-  //   return `Issue resolved in: ${diffDays > 0 ? `${diffDays} ${pluralize('day', diffDays)}, ` : ''}${diffHours} ${pluralize(
-  //     'hour',
-  //     diffHours
-  //   )}, and ${diffMinutes} ${pluralize('minute', diffMinutes)}`;
-  // };
-
-  // howLongTillComplaintResolved();
-
-  const determineMarkerColor = (resolutionDescription: string): string => {
-    const resolution = resolutionDescriptionsArray.find((res) => res.resolution === resolutionDescription);
-    return resolution ? resolution.color : 'white'; // Default to white if no match is found
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -261,7 +226,7 @@ function App() {
                 >
                   <div
                     style={{
-                      backgroundColor: determineMarkerColor(complaint.resolution_description as string),
+                      backgroundColor: determineMarkerColor(complaint.resolution_description as string, resolutionDescriptionsArray),
                     }}
                     className="marker"
                   ></div>
@@ -270,47 +235,9 @@ function App() {
             ) : null
           )}
           {selectedComplaint && selectedComplaint.latitude && selectedComplaint.longitude && (
-            <Popup
-              latitude={parseFloat(selectedComplaint.latitude)}
-              longitude={parseFloat(selectedComplaint.longitude)}
-              onClose={() => setSelectedComplaint(null)}
-              closeOnClick={false}
-              closeButton={true}
-            >
-              <div className="popup-container">
-                {/* temporary while in dev */}
-                <p>temp while in dev: {selectedComplaint.unique_key}</p>
-                <h3 id="incident_address">
-                  {selectedComplaint.incident_address.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())}
-                </h3>
-                <h4>Complaint opened:</h4>
-                <p className="popup-content">
-                  {new Date(selectedComplaint.created_date).toLocaleString('en-us', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </p>
-                <h4>Complaint closed:</h4>
-                <p className="popup-content">
-                  {selectedComplaint.closed_date
-                    ? new Date(selectedComplaint.closed_date).toLocaleString('en-us', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })
-                    : 'Complaint is still open'}
-                </p>
-                <h4>Complaint Resolution:</h4>
-                <p className="popup-content">{selectedComplaint.resolution_description}</p>
-                <p>{selectedComplaint.closed_date ? howLongTillComplaintResolved(selectedComplaint) : ''}</p>
-              </div>
-            </Popup>
+            <PopUp selectedComplaint={selectedComplaint} setSelectedComplaint={setSelectedComplaint} />
           )}
+          ;
           <ControlPanel displayResolutionArray={displayResolutionArray} setDisplayResolutionArray={setDisplayResolutionArray} />
         </Map>
       </div>

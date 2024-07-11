@@ -1,5 +1,5 @@
 import pluralize from 'pluralize';
-import { ComplaintType } from './types';
+import { ComplaintType, ResolutionDescriptionsArrayType } from './types';
 
 export const howLongTillComplaintResolved = (selectedComplaint: ComplaintType): string | null => {
   // Return null if no complaint is selected
@@ -28,4 +28,12 @@ export const howLongTillComplaintResolved = (selectedComplaint: ComplaintType): 
     'hour',
     diffHours
   )}, and ${diffMinutes} ${pluralize('minute', diffMinutes)}`;
+};
+
+export const determineMarkerColor = (
+  resolutionDescription: string,
+  resolutionDescriptionsArray: ResolutionDescriptionsArrayType
+): string => {
+  const resolution = resolutionDescriptionsArray.find((res) => res.resolution === resolutionDescription);
+  return resolution ? resolution.color : 'white'; // Default to white if no match is found
 };

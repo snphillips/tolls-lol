@@ -1,20 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import './ControlPanel.css';
-import {
-  DisplayResolutionArrayType,
-  setDisplayResolutionArrayType,
-} from './types';
+import { DisplayResolutionArrayType, setDisplayResolutionArrayType } from './types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
   setDisplayResolutionArray: setDisplayResolutionArrayType;
 };
 
-function ControlPanel({
-  displayResolutionArray,
-  setDisplayResolutionArray,
-}: Props) {
+function ControlPanel({ displayResolutionArray, setDisplayResolutionArray }: Props) {
   const handleCheckboxChange = (label: string) => {
     setDisplayResolutionArray((prevState) =>
       prevState.map((item) =>
@@ -38,11 +32,7 @@ function ControlPanel({
       <h1>Obscured License Plates in NYC</h1>
       <h2>Visualizing 311 Complaint Data for 2024</h2>
       <div>
-        <a
-          className="source-link"
-          href="https://github.com/snphillips/obscured-license-plate-visualizer.git"
-          target="_new"
-        >
+        <a className="source-link" href="https://github.com/snphillips/obscured-license-plate-visualizer.git" target="_new">
           View code in Github ↗
         </a>
         <a
@@ -58,28 +48,15 @@ function ControlPanel({
 
       {displayResolutionArray.map((item) => (
         <div key={item.label} className="input">
-          <span
-            className="marker-example"
-            style={{ backgroundColor: item.color }}
-          />
+          <span className="marker-example" style={{ backgroundColor: item.color }} />
           <label>{item.label}</label>
-          <input
-            type="checkbox"
-            checked={item.visibility}
-            onChange={() => handleCheckboxChange(item.label)}
-          />
+          <input type="checkbox" checked={item.visibility} onChange={() => handleCheckboxChange(item.label)} />
         </div>
       ))}
       <hr />
       <h3>Time to Resolution</h3>
       {/* https://visgl.github.io/react-map-gl/examples/geojson */}
-      <input
-        type="range"
-        min="1"
-        max="100"
-        value="50"
-        onChange={handleRangeChange}
-      />
+      <input type="range" min="1" max="100" value="50" onChange={handleRangeChange} />
     </div>
   );
 }
