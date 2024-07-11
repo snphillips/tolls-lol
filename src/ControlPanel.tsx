@@ -29,8 +29,8 @@ function ControlPanel({
   };
 
   const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('event.target.value:', event.target.value);
-    // You can update the state here if needed
+    console.log('Range event.target.value:', event.target.value);
+    // TODO: figure out time to resolution
   };
 
   return (
