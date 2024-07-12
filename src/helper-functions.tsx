@@ -1,7 +1,7 @@
 import pluralize from 'pluralize';
-import { ComplaintType, ResolutionDescriptionsArrayType } from './types';
+import { ComplaintType, resolutionDescLabelColorArrayType } from './types';
 
-export const howLongTillComplaintResolved = (selectedComplaint: ComplaintType): string | null => {
+const howLongTillComplaintResolved = (selectedComplaint: ComplaintType): string | null => {
   // Return null if no complaint is selected
   if (!selectedComplaint) return null;
 
@@ -24,16 +24,17 @@ export const howLongTillComplaintResolved = (selectedComplaint: ComplaintType): 
   }
 
   // Otherwise, display the days, hours, and minutes
-  return `Issue resolved in: ${diffDays > 0 ? `${diffDays} ${pluralize('day', diffDays)}, ` : ''}${diffHours} ${pluralize(
-    'hour',
-    diffHours
-  )}, and ${diffMinutes} ${pluralize('minute', diffMinutes)}`;
+  return `Issue resolved in: ${
+    diffDays > 0 ? `${diffDays} ${pluralize('day', diffDays)}, ` : ''
+  }${diffHours} ${pluralize('hour', diffHours)}, and ${diffMinutes} ${pluralize('minute', diffMinutes)}`;
 };
 
-export const determineMarkerColor = (
+const determineMarkerColor = (
   resolutionDescription: string,
-  resolutionDescriptionsArray: ResolutionDescriptionsArrayType
+  resolutionDescLabelColorArray: resolutionDescLabelColorArrayType
 ): string => {
-  const resolution = resolutionDescriptionsArray.find((res) => res.resolution === resolutionDescription);
+  const resolution = resolutionDescLabelColorArray.find((res) => res.resolution === resolutionDescription);
   return resolution ? resolution.color : 'white'; // Default to white if no match is found
 };
+
+export { howLongTillComplaintResolved, determineMarkerColor };

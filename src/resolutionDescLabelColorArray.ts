@@ -1,4 +1,4 @@
-export const resolutionDescriptionsArray = [
+export const resolutionDescLabelColorArray = [
   {
     resolution: undefined,
     label: `No resolution`,
@@ -35,7 +35,8 @@ export const resolutionDescriptionsArray = [
     color: `orange`, // orange
   },
   {
-    resolution: 'The Police Department responded to the complaint but officers were unable to gain entry into the premises.',
+    resolution:
+      'The Police Department responded to the complaint but officers were unable to gain entry into the premises.',
     label: 'Officers unable to gain entry to premises',
     color: `red`, // red
   },

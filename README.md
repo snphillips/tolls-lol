@@ -80,7 +80,7 @@ Once the application is running, you can interact with the map to view complaint
 - `src/App.tsx`: Main application component.
 - `src/ControlPanel.tsx`: Component for controlling the visibility of complaint resolutions.
 - `src/types.ts`: Type definitions for the project.
-- `src/ResolutionDescriptionsArray.ts`: Array of resolution descriptions and their associated colors.
+- `src/resolutionDescLabelColorArray.ts`: Array of resolution descriptions and their associated colors.
 
 ## Caching Mechanism
 

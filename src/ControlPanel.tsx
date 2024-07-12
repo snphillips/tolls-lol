@@ -1,17 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import './ControlPanel.css';
-import { resolutionDescriptionsArray } from './ResolutionDescriptionsArray';
+import { resolutionDescLabelColorArray } from './resolutionDescLabelColorArray';
 import LoadingSpinner from './LoadingSpinner';
-import { DisplayResolutionArrayType, setDisplayResolutionArrayType } from './types';
+import { DisplayResolutionArrayType, setDisplayResolutionArrayType, ComplaintType } from './types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
   setDisplayResolutionArray: setDisplayResolutionArrayType;
+  categorizedResolutionArrays: Record<string, ComplaintType[]>;
   loading: boolean;
 };
 
-function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, loading }: Props) {
+function ControlPanel({
+  displayResolutionArray,
+  setDisplayResolutionArray,
+  categorizedResolutionArrays,
+  loading,
+}: Props) {
   const handleCheckboxChange = (label: string) => {
     setDisplayResolutionArray((prevState) =>
       prevState.map((item) =>
@@ -31,7 +37,7 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, loadi
   };
 
   const getMarkerBackgroundColor = (label: string): string => {
-    const resolution = resolutionDescriptionsArray.find((item) => item.label === label);
+    const resolution = resolutionDescLabelColorArray.find((item) => item.label === label);
     return resolution ? resolution.color : '#fff'; // default color of white if not found
   };
 

@@ -6,6 +6,7 @@ const dataURL = 'https://data.cityofnewyork.us/resource/erm2-nwe9.json';
 
 const useFetchComplaints = () => {
   const [allComplaints, setAllComplaints] = useState<ComplaintType[]>([]);
+  const [categorizedResolutionArrays, setCategorizedResolutionArrays] = useState<Record<string, ComplaintType[]>>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -54,12 +55,11 @@ const useFetchComplaints = () => {
       } while (totalFetched === limit);
 
       // Returns a new array containing only the items
-      // that have both a latitude & longitude properties with truthy values.
+      // that have both latitude & longitude properties with truthy values.
       const dataWithLatLong = allData.filter((item: ComplaintType) => item.latitude && item.longitude);
 
       // Categorize markers by resolution type, place into arrays
-      // TODO: not using these arrays yet.
-      const categorizedResolutionArrays = dataWithLatLong.reduce((accumulator, marker) => {
+      const resolutionArrays = dataWithLatLong.reduce((accumulator, marker) => {
         const resolutionType = marker.resolution_description;
         if (resolutionType) {
           if (!accumulator[resolutionType]) {
@@ -69,7 +69,8 @@ const useFetchComplaints = () => {
         }
         return accumulator;
       }, {} as Record<string, ComplaintType[]>);
-      console.log('HI! categorizedResolutionArrays', categorizedResolutionArrays);
+      console.log('resolutionArrays', resolutionArrays);
+      setCategorizedResolutionArrays(resolutionArrays);
 
       setAllComplaints(dataWithLatLong);
       localStorage.setItem('complaints', JSON.stringify(dataWithLatLong));
@@ -94,7 +95,7 @@ const useFetchComplaints = () => {
     const now = new Date().toISOString();
 
     // if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 12 * 60 * 60 * 1000) {
-    if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 0.000012 * 60 * 60 * 1000) {
+    if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 0.00000012 * 60 * 60 * 1000) {
       console.log('Data is stale or not present. Fetching new data.');
       fetchData();
     } else {
@@ -110,7 +111,7 @@ const useFetchComplaints = () => {
     }
   }, [fetchData]);
 
-  return { allComplaints, loading, error, fetchData };
+  return { allComplaints, categorizedResolutionArrays, loading, error, fetchData };
 };
 
 export default useFetchComplaints;

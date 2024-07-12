@@ -7,7 +7,7 @@ import PopUp from './PopUp';
 import { determineMarkerColor } from './helper-functions';
 import './App.css';
 import { ComplaintType, DisplayResolutionArrayType } from './types';
-import { resolutionDescriptionsArray } from './ResolutionDescriptionsArray';
+import { resolutionDescLabelColorArray } from './resolutionDescLabelColorArray';
 import useFetchComplaints from './useFetchComplaints';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11';
@@ -39,7 +39,7 @@ function App() {
   useEffect(() => {
     const visibleLabels = displayResolutionArray.filter((item) => item.visibility).map((item) => item.label);
 
-    const visibleResolutions = resolutionDescriptionsArray
+    const visibleResolutions = resolutionDescLabelColorArray
       .filter((item) => visibleLabels.includes(item.label))
       .map((item) => item.resolution);
 
@@ -82,7 +82,7 @@ function App() {
                   style={{
                     backgroundColor: determineMarkerColor(
                       complaint.resolution_description as string,
-                      resolutionDescriptionsArray
+                      resolutionDescLabelColorArray
                     ),
                   }}
                   className="marker"
@@ -97,6 +97,7 @@ function App() {
         <ControlPanel
           displayResolutionArray={displayResolutionArray}
           setDisplayResolutionArray={setDisplayResolutionArray}
+          categorizedResolutionArrays={categorizedResolutionArrays}
           loading={loading}
         />
         {loading && <LoadingSpinner loading={loading} />}

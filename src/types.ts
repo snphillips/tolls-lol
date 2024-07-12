@@ -9,13 +9,13 @@ export interface ComplaintType {
   longitude?: string;
 }
 
-export type ResolutionDescriptionType = {
+export type ResolutionDescLabelColorType = {
   resolution?: string;
   label: string;
   color: string;
 };
 
-export type ResolutionDescriptionsArrayType = ResolutionDescriptionType[];
+export type resolutionDescLabelColorArrayType = ResolutionDescLabelColorType[];
 
 export type ResolutionDisplayType = {
   label: string;
