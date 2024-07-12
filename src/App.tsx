@@ -105,7 +105,6 @@ function App() {
         <ControlPanel
           displayResolutionArray={displayResolutionArray}
           setDisplayResolutionArray={setDisplayResolutionArray}
-          categorizedResolutionArrays={categorizedResolutionArrays}
           resolutionDescLabelColorArray={resolutionDescLabelColorArray}
           loading={loading}
         />
