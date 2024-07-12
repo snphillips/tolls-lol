@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ControlPanel from './ControlPanel';
-// import LoadingSpinner from './LoadingSpinner';
+import { getMapboxToken } from './utils/getMapboxToken';
 import PopUp from './PopUp';
 import { determineMarkerColor } from './helper-functions';
 import './App.css';
@@ -13,6 +13,7 @@ import useFetchComplaints from './useFetchComplaints';
 const mapStyle = 'mapbox://styles/mapbox/dark-v11';
 
 function App() {
+  const [token, setToken] = useState(null);
   const [viewport] = useState({
     latitude: 40.69093436877119,
     longitude: -73.960938659505,
@@ -37,6 +38,14 @@ function App() {
   const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
 
   useEffect(() => {
+    const fetchToken = async () => {
+      const fetchedToken = await getMapboxToken();
+      setToken(fetchedToken);
+    };
+    fetchToken();
+  }, []);
+
+  useEffect(() => {
     const visibleLabels = displayResolutionArray.filter((item) => item.visibility).map((item) => item.label);
 
     const visibleResolutions = resolutionDescLabelColorArray
@@ -53,17 +62,16 @@ function App() {
     setFilteredComplaints(dataWithLatLong);
   }, [displayResolutionArray, allComplaints]);
 
+  if (!token) {
+    return <div>Loading...</div>;
+  }
   if (error) {
     return <div>Error: {error}</div>;
   }
 
   return (
     <div id="map">
-      <Map
-        mapboxAccessToken={import.meta.env.VITE_REACT_APP_MAPBOX_TOKEN}
-        initialViewState={viewport}
-        mapStyle={mapStyle}
-      >
+      <Map mapboxAccessToken={token} initialViewState={viewport} mapStyle={mapStyle}>
         {filteredComplaints.map((complaint) =>
           complaint.latitude && complaint.longitude ? (
             <Marker
