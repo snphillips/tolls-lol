@@ -1,18 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import './ControlPanel.css';
 import LoadingSpinner from './LoadingSpinner';
-import {
-  DisplayResolutionArrayType,
-  setDisplayResolutionArrayType,
-  ComplaintType,
-  resolutionDescLabelColorArrayType,
-} from './types';
+import { DisplayResolutionArrayType, setDisplayResolutionArrayType, resolutionDescLabelColorArrayType } from './types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
   setDisplayResolutionArray: setDisplayResolutionArrayType;
-  categorizedResolutionArrays: Record<string, ComplaintType[]>;
   resolutionDescLabelColorArray: resolutionDescLabelColorArrayType;
   loading: boolean;
 };
