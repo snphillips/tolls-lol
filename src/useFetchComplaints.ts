@@ -73,6 +73,8 @@ const useFetchComplaints = () => {
       setCategorizedResolutionArrays(resolutionArrays);
 
       setAllComplaints(dataWithLatLong);
+      // Clear local storage before saving new data
+      localStorage.removeItem('complaints');
       localStorage.setItem('complaints', JSON.stringify(dataWithLatLong));
       localStorage.setItem('lastFetch', new Date().toISOString());
       console.log('Data fetching complete. Data saved to local storage.');

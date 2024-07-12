@@ -98,6 +98,7 @@ function App() {
           displayResolutionArray={displayResolutionArray}
           setDisplayResolutionArray={setDisplayResolutionArray}
           categorizedResolutionArrays={categorizedResolutionArrays}
+          resolutionDescLabelColorArray={resolutionDescLabelColorArray}
           loading={loading}
         />
       </Map>

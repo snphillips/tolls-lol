@@ -1,21 +1,26 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import './ControlPanel.css';
-import { resolutionDescLabelColorArray } from './resolutionDescLabelColorArray';
 import LoadingSpinner from './LoadingSpinner';
-import { DisplayResolutionArrayType, setDisplayResolutionArrayType, ComplaintType } from './types';
+import {
+  DisplayResolutionArrayType,
+  setDisplayResolutionArrayType,
+  ComplaintType,
+  resolutionDescLabelColorArrayType,
+} from './types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
   setDisplayResolutionArray: setDisplayResolutionArrayType;
   categorizedResolutionArrays: Record<string, ComplaintType[]>;
+  resolutionDescLabelColorArray: resolutionDescLabelColorArrayType;
   loading: boolean;
 };
 
 function ControlPanel({
   displayResolutionArray,
   setDisplayResolutionArray,
-  categorizedResolutionArrays,
+  resolutionDescLabelColorArray,
   loading,
 }: Props) {
   const handleCheckboxChange = (label: string) => {
