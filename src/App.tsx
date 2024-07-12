@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ControlPanel from './ControlPanel';
-import { getMapboxToken } from './utils/getMapboxToken';
+// import { getMapboxToken } from '../netlify/functions/getMapboxToken';
 import PopUp from './PopUp';
 import { determineMarkerColor } from './helper-functions';
 import './App.css';
@@ -39,9 +39,22 @@ function App() {
 
   useEffect(() => {
     const fetchToken = async () => {
-      const fetchedToken = await getMapboxToken();
-      setToken(fetchedToken);
+      try {
+        const response = await fetch('../.netlify/functions/getMapboxToken');
+        if (!response.ok) {
+          throw new Error('😵‍💫 Failed to fetch token');
+        }
+        const data = await response.json();
+        const fetchedToken = data.token;
+
+        setToken(fetchedToken);
+        console.log('🍉 fetchedToken', fetchedToken);
+      } catch (error) {
+        console.error('Error fetching token:', error);
+        // Handle error state if needed
+      }
     };
+
     fetchToken();
   }, []);
 
