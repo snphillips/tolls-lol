@@ -34,7 +34,7 @@ function App() {
     { label: `No action. Insufficient contact information`, visibility: true },
   ]);
 
-  const { allComplaints, categorizedResolutionArrays, loading, error } = useFetchComplaints();
+  const { allComplaints, loading, error } = useFetchComplaints();
   const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
 
   useEffect(() => {
