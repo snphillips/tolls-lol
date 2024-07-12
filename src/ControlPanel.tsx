@@ -32,7 +32,7 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, loadi
 
   const getMarkerBackgroundColor = (label: string): string => {
     const resolution = resolutionDescriptionsArray.find((item) => item.label === label);
-    return resolution ? resolution.color : '#fff'; // default color if not found
+    return resolution ? resolution.color : '#fff'; // default color of white if not found
   };
 
   return (
@@ -61,7 +61,6 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, loadi
       <hr />
       <h3>Complaint Resolution:</h3>
 
-      {/* TODO: get the backgroundColor of marker-example from resolutionDescriptionsArray */}
       {displayResolutionArray.map((item) => (
         <div key={item.label} className="input">
           <span className="marker-example" style={{ backgroundColor: getMarkerBackgroundColor(item.label) }} />
