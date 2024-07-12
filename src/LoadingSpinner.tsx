@@ -16,7 +16,7 @@ export default function LoadingSpinner({ loading }: Props) {
   return (
     <div className="sweet-loading">
       <ScaleLoader
-        color={'#fefefe'} //
+        color={'#fefefe'}
         loading={loading}
         cssOverride={override}
         aria-label="Loading Spinner"

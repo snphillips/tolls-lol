@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ControlPanel from './ControlPanel';
-import LoadingSpinner from './LoadingSpinner';
+// import LoadingSpinner from './LoadingSpinner';
 import PopUp from './PopUp';
 import { determineMarkerColor } from './helper-functions';
 import './App.css';
@@ -33,7 +33,7 @@ function App() {
     { label: `No action. Insufficient contact information`, visibility: true },
   ]);
 
-  const { allComplaints, loading, error } = useFetchComplaints();
+  const { allComplaints, categorizedResolutionArrays, loading, error } = useFetchComplaints();
   const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
 
   useEffect(() => {
@@ -100,7 +100,6 @@ function App() {
           categorizedResolutionArrays={categorizedResolutionArrays}
           loading={loading}
         />
-        {loading && <LoadingSpinner loading={loading} />}
       </Map>
     </div>
   );
