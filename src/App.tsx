@@ -8,10 +8,12 @@ import './App.css';
 import { ComplaintType, DisplayResolutionArrayType } from './types';
 import { resolutionDescLabelColorArray } from './resolutionDescLabelColorArray';
 import useFetchComplaints from './useFetchComplaints';
+import { useLoading } from './LoadingContext';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11';
 
 function App() {
+  const { loading } = useLoading();
   const [viewport] = useState({
     latitude: 40.69093436877119,
     longitude: -73.960938659505,
@@ -32,7 +34,7 @@ function App() {
     { label: `No action. Insufficient contact information`, visibility: true },
   ]);
 
-  const { allComplaints, loading, error } = useFetchComplaints();
+  const { allComplaints, error } = useFetchComplaints();
   const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
 
   useEffect(() => {

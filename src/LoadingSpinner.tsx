@@ -1,5 +1,6 @@
 import { CSSProperties } from 'react';
 import ScaleLoader from 'react-spinners/ScaleLoader';
+import { useLoading } from './LoadingContext'; // Import useLoading from the context file
 
 const override: CSSProperties = {
   margin: '0 auto',
@@ -8,11 +9,11 @@ const override: CSSProperties = {
   // left: '50%',
 };
 
-type Props = {
-  loading: boolean;
-};
+export default function LoadingSpinner() {
+  const { loading } = useLoading(); // Access loading state from the context
 
-export default function LoadingSpinner({ loading }: Props) {
+  console.log('loading:', loading);
+
   return (
     <div className="sweet-loading">
       <ScaleLoader

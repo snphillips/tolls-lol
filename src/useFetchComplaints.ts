@@ -1,14 +1,15 @@
 // useFetchComplaints.ts
 import { useState, useEffect, useCallback } from 'react';
 import { ComplaintType } from './types';
+import { useLoading } from './LoadingContext';
 
 const dataURL = 'https://data.cityofnewyork.us/resource/erm2-nwe9.json';
 
 const useFetchComplaints = () => {
+  const { setLoading } = useLoading(); // Use the global loading state
+  const [error, setError] = useState<string | null>(null);
   const [allComplaints, setAllComplaints] = useState<ComplaintType[]>([]);
   const [categorizedResolutionArrays, setCategorizedResolutionArrays] = useState<Record<string, ComplaintType[]>>({});
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
     console.log('Fetching data from API...');
@@ -113,7 +114,12 @@ const useFetchComplaints = () => {
     }
   }, [fetchData]);
 
-  return { allComplaints, categorizedResolutionArrays, loading, error, fetchData };
+  return {
+    allComplaints,
+    categorizedResolutionArrays,
+    error,
+    fetchData,
+  };
 };
 
 export default useFetchComplaints;
