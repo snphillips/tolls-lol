@@ -7,15 +7,9 @@ type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
   setDisplayResolutionArray: setDisplayResolutionArrayType;
   resolutionDescLabelColorArray: resolutionDescLabelColorArrayType;
-  loading: boolean;
 };
 
-function ControlPanel({
-  displayResolutionArray,
-  setDisplayResolutionArray,
-  resolutionDescLabelColorArray,
-  loading,
-}: Props) {
+function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resolutionDescLabelColorArray }: Props) {
   const handleCheckboxChange = (label: string) => {
     setDisplayResolutionArray((prevState) =>
       prevState.map((item) =>
@@ -60,7 +54,7 @@ function ControlPanel({
             View nyc.gov source data ↗
           </a>
         </section>
-        <LoadingSpinner loading={loading} />
+        <LoadingSpinner />
       </div>
       <hr />
       <h3>Complaint Resolution:</h3>

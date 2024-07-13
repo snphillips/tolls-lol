@@ -8,12 +8,11 @@ import './App.css';
 import { ComplaintType, DisplayResolutionArrayType } from './types';
 import { resolutionDescLabelColorArray } from './resolutionDescLabelColorArray';
 import useFetchComplaints from './useFetchComplaints';
-import { useLoading } from './LoadingContext';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11';
 
 function App() {
-  const { loading } = useLoading();
+  // const { loading } = useLoading();
   const [viewport] = useState({
     latitude: 40.69093436877119,
     longitude: -73.960938659505,
@@ -99,7 +98,6 @@ function App() {
           displayResolutionArray={displayResolutionArray}
           setDisplayResolutionArray={setDisplayResolutionArray}
           resolutionDescLabelColorArray={resolutionDescLabelColorArray}
-          loading={loading}
         />
       </Map>
     </div>

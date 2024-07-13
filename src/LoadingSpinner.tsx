@@ -10,19 +10,19 @@ const override: CSSProperties = {
 };
 
 export default function LoadingSpinner() {
-  const { loading } = useLoading(); // Access loading state from the context
-
-  console.log('loading:', loading);
+  const { loadingBoolean, loadingMessage } = useLoading(); // Access loading state from the context
 
   return (
     <div className="sweet-loading">
       <ScaleLoader
+        className="loading-spinner"
         color={'#fefefe'}
-        loading={loading}
+        loading={loadingBoolean}
         cssOverride={override}
         aria-label="Loading Spinner"
         data-testid="loader"
       />
+      <div className="loading-message">{loadingMessage}</div>
     </div>
   );
 }
