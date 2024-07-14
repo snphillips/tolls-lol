@@ -1,15 +1,15 @@
 import React from 'react';
 import './ControlPanel.css';
 import LoadingSpinner from './LoadingSpinner';
-import { DisplayResolutionArrayType, setDisplayResolutionArrayType, resolutionDescLabelColorArrayType } from '../types';
+import { DisplayResolutionArrayType, setDisplayResolutionArrayType, resolutionLabelColorArrayType } from '../types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
   setDisplayResolutionArray: setDisplayResolutionArrayType;
-  resolutionDescLabelColorArray: resolutionDescLabelColorArrayType;
+  resolutionLabelColorArray: resolutionLabelColorArrayType;
 };
 
-function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resolutionDescLabelColorArray }: Props) {
+function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resolutionLabelColorArray }: Props) {
   const handleCheckboxChange = (label: string) => {
     setDisplayResolutionArray((prevState) =>
       prevState.map((item) =>
@@ -29,7 +29,7 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resol
   };
 
   const getMarkerBackgroundColor = (label: string): string => {
-    const resolution = resolutionDescLabelColorArray.find((item) => item.label === label);
+    const resolution = resolutionLabelColorArray.find((item) => item.label === label);
     return resolution ? resolution.color : '#fff'; // default color of white if not found
   };
 

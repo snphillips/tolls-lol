@@ -1,5 +1,5 @@
 import { Popup } from 'react-map-gl';
-import { howLongTillComplaintResolvedUtil } from '../utils/helper-functions';
+import { howLongTillComplaintResolvedUtil } from '../utils/howLongTillComplaintResolvedUtil';
 import { ComplaintType, SetSelectedComplaintType } from '../types';
 
 type PropsType = {

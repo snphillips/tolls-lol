@@ -15,7 +15,7 @@ export type ResolutionDescLabelColorType = {
   color: string;
 };
 
-export type resolutionDescLabelColorArrayType = ResolutionDescLabelColorType[];
+export type resolutionLabelColorArrayType = ResolutionDescLabelColorType[];
 
 export type ResolutionDisplayType = {
   label: string;

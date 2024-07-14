@@ -3,10 +3,10 @@ import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ControlPanel from './components/ControlPanel';
 import PopUp from './components/PopUp';
-import { determineMarkerColorUtil } from './utils/helper-functions';
+import { determineMarkerColorUtil } from './utils/determineMarkerColorUtil';
 import './App.css';
 import { ComplaintType, DisplayResolutionArrayType } from './types';
-import { resolutionDescLabelColorArray } from './resolutionDescLabelColorArray';
+import { resolutionLabelColorArray } from './data/resolutionLabelColorArray';
 import useFetchComplaints from './hooks/useFetchComplaints';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11';
@@ -38,7 +38,7 @@ function App() {
   useEffect(() => {
     const visibleLabels = displayResolutionArray.filter((item) => item.visibility).map((item) => item.label);
 
-    const visibleResolutions = resolutionDescLabelColorArray
+    const visibleResolutions = resolutionLabelColorArray
       .filter((item) => visibleLabels.includes(item.label))
       .map((item) => item.resolution);
 
@@ -81,7 +81,7 @@ function App() {
                   style={{
                     backgroundColor: determineMarkerColorUtil(
                       complaint.resolution_description as string,
-                      resolutionDescLabelColorArray
+                      resolutionLabelColorArray
                     ),
                   }}
                   className="marker"
@@ -96,7 +96,7 @@ function App() {
         <ControlPanel
           displayResolutionArray={displayResolutionArray}
           setDisplayResolutionArray={setDisplayResolutionArray}
-          resolutionDescLabelColorArray={resolutionDescLabelColorArray}
+          resolutionLabelColorArray={resolutionLabelColorArray}
         />
       </Map>
     </div>

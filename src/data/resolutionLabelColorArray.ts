@@ -1,4 +1,4 @@
-export const resolutionDescLabelColorArray = [
+export const resolutionLabelColorArray = [
   {
     resolution: undefined,
     label: `No resolution`,
