@@ -1,7 +1,7 @@
 import React from 'react';
 import './ControlPanel.css';
 import LoadingSpinner from './LoadingSpinner';
-import { DisplayResolutionArrayType, setDisplayResolutionArrayType, resolutionDescLabelColorArrayType } from './types';
+import { DisplayResolutionArrayType, setDisplayResolutionArrayType, resolutionDescLabelColorArrayType } from '../types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;

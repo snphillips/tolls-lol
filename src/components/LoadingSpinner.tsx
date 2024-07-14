@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { CSSProperties } from 'react';
 import ScaleLoader from 'react-spinners/ScaleLoader';
-import { useLoading } from './LoadingContext'; // Import useLoading from the context file
+import { useLoading } from '../context/LoadingContext'; // Import useLoading from the context file
 
 const override: CSSProperties = {
   margin: '0 auto',

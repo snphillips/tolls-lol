@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { ComplaintType } from './types';
-import { useLoading } from './LoadingContext';
+import { ComplaintType } from '../types';
+import { useLoading } from '../context/LoadingContext';
 
 const dataURL = 'https://data.cityofnewyork.us/resource/erm2-nwe9.json';
 
@@ -8,7 +8,6 @@ const useFetchComplaints = () => {
   const { setLoading } = useLoading();
   const [allComplaints, setAllComplaints] = useState<ComplaintType[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [loadingData, setLoadingData] = useState(false); // Flag to track data loading
 
   const fetchData = useCallback(async () => {
     console.log('Fetching data from API...');
@@ -20,8 +19,6 @@ const useFetchComplaints = () => {
     let totalFetched = 0;
 
     try {
-      setLoadingData(true); // Set flag to indicate data is being fetched
-
       do {
         const query = `
           SELECT
@@ -70,8 +67,8 @@ const useFetchComplaints = () => {
         console.error('An unknown error occurred');
       }
     } finally {
+      // stop loading spinner & no loading message
       setLoading(false, '');
-      setLoadingData(false); // Reset flag after data fetching completes
     }
   }, []);
 
@@ -80,8 +77,8 @@ const useFetchComplaints = () => {
     const now = new Date().toISOString();
 
     // Comment out or adjust this condition for development
-    // if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 12 * 60 * 60 * 1000) {
-    if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 0.00000012 * 60 * 60 * 1000) {
+    if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 12 * 60 * 60 * 1000) {
+      // if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 0.00000012 * 60 * 60 * 1000) {
       console.log('Data is stale or not present. Fetching new data.');
       fetchData();
     } else {
@@ -95,9 +92,9 @@ const useFetchComplaints = () => {
         fetchData();
       }
     }
-  }, [fetchData]); // Only depend on fetchData
+  }, [fetchData]);
 
-  return { allComplaints, error, loadingData }; // Return loadingData flag
+  return { allComplaints, error };
 };
 
 export default useFetchComplaints;

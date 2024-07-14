@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import ControlPanel from './ControlPanel';
-import PopUp from './PopUp';
-import { determineMarkerColor } from './helper-functions';
+import ControlPanel from './components/ControlPanel';
+import PopUp from './components/PopUp';
+import { determineMarkerColorUtil } from './utils/helper-functions';
 import './App.css';
 import { ComplaintType, DisplayResolutionArrayType } from './types';
 import { resolutionDescLabelColorArray } from './resolutionDescLabelColorArray';
-import useFetchComplaints from './useFetchComplaints';
+import useFetchComplaints from './hooks/useFetchComplaints';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11';
 
@@ -79,7 +79,7 @@ function App() {
               >
                 <div
                   style={{
-                    backgroundColor: determineMarkerColor(
+                    backgroundColor: determineMarkerColorUtil(
                       complaint.resolution_description as string,
                       resolutionDescLabelColorArray
                     ),

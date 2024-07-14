@@ -1,7 +1,7 @@
 import pluralize from 'pluralize';
-import { ComplaintType, resolutionDescLabelColorArrayType } from './types';
+import { ComplaintType, resolutionDescLabelColorArrayType } from '../types';
 
-const howLongTillComplaintResolved = (selectedComplaint: ComplaintType): string | null => {
+const howLongTillComplaintResolvedUtil = (selectedComplaint: ComplaintType): string | null => {
   // Return null if no complaint is selected
   if (!selectedComplaint) return null;
 
@@ -29,7 +29,7 @@ const howLongTillComplaintResolved = (selectedComplaint: ComplaintType): string 
   }${diffHours} ${pluralize('hour', diffHours)}, and ${diffMinutes} ${pluralize('minute', diffMinutes)}`;
 };
 
-const determineMarkerColor = (
+const determineMarkerColorUtil = (
   resolutionDescription: string,
   resolutionDescLabelColorArray: resolutionDescLabelColorArrayType
 ): string => {
@@ -37,4 +37,4 @@ const determineMarkerColor = (
   return resolution ? resolution.color : 'white'; // Default to white if no match is found
 };
 
-export { howLongTillComplaintResolved, determineMarkerColor };
+export { howLongTillComplaintResolvedUtil, determineMarkerColorUtil };
