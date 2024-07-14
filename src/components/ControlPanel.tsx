@@ -64,8 +64,13 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resol
       {displayResolutionArray.map((item) => (
         <div key={item.label} className="input">
           <span className="marker-example" style={{ backgroundColor: getMarkerBackgroundColor(item.label) }} />
-          <label>{item.label}</label>
-          <input type="checkbox" checked={item.visibility} onChange={() => handleCheckboxChange(item.label)} />
+          <label htmlFor={`checkbox-${item.label}`}>{item.label}</label>
+          <input
+            type="checkbox"
+            id={`checkbox-${item.label}`}
+            checked={item.visibility}
+            onChange={() => handleCheckboxChange(item.label)}
+          />
         </div>
       ))}
       <hr />
