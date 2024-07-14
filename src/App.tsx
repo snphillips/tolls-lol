@@ -12,7 +12,6 @@ import useFetchComplaints from './useFetchComplaints';
 const mapStyle = 'mapbox://styles/mapbox/dark-v11';
 
 function App() {
-  // const { loading } = useLoading();
   const [viewport] = useState({
     latitude: 40.69093436877119,
     longitude: -73.960938659505,

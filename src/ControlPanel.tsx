@@ -54,7 +54,9 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resol
             View nyc.gov source data ↗
           </a>
         </section>
-        <LoadingSpinner />
+        <section className="loading-container">
+          <LoadingSpinner />
+        </section>
       </div>
       <hr />
       <h3>Complaint Resolution:</h3>

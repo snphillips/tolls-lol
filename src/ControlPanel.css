@@ -36,3 +36,14 @@ input {
   display: inline-block;
   margin-right: 6px;
 }
+
+.control-panel-links-and-loader {
+  display: flex;
+  justify-content: space-between;
+}
+
+section.loading-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
