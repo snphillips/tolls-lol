@@ -3,7 +3,7 @@ import Map, { Layer, Source, MapLayerMouseEvent } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ControlPanel from './components/ControlPanel';
 import PopUp from './components/PopUp';
-import { determineMarkerColorUtil } from './utils/determineMarkerColorUtil';
+// import { determineMarkerColorUtil } from './utils/determineMarkerColorUtil';
 import './App.css';
 import { ComplaintType, DisplayResolutionArrayType } from './types';
 import { resolutionLabelColorArray } from './data/resolutionLabelColorArray';
@@ -72,8 +72,8 @@ function App() {
           type: 'Feature' as const,
           properties: {
             ...complaint,
-            // TODO: is there an other way to do this conditionally?
-            color: determineMarkerColorUtil(complaint.resolution_description as string, resolutionLabelColorArray),
+            // TODO: keep while we experiment with coloring via circle-color
+            // color: determineMarkerColorUtil(complaint.resolution_description as string, resolutionLabelColorArray),
           },
           geometry: {
             type: 'Point' as const,
@@ -117,17 +117,34 @@ function App() {
             paint={{
               'circle-radius': 5,
               // TODO: keep for now while we experiment with other ways to get color
-              'circle-color': ['get', 'color'],
+              // 'circle-color': ['get', 'color'],
               'circle-opacity': 0.7,
-              // 'circle-color': [
-              //   'match',
-              //   ['get', 'resolution_description'],
-              //   // If the resolution_description is
-              //   `The Police Department issued a summons in response to the complaint.`,
-              //   `green`,
-              //   // Default color is yellow
-              //   'yellow',
-              // ],
+              'circle-color': [
+                'match',
+                ['get', 'resolution_description'],
+                `The Police Department issued a summons in response to the complaint.`,
+                `chartreuse`,
+                // `The Police Department responded and upon arrival those responsible for the condition were gone.`,
+                // `lightSeaGreen`,
+                // `The Police Department responded to the complaint and a report was prepared.`,
+                // `purple`,
+                // `The Police Department responded to the complaint and determined that police action was not necessary.`,
+                // `royalBlue`,
+                // `The Police Department responded to the complaint and took action to fix the condition.`,
+                // `pink`,
+                // `The Police Department responded to the complaint and with the information available observed no evidence of the violation at that time.`,
+                // `orange`,
+                // `The Police Department responded to the complaint but officers were unable to gain entry into the premises.`,
+                // `red`,
+                // `The Police Department reviewed your complaint and provided additional information below.`,
+                // `tan`,
+                // `This complaint does not fall under the Police Department's jurisdiction.`,
+                // `powderBlue`,
+                // `Your request can not be processed at this time because of insufficient contact information. Please create a new Service Request on NYC.gov and provide more detailed contact information.`,
+                // `yellow`,
+                // Default color below
+                'mediumOrchid',
+              ],
             }}
           />
         </Source>

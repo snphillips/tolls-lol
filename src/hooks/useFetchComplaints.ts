@@ -77,8 +77,8 @@ const useFetchComplaints = () => {
     const now = new Date().toISOString();
 
     // Comment out or adjust this condition for development
-    if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 12 * 60 * 60 * 1000) {
-      // if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 0.00000012 * 60 * 60 * 1000) {
+    // if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 12 * 60 * 60 * 1000) {
+    if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 0.00000012 * 60 * 60 * 1000) {
       console.log('Data is stale or not present. Fetching new data.');
       fetchData();
     } else {
