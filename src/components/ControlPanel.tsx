@@ -28,9 +28,9 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resol
     // TODO: figure out time to resolution
   };
 
-  const getMarkerBackgroundColor = (label: string): string => {
+  const getCircleBackgroundColor = (label: string): string => {
     const resolution = resolutionLabelColorArray.find((item) => item.label === label);
-    return resolution ? resolution.color : '#fff'; // default color of white if not found
+    return resolution ? resolution.color : 'red'; // default color of white if not found
   };
 
   return (
@@ -63,7 +63,7 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resol
 
       {displayResolutionArray.map((item) => (
         <div key={item.label} className="input">
-          <span className="marker-example" style={{ backgroundColor: getMarkerBackgroundColor(item.label) }} />
+          <span className="circle-example" style={{ backgroundColor: getCircleBackgroundColor(item.label) }} />
           <label htmlFor={`checkbox-${item.label}`}>{item.label}</label>
           <input
             type="checkbox"

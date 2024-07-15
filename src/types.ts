@@ -3,19 +3,20 @@ export interface ComplaintType {
   created_date: string;
   closed_date?: string;
   incident_address: string;
-  status: 'In Progress' | 'Closed';
+  status: 'In Progress' | 'Closed' | string;
   resolution_description?: string;
   latitude?: string;
   longitude?: string;
 }
 
-export type ResolutionDescLabelColorType = {
-  resolution?: string;
+export type ResolutionLabelColorType = {
+  status: 'In Progress' | 'Closed' | string;
+  resolution?: string[] | undefined[] | string;
   label: string;
   color: string;
 };
 
-export type resolutionLabelColorArrayType = ResolutionDescLabelColorType[];
+export type resolutionLabelColorArrayType = ResolutionLabelColorType[];
 
 export type ResolutionDisplayType = {
   label: string;
