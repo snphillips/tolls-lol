@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import Map, { Marker } from 'react-map-gl';
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import Map, { Layer, Source, MapLayerMouseEvent } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ControlPanel from './components/ControlPanel';
 import PopUp from './components/PopUp';
@@ -8,8 +8,9 @@ import './App.css';
 import { ComplaintType, DisplayResolutionArrayType } from './types';
 import { resolutionLabelColorArray } from './data/resolutionLabelColorArray';
 import useFetchComplaints from './hooks/useFetchComplaints';
+import { useLoading } from './context/LoadingContext';
 
-const mapStyle = 'mapbox://styles/mapbox/dark-v11';
+const mapStyle = 'mapbox://styles/mapbox/dark-v11?optimize=true';
 
 function App() {
   const [viewport] = useState({
@@ -32,25 +33,70 @@ function App() {
     { label: `No action. Insufficient contact information`, visibility: true },
   ]);
 
+  const { setLoading } = useLoading();
   const { allComplaints, error } = useFetchComplaints();
   const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
 
   useEffect(() => {
-    const visibleLabels = displayResolutionArray.filter((item) => item.visibility).map((item) => item.label);
+    const filterData = () => {
+      const visibleLabels = displayResolutionArray.filter((item) => item.visibility).map((item) => item.label);
 
-    const visibleResolutions = resolutionLabelColorArray
-      .filter((item) => visibleLabels.includes(item.label))
-      .map((item) => item.resolution);
+      const visibleResolutions = resolutionLabelColorArray
+        .filter((item) => visibleLabels.includes(item.label))
+        .map((item) => item.resolution);
 
-    const dataWithLatLong = allComplaints.filter((complaint) => {
-      if (complaint.resolution_description === undefined) {
-        return visibleResolutions.includes(undefined);
+      const dataWithLatLong = allComplaints.filter((complaint) => {
+        if (complaint.resolution_description === undefined) {
+          return visibleResolutions.includes(undefined);
+        }
+        return visibleResolutions.includes(complaint.resolution_description);
+      });
+
+      setFilteredComplaints(dataWithLatLong);
+    };
+    filterData();
+  }, [displayResolutionArray, allComplaints, setLoading]);
+
+  const geoJsonData = useMemo(() => {
+    return {
+      type: 'FeatureCollection' as const,
+      features: filteredComplaints
+        .filter(
+          (complaint) =>
+            complaint.latitude !== undefined &&
+            complaint.longitude !== undefined &&
+            complaint.latitude !== '' &&
+            complaint.longitude !== ''
+        )
+        .map((complaint) => ({
+          type: 'Feature' as const,
+          properties: {
+            ...complaint,
+            // TODO: is there an other way to do this conditionally?
+            color: determineMarkerColorUtil(complaint.resolution_description as string, resolutionLabelColorArray),
+          },
+          geometry: {
+            type: 'Point' as const,
+            coordinates: [parseFloat(complaint.longitude!), parseFloat(complaint.latitude!)],
+          },
+        })),
+    };
+  }, [filteredComplaints]);
+
+  const handleMapClick = useCallback(
+    (event: MapLayerMouseEvent) => {
+      const features = event.features;
+      console.log('event', event);
+      console.log('event', event);
+      if (features && features.length > 0) {
+        const clickedFeature = features[0];
+        setSelectedComplaint(clickedFeature.properties as ComplaintType);
+      } else {
+        setSelectedComplaint(null);
       }
-      return visibleResolutions.includes(complaint.resolution_description);
-    });
-
-    setFilteredComplaints(dataWithLatLong);
-  }, [displayResolutionArray, allComplaints]);
+    },
+    [setSelectedComplaint]
+  );
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -62,37 +108,34 @@ function App() {
         mapboxAccessToken={import.meta.env.VITE_REACT_APP_MAPBOX_TOKEN}
         initialViewState={viewport}
         mapStyle={mapStyle}
+        onClick={handleMapClick}
       >
-        {filteredComplaints.map((complaint) =>
-          complaint.latitude && complaint.longitude ? (
-            <Marker
-              key={complaint.unique_key}
-              latitude={parseFloat(complaint.latitude)}
-              longitude={parseFloat(complaint.longitude)}
-            >
-              <button
-                className="marker-btn"
-                onClick={(event) => {
-                  event.preventDefault();
-                  setSelectedComplaint(complaint);
-                }}
-              >
-                <div
-                  style={{
-                    backgroundColor: determineMarkerColorUtil(
-                      complaint.resolution_description as string,
-                      resolutionLabelColorArray
-                    ),
-                  }}
-                  className="marker"
-                />
-              </button>
-            </Marker>
-          ) : null
-        )}
+        <Source id="complaints" type="geojson" data={geoJsonData}>
+          <Layer
+            id="complaint-points"
+            type="circle"
+            paint={{
+              'circle-radius': 5,
+              // TODO: keep for now while we experiment with other ways to get color
+              'circle-color': ['get', 'color'],
+              'circle-opacity': 0.7,
+              // 'circle-color': [
+              //   'match',
+              //   ['get', 'resolution_description'],
+              //   // If the resolution_description is
+              //   `The Police Department issued a summons in response to the complaint.`,
+              //   `green`,
+              //   // Default color is yellow
+              //   'yellow',
+              // ],
+            }}
+          />
+        </Source>
+
         {selectedComplaint && selectedComplaint.latitude && selectedComplaint.longitude && (
           <PopUp selectedComplaint={selectedComplaint} setSelectedComplaint={setSelectedComplaint} />
         )}
+
         <ControlPanel
           displayResolutionArray={displayResolutionArray}
           setDisplayResolutionArray={setDisplayResolutionArray}
