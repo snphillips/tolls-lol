@@ -80,6 +80,15 @@ function App() {
   const handleMapClick = useCallback(
     (event: MapLayerMouseEvent) => {
       const features = event.features;
+
+      // const features = map.queryRenderedFeatures(event.point, {
+      //   layers: ['complaint-circles'], // Replace with your actual layer ID
+      // });
+      console.log('event.point', event.point);
+      console.log('event.lngLat', event.lngLat);
+      // When I log features I get undefined
+      console.log('features', features);
+
       if (features && features.length > 0) {
         const clickedFeature = features[0];
         setSelectedComplaint(clickedFeature.properties as ComplaintType);
@@ -101,6 +110,7 @@ function App() {
         initialViewState={viewport}
         mapStyle={mapStyle}
         onClick={handleMapClick}
+        interactiveLayerIds={['complaint-circles']}
       >
         <Source id="complaints" type="geojson" data={geoJsonData}>
           <Layer
