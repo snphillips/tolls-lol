@@ -15,7 +15,7 @@ export const resolutionLabelColorArray = [
     status: 'In Progress',
     resolution: undefined,
     label: `Complaint still in progress`,
-    color: `gold`,
+    color: `darkOrange`,
   },
   {
     status: 'Closed',

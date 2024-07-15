@@ -2,13 +2,11 @@
   position: absolute;
   top: 0;
   max-width: 520px;
-  background: #fff;
   background: #2b2f3b;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   padding: 1rem;
   font-size: 13px;
   line-height: 2;
-  color: #6b6b76;
   color: #f3f7f2;
   outline: none;
 }
