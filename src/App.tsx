@@ -41,7 +41,6 @@ function App() {
           // Complaints that are still in progress have resolutionDescription of undefined
           return visibleResolutions.includes(undefined);
         }
-
         if (
           complaint.resolution_description === `The Police Department issued a summons in response to the complaint.`
         ) {
@@ -81,7 +80,6 @@ function App() {
   const handleMapClick = useCallback(
     (event: MapLayerMouseEvent) => {
       const features = event.features;
-      console.log('event', event);
       if (features && features.length > 0) {
         const clickedFeature = features[0];
         setSelectedComplaint(clickedFeature.properties as ComplaintType);
@@ -106,18 +104,21 @@ function App() {
       >
         <Source id="complaints" type="geojson" data={geoJsonData}>
           <Layer
-            id="complaint-points"
+            id="complaint-circles"
             type="circle"
             paint={{
               'circle-radius': 5,
               'circle-opacity': 0.8,
               'circle-color': [
-                'match',
-                ['get', 'resolution_description'],
-                undefined,
-                `mistyRose`,
-                `The Police Department issued a summons in response to the complaint.`,
+                'case',
+                [
+                  '==',
+                  ['get', 'resolution_description'],
+                  `The Police Department issued a summons in response to the complaint.`,
+                ],
                 `chartreuse`,
+                ['==', ['get', 'status'], `In Progress`],
+                'darkOrange',
                 'mediumPurple', // Default color
               ],
             }}

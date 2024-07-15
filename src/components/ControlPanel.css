@@ -6,13 +6,11 @@
   background: #2b2f3b;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   padding: 1rem;
-  /* margin: 1rem; */
   font-size: 13px;
   line-height: 2;
   color: #6b6b76;
   color: #f3f7f2;
   outline: none;
-  /* border-radius: 6px; */
 }
 
 .source-link {
@@ -21,7 +19,7 @@
 
 label {
   display: inline-block;
-  width: 300px;
+  width: 240px;
 }
 
 input {
@@ -31,7 +29,6 @@ input {
 .circle-example {
   width: 10px;
   height: 10px;
-  background-color: aqua;
   border-radius: 6px;
   display: inline-block;
   margin-right: 6px;
