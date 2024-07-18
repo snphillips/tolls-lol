@@ -98,3 +98,4 @@ This project is licensed under the MIT License.
 
 - [Mapbox](https://www.mapbox.com/) for the interactive map.
 - [City of New York Open Data](https://opendata.cityofnewyork.us/) for the complaint data.
+- [Personalized Vanity Plate Generator] https://platesmania.com/us/informer

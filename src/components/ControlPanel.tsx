@@ -31,14 +31,14 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resol
 
   const getCircleBackgroundColor = (label: string): string => {
     const resolution = resolutionLabelColorArray.find((item) => item.label === label);
-    return resolution ? resolution.color : 'red'; // default color of white if not found
+    return resolution ? resolution.color : 'red';
   };
 
   return (
     <div className="control-panel">
       <img src={logo} alt={'a New York State vanity plate that says TOLLS L.O.L'} />
       <h1>Obscured License Plates Map</h1>
-      <h2>Mapping NYC's 311 Complaint Data</h2>
+      <h2>Visualizing NYC's 311 Complaint Data</h2>
       <div className="control-panel-links-and-loader">
         <section className="link-section">
           <a

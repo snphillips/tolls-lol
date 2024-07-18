@@ -24,7 +24,8 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src/**/*.ts",   // Include your TypeScript source files
-    "src/types.ts"   // Include your types.ts file
+    "src/**/*.ts",
+    "src/**/*.tsx", // Ensure to include .tsx files
+    "src/types.ts"
   ]
 }
