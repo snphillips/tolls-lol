@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import Map, { Layer, Source, MapLayerMouseEvent } from 'react-map-gl';
+import Map, { Layer, Source, MapLayerMouseEvent, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ControlPanel from './components/ControlPanel';
 import PopUp from './components/PopUp';
@@ -80,15 +80,6 @@ function App() {
   const handleMapClick = useCallback(
     (event: MapLayerMouseEvent) => {
       const features = event.features;
-
-      // const features = map.queryRenderedFeatures(event.point, {
-      //   layers: ['complaint-circles'], // Replace with your actual layer ID
-      // });
-      console.log('event.point', event.point);
-      console.log('event.lngLat', event.lngLat);
-      // When I log features I get undefined
-      console.log('features', features);
-
       if (features && features.length > 0) {
         const clickedFeature = features[0];
         setSelectedComplaint(clickedFeature.properties as ComplaintType);
@@ -138,7 +129,7 @@ function App() {
         {selectedComplaint && selectedComplaint.latitude && selectedComplaint.longitude && (
           <PopUp selectedComplaint={selectedComplaint} setSelectedComplaint={setSelectedComplaint} />
         )}
-
+        <NavigationControl />
         <ControlPanel
           displayResolutionArray={displayResolutionArray}
           setDisplayResolutionArray={setDisplayResolutionArray}

@@ -42,3 +42,21 @@ section.loading-container {
   flex-direction: column !important;
   align-items: center !important;
 }
+
+h1 {
+  font-family: 'PT Sans Narrow', sans-serif;
+  font-size: 2em;
+  line-height: 1.1;
+  margin-block-start: 0.25em;
+  margin-block-end: 0.25em;
+}
+
+h2 {
+  font-size: 1.2em;
+  line-height: 1.1;
+}
+
+h3 {
+  font-size: 1.2em;
+  line-height: 1.1;
+}

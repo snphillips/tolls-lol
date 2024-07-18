@@ -19,7 +19,6 @@ function PopUp({ selectedComplaint, setSelectedComplaint }: PropsType) {
           closeButton={true}
         >
           <div className="popup-container">
-            <p>temp while in dev: {selectedComplaint.unique_key}</p>
             <h3 id="incident_address">
               {selectedComplaint.incident_address.toLowerCase().replace(/\b\w/g, (char: string) => char.toUpperCase())}
             </h3>
@@ -45,7 +44,7 @@ function PopUp({ selectedComplaint, setSelectedComplaint }: PropsType) {
                   })
                 : 'Complaint is still open'}
             </p>
-            <h4>Complaint Resolution:</h4>
+            <h4>Resolution:</h4>
             <p className="popup-content">{selectedComplaint.resolution_description}</p>
             <p>{selectedComplaint.closed_date ? howLongTillComplaintResolvedUtil(selectedComplaint) : ''}</p>
           </div>

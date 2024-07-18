@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../assets/tolls-lol.png';
 import './ControlPanel.css';
 import LoadingSpinner from './LoadingSpinner';
 import { DisplayResolutionArrayType, setDisplayResolutionArrayType, resolutionLabelColorArrayType } from '../types';
@@ -35,8 +36,9 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resol
 
   return (
     <div className="control-panel">
-      <h1>Obscured License Plates in NYC</h1>
-      <h2>Visualizing 311 Complaint Data for 2024</h2>
+      <img src={logo} alt={'a New York State vanity plate that says TOLLS L.O.L'} />
+      <h1>Obscured License Plates Map</h1>
+      <h2>Mapping NYC's 311 Complaint Data</h2>
       <div className="control-panel-links-and-loader">
         <section className="link-section">
           <a
