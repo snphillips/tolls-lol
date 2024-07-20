@@ -11,6 +11,7 @@
 #map {
   width: 100vw;
   height: 100vh;
+  cursor: pointer;
 }
 
 .read-the-docs {
@@ -22,7 +23,6 @@
   border-radius: 50%;
   width: 7px;
   height: 7px;
-  cursor: pointer;
   opacity: 70%;
 }
 
@@ -68,7 +68,7 @@
   position: relative;
 }
 
-.control-panel-links-and-loader {
+.sidebar-links-and-loader {
   display: flex;
 }
 

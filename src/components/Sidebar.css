@@ -1,4 +1,4 @@
-.control-panel {
+.sidebar {
   background: #2b2f3b;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   color: #f3f7f2;
@@ -12,7 +12,7 @@
   height: 100%;
 }
 
-.control-panel-links-and-loader {
+.sidebar-links-and-loader {
   display: flex;
   justify-content: space-between;
 }
@@ -43,13 +43,13 @@ h3 {
   font-size: 1.2em;
 }
 
-input {
-  margin-left: 20px;
+.resolution-filter-input {
+  /* margin-left: 20px; */
 }
 
 label {
   display: inline-block;
-  width: 240px;
+  width: 180px;
 }
 
 .loading-container {

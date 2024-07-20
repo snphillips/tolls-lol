@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../assets/tolls-lol.png';
-import './ControlPanel.css';
+import './Sidebar.css';
 import LoadingSpinner from './LoadingSpinner';
 import { DisplayResolutionArrayType, setDisplayResolutionArrayType, resolutionLabelColorArrayType } from '../types';
 
@@ -10,7 +10,7 @@ type Props = {
   resolutionLabelColorArray: resolutionLabelColorArrayType;
 };
 
-function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resolutionLabelColorArray }: Props) {
+function Sidebar({ displayResolutionArray, setDisplayResolutionArray, resolutionLabelColorArray }: Props) {
   const handleCheckboxChange = (label: string) => {
     setDisplayResolutionArray((prevState) =>
       prevState.map((item) =>
@@ -35,11 +35,11 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resol
   };
 
   return (
-    <div className="control-panel">
+    <div className="sidebar">
       <img src={logo} alt={'a New York State vanity plate that says TOLLS L.O.L'} />
       <h1>Obscured License Plates Map</h1>
       <h2>Visualizing NYC's 311 Complaint Data</h2>
-      <div className="control-panel-links-and-loader">
+      <div className="sidebar-links-and-loader">
         <section className="link-section">
           <a
             className="source-link"
@@ -64,7 +64,7 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resol
       <h3>Complaint Resolution:</h3>
 
       {displayResolutionArray.map((item) => (
-        <div key={item.label} className="input">
+        <div key={item.label} className="resolution-filter-input">
           <span className="circle-example" style={{ backgroundColor: getCircleBackgroundColor(item.label) }} />
           <label htmlFor={`checkbox-${item.label}`}>{item.label}</label>
           <input
@@ -83,4 +83,4 @@ function ControlPanel({ displayResolutionArray, setDisplayResolutionArray, resol
   );
 }
 
-export default ControlPanel;
+export default Sidebar;

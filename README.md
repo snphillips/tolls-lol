@@ -78,7 +78,7 @@ Once the application is running, you can interact with the map to view complaint
 ## Project Structure
 
 - `src/App.tsx`: Main application component.
-- `src/ControlPanel.tsx`: Component for controlling the visibility of complaint resolutions.
+- `src/Sidebar.tsx`: Component for controlling the visibility of complaint resolutions.
 - `src/types.ts`: Type definitions for the project.
 - `src/resolutionLabelColorArray.ts`: Array of resolution descriptions and their associated colors.
 

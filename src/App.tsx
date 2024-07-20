@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Map, { Layer, Source, MapLayerMouseEvent, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import ControlPanel from './components/ControlPanel';
+import Sidebar from './components/Sidebar';
 import PopUp from './components/PopUp';
 import './App.css';
 import { ComplaintType, DisplayResolutionArrayType } from './types';
@@ -17,6 +17,7 @@ function App() {
     longitude: -73.960938659505,
     zoom: 11,
   });
+  const [cursor, setCursor] = useState<string>('auto');
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintType | null>(null);
   const [displayResolutionArray, setDisplayResolutionArray] = useState<DisplayResolutionArrayType>([
     { label: `Complaint still in progress`, visibility: true },
@@ -90,6 +91,9 @@ function App() {
     [setSelectedComplaint]
   );
 
+  const onMouseEnter = useCallback(() => setCursor('pointer'), []);
+  const onMouseLeave = useCallback(() => setCursor('auto'), []);
+
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -101,6 +105,9 @@ function App() {
         initialViewState={viewport}
         mapStyle={mapStyle}
         onClick={handleMapClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        cursor={cursor}
         interactiveLayerIds={['complaint-circles']}
       >
         <Source id="complaints" type="geojson" data={geoJsonData}>
@@ -133,7 +140,7 @@ function App() {
         )}
         <NavigationControl />
       </Map>
-      <ControlPanel
+      <Sidebar
         displayResolutionArray={displayResolutionArray}
         setDisplayResolutionArray={setDisplayResolutionArray}
         resolutionLabelColorArray={resolutionLabelColorArray}
