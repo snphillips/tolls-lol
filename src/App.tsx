@@ -18,6 +18,7 @@ function App() {
     zoom: 11,
   });
   const [cursor, setCursor] = useState<string>('auto');
+  const [resolutionTime, setResolutionTime] = useState<number | string | undefined>();
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintType | null>(null);
   const [displayResolutionArray, setDisplayResolutionArray] = useState<DisplayResolutionArrayType>([
     { label: `Complaint still in progress`, visibility: true },
@@ -144,6 +145,8 @@ function App() {
         displayResolutionArray={displayResolutionArray}
         setDisplayResolutionArray={setDisplayResolutionArray}
         resolutionLabelColorArray={resolutionLabelColorArray}
+        resolutionTime={resolutionTime}
+        setResolutionTime={setResolutionTime}
       />
     </div>
   );

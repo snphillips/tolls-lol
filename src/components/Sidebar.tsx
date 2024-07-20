@@ -1,16 +1,30 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import logo from '../assets/tolls-lol.png';
 import './Sidebar.css';
 import LoadingSpinner from './LoadingSpinner';
-import { DisplayResolutionArrayType, setDisplayResolutionArrayType, resolutionLabelColorArrayType } from '../types';
+import {
+  DisplayResolutionArrayType,
+  setDisplayResolutionArrayType,
+  resolutionLabelColorArrayType,
+  setResolutionTimeType,
+} from '../types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
   setDisplayResolutionArray: setDisplayResolutionArrayType;
   resolutionLabelColorArray: resolutionLabelColorArrayType;
+  resolutionTime: number | string | undefined;
+  setResolutionTime: setResolutionTimeType;
 };
 
-function Sidebar({ displayResolutionArray, setDisplayResolutionArray, resolutionLabelColorArray }: Props) {
+function Sidebar({
+  displayResolutionArray,
+  setDisplayResolutionArray,
+  resolutionLabelColorArray,
+  resolutionTime,
+  setResolutionTime,
+}: Props) {
   const handleCheckboxChange = (label: string) => {
     setDisplayResolutionArray((prevState) =>
       prevState.map((item) =>
@@ -25,8 +39,9 @@ function Sidebar({ displayResolutionArray, setDisplayResolutionArray, resolution
   };
 
   const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setResolutionTime(event.target.value);
     console.log('Range event.target.value:', event.target.value);
-    // TODO: figure out time to resolution
+    // TODO: insert code below that displays markers based on time to resolution
   };
 
   const getCircleBackgroundColor = (label: string): string => {
@@ -77,8 +92,7 @@ function Sidebar({ displayResolutionArray, setDisplayResolutionArray, resolution
       ))}
       <hr />
       <h3>Time to Resolution</h3>
-      {/* https://visgl.github.io/react-map-gl/examples/geojson */}
-      <input type="range" min="1" max="100" value="50" onChange={handleRangeChange} />
+      <input type="range" min={0} max={10000} value={resolutionTime} onChange={handleRangeChange} />
     </div>
   );
 }
