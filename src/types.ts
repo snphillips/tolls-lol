@@ -14,6 +14,7 @@ export type ResolutionLabelColorType = {
   resolution?: string[] | undefined[] | string;
   label: string;
   color: string;
+  borderColor: string;
 };
 
 export type resolutionLabelColorArrayType = ResolutionLabelColorType[];

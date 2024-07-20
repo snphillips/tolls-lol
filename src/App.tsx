@@ -110,6 +110,8 @@ function App() {
             paint={{
               'circle-radius': 5,
               'circle-opacity': 0.8,
+              'circle-stroke-width': 1,
+              'circle-stroke-color': 'black',
               'circle-color': [
                 'case',
                 [
@@ -119,7 +121,7 @@ function App() {
                 ],
                 `chartreuse`,
                 ['==', ['get', 'status'], `In Progress`],
-                'darkOrange',
+                'orangeRed',
                 'mediumPurple', // Default color
               ],
             }}
@@ -130,12 +132,12 @@ function App() {
           <PopUp selectedComplaint={selectedComplaint} setSelectedComplaint={setSelectedComplaint} />
         )}
         <NavigationControl />
-        <ControlPanel
-          displayResolutionArray={displayResolutionArray}
-          setDisplayResolutionArray={setDisplayResolutionArray}
-          resolutionLabelColorArray={resolutionLabelColorArray}
-        />
       </Map>
+      <ControlPanel
+        displayResolutionArray={displayResolutionArray}
+        setDisplayResolutionArray={setDisplayResolutionArray}
+        resolutionLabelColorArray={resolutionLabelColorArray}
+      />
     </div>
   );
 }

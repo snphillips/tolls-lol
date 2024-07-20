@@ -15,18 +15,21 @@ export const resolutionLabelColorArray = [
     status: 'In Progress',
     resolution: undefined,
     label: `Complaint still in progress`,
-    color: `darkOrange`,
+    color: `orangeRed`,
+    borderColor: `orangeRed`,
   },
   {
     status: 'Closed',
     resolution: `The Police Department issued a summons in response to the complaint.`,
     label: `Summons issued`,
     color: `chartreuse`,
+    borderColor: `chartreuse`,
   },
   {
     status: 'Closed',
     resolution: allOtherResolutionsArray,
     label: `Summons not issued`,
     color: `mediumPurple`,
+    borderColor: `mediumPurple`,
   },
 ];

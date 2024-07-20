@@ -71,3 +71,7 @@
 .control-panel-links-and-loader {
   display: flex;
 }
+
+.mapboxgl-ctrl-group button:last-child {
+  display: none;
+}
