@@ -87,9 +87,18 @@ function App() {
       } else {
         setSelectedComplaint(null);
       }
+      // I want to log the selected complaint
+      console.log(selectedComplaint);
     },
     [setSelectedComplaint]
   );
+
+  // For development purposes
+  useEffect(() => {
+    if (selectedComplaint) {
+      console.log('selectedComplaint:', selectedComplaint);
+    }
+  }, [selectedComplaint]);
 
   const onMouseEnter = useCallback(() => setCursor('pointer'), []);
   const onMouseLeave = useCallback(() => setCursor('auto'), []);

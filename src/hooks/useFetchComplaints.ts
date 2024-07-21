@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ComplaintType } from '../types';
 import { useLoading } from '../context/LoadingContext';
+// import { calculateTimeDifferenceUtil } from '../utils/calculateTimeDifferenceUtil'; // Import the utility function
+import { calculateTimeDiffMinutesUtil } from '../utils/calculateTimeDiffMinutesUtil'; // Import the utility function
 
 const dataURL = 'https://data.cityofnewyork.us/resource/erm2-nwe9.json';
 
@@ -54,10 +56,15 @@ const useFetchComplaints = () => {
 
       const dataWithLatLong = allData.filter((item: ComplaintType) => item.latitude && item.longitude);
 
-      setAllComplaints(dataWithLatLong);
+      // Calculate time difference for each complaint
+      const dataWithTimeDifference = dataWithLatLong.map((complaint) => ({
+        ...complaint,
+        timeDifferenceInMins: calculateTimeDiffMinutesUtil(complaint),
+      }));
+
+      setAllComplaints(dataWithTimeDifference);
       localStorage.setItem('complaints', JSON.stringify(dataWithLatLong));
       localStorage.setItem('lastFetch', new Date().toISOString());
-      console.log('Data fetching complete. Data saved to local storage.');
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -77,8 +84,8 @@ const useFetchComplaints = () => {
     const now = new Date().toISOString();
 
     // Comment out or adjust this condition for development
-    if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 12 * 60 * 60 * 1000) {
-      // if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 0.00000012 * 60 * 60 * 1000) {
+    // if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 12 * 60 * 60 * 1000) {
+    if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 0.00000012 * 60 * 60 * 1000) {
       console.log('Data is stale or not present. Fetching new data.');
       fetchData();
     } else {
