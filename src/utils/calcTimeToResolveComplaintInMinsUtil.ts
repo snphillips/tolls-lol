@@ -1,6 +1,6 @@
 import { ComplaintType } from '../types';
 
-export const calculateTimeDiffMinutesUtil = (complaint: ComplaintType): number | null => {
+export const calcTimeToResolveComplaintInMinsUtil = (complaint: ComplaintType): number | null => {
   if (!complaint) return null;
 
   const createdDate = new Date(complaint.created_date);

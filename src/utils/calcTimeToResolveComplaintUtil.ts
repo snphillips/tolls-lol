@@ -1,6 +1,6 @@
 import { ComplaintType } from '../types';
 
-export const calculateTimeDifferenceUtil = (complaint: ComplaintType) => {
+export const calcTimeToResolveComplaintUtil = (complaint: ComplaintType) => {
   // Return null if no complaint is selected
   if (!complaint) return null;
 

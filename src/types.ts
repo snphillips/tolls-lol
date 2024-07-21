@@ -7,6 +7,7 @@ export interface ComplaintType {
   resolution_description?: string;
   latitude?: string;
   longitude?: string;
+  timeDiffInMins?: number | null;
 }
 
 export type ResolutionLabelColorType = {
@@ -28,4 +29,6 @@ export type DisplayResolutionArrayType = ResolutionDisplayType[];
 
 export type setDisplayResolutionArrayType = React.Dispatch<React.SetStateAction<DisplayResolutionArrayType>>;
 export type SetSelectedComplaintType = React.Dispatch<React.SetStateAction<ComplaintType | null>>;
-export type setResolutionTimeType = React.Dispatch<React.SetStateAction<number | string | undefined>>;
+export type setResolutionTimeInMinsType = React.Dispatch<React.SetStateAction<number | string | undefined>>;
+export type minMaxTimeInMinutesType = { min: number; max: number };
+export type setMinMaxTimeInMinutesType = React.Dispatch<React.SetStateAction<minMaxTimeInMinutesType>>;

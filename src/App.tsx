@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Map, { Layer, Source, MapLayerMouseEvent, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -27,7 +28,11 @@ function App() {
     { label: `Summons issued`, visibility: true },
     { label: `Summons not issued`, visibility: true },
   ]);
-  const [resolutionTime, setResolutionTime] = useState<number | string | undefined>();
+  const [resolutionTimeInMins, setResolutionTimeInMins] = useState<number | string | undefined>();
+  const [minMaxTimeInMinutes, setMinMaxTimeInMinutes] = useState<{ min: number; max: number }>({
+    min: 0,
+    max: 10000,
+  });
 
   useEffect(() => {
     const filterData = () => {
@@ -54,7 +59,21 @@ function App() {
       setFilteredComplaints(dataWithLatLong);
     };
     filterData();
-  }, [displayResolutionArray, allComplaints, setLoading]);
+  }, [displayResolutionArray, allComplaints]);
+
+  // ===================new==========================
+  useEffect(() => {
+    const calculateMinMaxTime = () => {
+      const timeDifferences = filteredComplaints
+        .map((complaint) => complaint.timeDiffInMins)
+        .filter((time) => time !== null) as number[];
+      const minTime = Math.min(...timeDifferences);
+      const maxTime = Math.max(...timeDifferences);
+      setMinMaxTimeInMinutes({ min: minTime, max: maxTime });
+    };
+    calculateMinMaxTime();
+  }, [filteredComplaints]);
+  // =============================================
 
   const geoJsonData = useMemo(() => {
     return {
@@ -87,8 +106,6 @@ function App() {
       } else {
         setSelectedComplaint(null);
       }
-      // I want to log the selected complaint
-      console.log(selectedComplaint);
     },
     [setSelectedComplaint]
   );
@@ -153,8 +170,9 @@ function App() {
         displayResolutionArray={displayResolutionArray}
         setDisplayResolutionArray={setDisplayResolutionArray}
         resolutionLabelColorArray={resolutionLabelColorArray}
-        resolutionTime={resolutionTime}
-        setResolutionTime={setResolutionTime}
+        resolutionTimeInMins={resolutionTimeInMins}
+        setResolutionTimeInMins={setResolutionTimeInMins}
+        minMaxTimeInMinutes={minMaxTimeInMinutes}
       />
     </div>
   );

@@ -7,23 +7,26 @@ import {
   DisplayResolutionArrayType,
   setDisplayResolutionArrayType,
   resolutionLabelColorArrayType,
-  setResolutionTimeType,
+  setResolutionTimeInMinsType,
+  minMaxTimeInMinutesType,
 } from '../types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
   setDisplayResolutionArray: setDisplayResolutionArrayType;
   resolutionLabelColorArray: resolutionLabelColorArrayType;
-  resolutionTime: number | string | undefined;
-  setResolutionTime: setResolutionTimeType;
+  resolutionTimeInMins: number | string | undefined;
+  setResolutionTimeInMins: setResolutionTimeInMinsType;
+  minMaxTimeInMinutes: minMaxTimeInMinutesType;
 };
 
 function Sidebar({
   displayResolutionArray,
   setDisplayResolutionArray,
   resolutionLabelColorArray,
-  resolutionTime,
-  setResolutionTime,
+  resolutionTimeInMins,
+  setResolutionTimeInMins,
+  minMaxTimeInMinutes,
 }: Props) {
   const handleCheckboxChange = (label: string) => {
     setDisplayResolutionArray((prevState) =>
@@ -39,7 +42,7 @@ function Sidebar({
   };
 
   const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setResolutionTime(event.target.value);
+    setResolutionTimeInMins(event.target.value);
     console.log('Range event.target.value:', event.target.value);
     // TODO: insert code below that displays markers based on time to resolution
   };
@@ -92,7 +95,9 @@ function Sidebar({
       ))}
       <hr />
       <h3>Time to Resolution</h3>
-      <input type="range" min={0} max={10000} value={resolutionTime} onChange={handleRangeChange} />
+      <span>{minMaxTimeInMinutes.min}</span>
+      <input type="range" min={0} max={10000} value={resolutionTimeInMins} onChange={handleRangeChange} />
+      <span>{(minMaxTimeInMinutes.max / 60).toFixed(2)} hrs</span>
     </div>
   );
 }
