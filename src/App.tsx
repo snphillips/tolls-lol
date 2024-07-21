@@ -12,23 +12,22 @@ import { useLoading } from './context/LoadingContext';
 const mapStyle = 'mapbox://styles/mapbox/dark-v11?optimize=true';
 
 function App() {
+  const { setLoading } = useLoading();
+  const { allComplaints, error } = useFetchComplaints();
   const [viewport] = useState({
     latitude: 40.69093436877119,
     longitude: -73.960938659505,
     zoom: 11,
   });
   const [cursor, setCursor] = useState<string>('auto');
-  const [resolutionTime, setResolutionTime] = useState<number | string | undefined>();
+  const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintType | null>(null);
   const [displayResolutionArray, setDisplayResolutionArray] = useState<DisplayResolutionArrayType>([
-    { label: `Complaint still in progress`, visibility: true },
+    { label: `Complaint in progress`, visibility: true },
     { label: `Summons issued`, visibility: true },
     { label: `Summons not issued`, visibility: true },
   ]);
-
-  const { setLoading } = useLoading();
-  const { allComplaints, error } = useFetchComplaints();
-  const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
+  const [resolutionTime, setResolutionTime] = useState<number | string | undefined>();
 
   useEffect(() => {
     const filterData = () => {
@@ -40,7 +39,7 @@ function App() {
 
       const dataWithLatLong = allComplaints.filter((complaint) => {
         if (complaint.status === 'In Progress') {
-          // Complaints that are still in progress have resolutionDescription of undefined
+          // Complaints that are in progress have resolutionDescription of undefined
           return visibleResolutions.includes(undefined);
         }
         if (
