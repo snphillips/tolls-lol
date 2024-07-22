@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ComplaintType } from '../types';
 import { useLoading } from '../context/LoadingContext';
-import { calcTimeToResolveComplaintInMinsUtil } from '../utils/calcTimeToResolveComplaintInMinsUtil';
+import { calcTimeToResolveComplaintInMilliSecs } from '../utils/calcTimeToResolveComplaintInMilliSecs';
 
 const dataURL = 'https://data.cityofnewyork.us/resource/erm2-nwe9.json';
 
@@ -59,18 +59,18 @@ const useFetchComplaints = () => {
       // Calculate time difference for each complaint
       const dataWithTimeDifference = dataWithLatLong.map((complaint) => ({
         ...complaint,
-        timeDiffInMins: calcTimeToResolveComplaintInMinsUtil(complaint),
+        timeDiffInMilliSecs: calcTimeToResolveComplaintInMilliSecs(complaint),
       }));
 
       // Determine the min and max time difference
       // const timeDifferences = dataWithTimeDifference
-      //   .map((complaint) => complaint.timeDiffInMins)
+      //   .map((complaint) => complaint.timeDiffInMilliSecs)
       //   .filter((time) => time !== null) as number[];
       // const minTime = Math.min(...timeDifferences);
       // const maxTime = Math.max(...timeDifferences);
       // // Here's the problem. The state minMaxTimeInMinutes lives in App.tsx
       // // How do I get minMaxTimeInMinutes into this hook?
-      // setMinMaxTimeInMinutes({ min: minTime, max: maxTime });
+      // setMinMaxTimeInMillisecs({ min: minTime, max: maxTime });
 
       setAllComplaints(dataWithTimeDifference);
       localStorage.setItem('complaints', JSON.stringify(dataWithLatLong));

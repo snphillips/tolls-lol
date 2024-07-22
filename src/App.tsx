@@ -12,6 +12,8 @@ import { useLoading } from './context/LoadingContext';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11?optimize=true';
 
+// Note: We begin with the useFetchComplaints hook
+
 function App() {
   const { setLoading } = useLoading();
   const { allComplaints, error } = useFetchComplaints();
@@ -29,7 +31,7 @@ function App() {
     { label: `Summons not issued`, visibility: true },
   ]);
   const [resolutionTimeInMins, setResolutionTimeInMins] = useState<number | string | undefined>();
-  const [minMaxTimeInMinutes, setMinMaxTimeInMinutes] = useState<{ min: number; max: number }>({
+  const [minMaxTimeInMinutes, setMinMaxTimeInMillisecs] = useState<{ min: number; max: number }>({
     min: 0,
     max: 10000,
   });
@@ -65,11 +67,11 @@ function App() {
   useEffect(() => {
     const calculateMinMaxTime = () => {
       const timeDifferences = filteredComplaints
-        .map((complaint) => complaint.timeDiffInMins)
+        .map((complaint) => complaint.timeDiffInMilliSecs)
         .filter((time) => time !== null) as number[];
       const minTime = Math.min(...timeDifferences);
       const maxTime = Math.max(...timeDifferences);
-      setMinMaxTimeInMinutes({ min: minTime, max: maxTime });
+      setMinMaxTimeInMillisecs({ min: minTime, max: maxTime });
     };
     calculateMinMaxTime();
   }, [filteredComplaints]);

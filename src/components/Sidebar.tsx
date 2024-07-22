@@ -97,7 +97,7 @@ function Sidebar({
       <h3>Time to Resolution</h3>
       <span>{minMaxTimeInMinutes.min}</span>
       <input type="range" min={0} max={10000} value={resolutionTimeInMins} onChange={handleRangeChange} />
-      <span>{(minMaxTimeInMinutes.max / 60).toFixed(2)} hrs</span>
+      <span>{minMaxTimeInMinutes.max} minutes</span>
     </div>
   );
 }
