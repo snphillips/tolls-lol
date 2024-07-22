@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ComplaintType } from '../types';
 import { useLoading } from '../context/LoadingContext';
-import { calcTimeToResolveComplaintInMilliSecs } from '../utils/calcTimeToResolveComplaintInMilliSecs';
+import { calcTimeToResolveComplaintInMilliSeconds } from '../utils/calcTimeToResolveComplaintInMilliSeconds';
 
 const dataURL = 'https://data.cityofnewyork.us/resource/erm2-nwe9.json';
 
@@ -10,6 +10,16 @@ const useFetchComplaints = () => {
   const { setLoading } = useLoading();
   const [allComplaints, setAllComplaints] = useState<ComplaintType[]>([]);
   const [error, setError] = useState<string | null>(null);
+
+  const processComplaints = (complaints: ComplaintType[]) => {
+    const dataWithLatLong = complaints.filter((item: ComplaintType) => item.latitude && item.longitude);
+    // Calculate time difference between open & closed for every complaint
+    const dataWithTimeDifference = dataWithLatLong.map((complaint) => ({
+      ...complaint,
+      timeDiffInMilliSeconds: calcTimeToResolveComplaintInMilliSeconds(complaint),
+    }));
+    return dataWithTimeDifference;
+  };
 
   const fetchData = useCallback(async () => {
     console.log('Fetching data from API...');
@@ -54,26 +64,9 @@ const useFetchComplaints = () => {
         offset += totalFetched;
       } while (totalFetched === limit);
 
-      const dataWithLatLong = allData.filter((item: ComplaintType) => item.latitude && item.longitude);
-
-      // Calculate time difference for each complaint
-      const dataWithTimeDifference = dataWithLatLong.map((complaint) => ({
-        ...complaint,
-        timeDiffInMilliSecs: calcTimeToResolveComplaintInMilliSecs(complaint),
-      }));
-
-      // Determine the min and max time difference
-      // const timeDifferences = dataWithTimeDifference
-      //   .map((complaint) => complaint.timeDiffInMilliSecs)
-      //   .filter((time) => time !== null) as number[];
-      // const minTime = Math.min(...timeDifferences);
-      // const maxTime = Math.max(...timeDifferences);
-      // // Here's the problem. The state minMaxTimeInMilliseconds lives in App.tsx
-      // // How do I get minMaxTimeInMilliseconds into this hook?
-      // setMinMaxTimeInMilliseconds({ min: minTime, max: maxTime });
-
-      setAllComplaints(dataWithTimeDifference);
-      localStorage.setItem('complaints', JSON.stringify(dataWithLatLong));
+      const processedData = processComplaints(allData);
+      setAllComplaints(processedData);
+      localStorage.setItem('complaints', JSON.stringify(allData));
       localStorage.setItem('lastFetch', new Date().toISOString());
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -87,22 +80,23 @@ const useFetchComplaints = () => {
       // stop loading spinner & no loading message
       setLoading(false, '');
     }
-  }, []);
+  }, [setLoading]);
 
   useEffect(() => {
     const lastFetch = localStorage.getItem('lastFetch');
     const now = new Date().toISOString();
 
     // Comment out or adjust this condition for development
-    // if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 12 * 60 * 60 * 1000) {
-    if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 0.00000012 * 60 * 60 * 1000) {
+    if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 12 * 60 * 60 * 1000) {
+      // if (!lastFetch || new Date(now).getTime() - new Date(lastFetch).getTime() > 0.00000012 * 60 * 60 * 1000) {
       console.log('Data is stale or not present. Fetching new data.');
       fetchData();
     } else {
       const cachedData = localStorage.getItem('complaints');
       if (cachedData) {
         const parsedData = JSON.parse(cachedData);
-        setAllComplaints(parsedData);
+        const processedData = processComplaints(parsedData);
+        setAllComplaints(processedData);
         console.log('Loaded data from local storage.');
       } else {
         console.log('No cached data found. Fetching new data.');

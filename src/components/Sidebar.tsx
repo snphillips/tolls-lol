@@ -8,7 +8,8 @@ import {
   setDisplayResolutionArrayType,
   resolutionLabelColorArrayType,
   setResolutionTimeInMinsType,
-  minMaxTimeInMillisecondsType,
+  minTimeInMillisecondsType,
+  maxTimeInMillisecondsType,
 } from '../types';
 
 type Props = {
@@ -17,7 +18,8 @@ type Props = {
   resolutionLabelColorArray: resolutionLabelColorArrayType;
   resolutionTimeInMins: number | string | undefined;
   setResolutionTimeInMins: setResolutionTimeInMinsType;
-  minMaxTimeInMilliseconds: minMaxTimeInMillisecondsType;
+  minTimeInMilliseconds: minTimeInMillisecondsType;
+  maxTimeInMilliseconds: maxTimeInMillisecondsType;
 };
 
 function Sidebar({
@@ -26,7 +28,8 @@ function Sidebar({
   resolutionLabelColorArray,
   resolutionTimeInMins,
   setResolutionTimeInMins,
-  minMaxTimeInMilliseconds,
+  minTimeInMilliseconds,
+  maxTimeInMilliseconds,
 }: Props) {
   const handleCheckboxChange = (label: string) => {
     setDisplayResolutionArray((prevState) =>
@@ -95,9 +98,10 @@ function Sidebar({
       ))}
       <hr />
       <h3>Time to Resolution</h3>
-      <span>{minMaxTimeInMilliseconds.min}</span>
+      <span>{isNaN(minTimeInMilliseconds) ? 0 : minTimeInMilliseconds}</span>
       <input type="range" min={0} max={10000} value={resolutionTimeInMins} onChange={handleRangeChange} />
-      <span>{minMaxTimeInMilliseconds.max}</span>
+      <span>{maxTimeInMilliseconds}</span>
+      {/* <span>{isNaN(maxTimeInMilliseconds) ? 'N/A' : maxTimeInMilliseconds}</span> */}
     </div>
   );
 }

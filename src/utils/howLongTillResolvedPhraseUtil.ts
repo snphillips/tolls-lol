@@ -1,11 +1,11 @@
 import pluralize from 'pluralize';
 import { ComplaintType } from '../types';
-import { calcTimeToResolveComplaintInMilliSecs } from './calcTimeToResolveComplaintInMilliSecs';
+import { calcTimeToResolveComplaintInMilliSeconds } from './calcTimeToResolveComplaintInMilliSeconds';
 import { formatDuration } from './formatDurationUtil';
 
 export const howLongTillResolvedPhraseUtil = (complaint: ComplaintType): string => {
   // Get the time difference
-  const timeDiff = calcTimeToResolveComplaintInMilliSecs(complaint);
+  const timeDiff = calcTimeToResolveComplaintInMilliSeconds(complaint);
 
   if (!timeDiff) return 'Complaint is still open';
 

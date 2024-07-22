@@ -12,8 +12,6 @@ import { useLoading } from './context/LoadingContext';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11?optimize=true';
 
-// Note: We begin with the useFetchComplaints hook
-
 function App() {
   const { setLoading } = useLoading();
   const { allComplaints, error } = useFetchComplaints();
@@ -26,19 +24,34 @@ function App() {
   const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintType | null>(null);
   const [displayResolutionArray, setDisplayResolutionArray] = useState<DisplayResolutionArrayType>([
-    { label: `Complaint in progress`, visibility: true },
-    { label: `Summons issued`, visibility: true },
-    { label: `Summons not issued`, visibility: true },
+    { label: 'Complaint in progress', visibility: true },
+    { label: 'Summons issued', visibility: true },
+    { label: 'Summons not issued', visibility: true },
   ]);
   const [resolutionTimeInMins, setResolutionTimeInMins] = useState<number | string | undefined>();
-  const [minMaxTimeInMilliseconds, setMinMaxTimeInMilliseconds] = useState<{ min: number; max: number }>({
-    min: 0,
-    max: 1000000000,
-  });
+  const [minTimeInMilliseconds, setMinTimeInMilliseconds] = useState<number>(0);
+  const [maxTimeInMilliseconds, setMaxTimeInMilliseconds] = useState<number>(100000000);
 
-  const [hoveredFeatureId, setHoveredFeatureId] = useState<string | null>(null);
+  const calculateMinMaxTime = (complaints: ComplaintType[]) => {
+    const timeDifferences = complaints
+      .map((complaint) => complaint.timeDiffInMilliSeconds)
+      .filter((time) => time !== null) as number[];
+
+    if (timeDifferences.length === 0) {
+      return;
+    }
+
+    const minTime = Math.min(...timeDifferences);
+    const maxTime = Math.max(...timeDifferences);
+    setMinTimeInMilliseconds(minTime);
+    setMaxTimeInMilliseconds(maxTime);
+  };
 
   useEffect(() => {
+    if (allComplaints.length > 0) {
+      calculateMinMaxTime(allComplaints);
+    }
+
     const filterData = () => {
       const visibleLabels = displayResolutionArray.filter((item) => item.visibility).map((item) => item.label);
 
@@ -48,13 +61,12 @@ function App() {
 
       const dataWithLatLong = allComplaints.filter((complaint) => {
         if (complaint.status === 'In Progress') {
-          // In the data, complaints that are 'In progress' have resolutionDescription of undefined
           return visibleResolutions.includes(undefined);
         }
         if (
-          complaint.resolution_description === `The Police Department issued a summons in response to the complaint.`
+          complaint.resolution_description === 'The Police Department issued a summons in response to the complaint.'
         ) {
-          return visibleResolutions.includes(`The Police Department issued a summons in response to the complaint.`);
+          return visibleResolutions.includes('The Police Department issued a summons in response to the complaint.');
         } else {
           return visibleResolutions.includes(allOtherResolutionsArray);
         }
@@ -64,18 +76,6 @@ function App() {
     };
     filterData();
   }, [displayResolutionArray, allComplaints]);
-
-  useEffect(() => {
-    const calculateMinMaxTime = () => {
-      const timeDifferences = filteredComplaints
-        .map((complaint) => complaint.timeDiffInMilliSecs)
-        .filter((time) => time !== null) as number[];
-      const minTime = Math.min(...timeDifferences);
-      const maxTime = Math.max(...timeDifferences);
-      setMinMaxTimeInMilliseconds({ min: minTime, max: maxTime });
-    };
-    calculateMinMaxTime();
-  }, [filteredComplaints]);
 
   const geoJsonData = useMemo(() => {
     return {
@@ -113,28 +113,22 @@ function App() {
     [setSelectedComplaint]
   );
 
-  // For development purposes
   useEffect(() => {
     if (selectedComplaint) {
       console.log('👉 selectedComplaint:', selectedComplaint);
+      console.log('👉 minTimeInMilliseconds:', minTimeInMilliseconds);
     }
   }, [selectedComplaint]);
 
-  const handleMouseEnter = useCallback(
-    (event: MapLayerMouseEvent) => {
-      const features = event.features;
-      if (features && features.length > 0) {
-        const hoveredFeature = features[0];
-        setCursor('pointer');
-        setHoveredFeatureId(hoveredFeature.id as string);
-      }
-    },
-    [setHoveredFeatureId]
-  );
+  const handleMouseEnter = useCallback((event: MapLayerMouseEvent) => {
+    const features = event.features;
+    if (features && features.length > 0) {
+      setCursor('pointer');
+    }
+  }, []);
 
   const handleMouseLeave = useCallback(() => {
     setCursor('auto');
-    setHoveredFeatureId(null);
   }, []);
 
   if (error) {
@@ -158,9 +152,8 @@ function App() {
             id="complaint-circles"
             type="circle"
             paint={{
-              //  The ?? operator provides a default value when selectedComplaint is null or undefined.
               'circle-radius': ['case', ['==', ['get', 'unique_key'], selectedComplaint?.unique_key ?? null], 10, 5],
-              'circle-opacity': ['case', ['==', ['get', 'unique_key'], selectedComplaint?.unique_key ?? null], 1, 0.6],
+              'circle-opacity': ['case', ['==', ['get', 'unique_key'], selectedComplaint?.unique_key ?? null], 1, 0.7],
               'circle-stroke-width': [
                 'case',
                 ['==', ['get', 'unique_key'], selectedComplaint?.unique_key ?? null],
@@ -178,7 +171,7 @@ function App() {
                   'The Police Department issued a summons in response to the complaint.',
                 ],
                 'chartreuse',
-                'mediumPurple', // Default color
+                'mediumPurple',
               ],
             }}
           />
@@ -195,7 +188,8 @@ function App() {
         resolutionLabelColorArray={resolutionLabelColorArray}
         resolutionTimeInMins={resolutionTimeInMins}
         setResolutionTimeInMins={setResolutionTimeInMins}
-        minMaxTimeInMilliseconds={minMaxTimeInMilliseconds}
+        minTimeInMilliseconds={minTimeInMilliseconds}
+        maxTimeInMilliseconds={maxTimeInMilliseconds}
       />
     </div>
   );
