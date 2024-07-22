@@ -68,9 +68,9 @@ const useFetchComplaints = () => {
       //   .filter((time) => time !== null) as number[];
       // const minTime = Math.min(...timeDifferences);
       // const maxTime = Math.max(...timeDifferences);
-      // // Here's the problem. The state minMaxTimeInMinutes lives in App.tsx
-      // // How do I get minMaxTimeInMinutes into this hook?
-      // setMinMaxTimeInMillisecs({ min: minTime, max: maxTime });
+      // // Here's the problem. The state minMaxTimeInMilliseconds lives in App.tsx
+      // // How do I get minMaxTimeInMilliseconds into this hook?
+      // setMinMaxTimeInMilliseconds({ min: minTime, max: maxTime });
 
       setAllComplaints(dataWithTimeDifference);
       localStorage.setItem('complaints', JSON.stringify(dataWithLatLong));

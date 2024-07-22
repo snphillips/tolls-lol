@@ -31,10 +31,12 @@ function App() {
     { label: `Summons not issued`, visibility: true },
   ]);
   const [resolutionTimeInMins, setResolutionTimeInMins] = useState<number | string | undefined>();
-  const [minMaxTimeInMinutes, setMinMaxTimeInMillisecs] = useState<{ min: number; max: number }>({
+  const [minMaxTimeInMilliseconds, setMinMaxTimeInMilliseconds] = useState<{ min: number; max: number }>({
     min: 0,
-    max: 10000,
+    max: 1000000000,
   });
+
+  const [hoveredFeatureId, setHoveredFeatureId] = useState<string | null>(null);
 
   useEffect(() => {
     const filterData = () => {
@@ -46,7 +48,7 @@ function App() {
 
       const dataWithLatLong = allComplaints.filter((complaint) => {
         if (complaint.status === 'In Progress') {
-          // Complaints that are in progress have resolutionDescription of undefined
+          // In the data, complaints that are 'In progress' have resolutionDescription of undefined
           return visibleResolutions.includes(undefined);
         }
         if (
@@ -63,7 +65,6 @@ function App() {
     filterData();
   }, [displayResolutionArray, allComplaints]);
 
-  // ===================new==========================
   useEffect(() => {
     const calculateMinMaxTime = () => {
       const timeDifferences = filteredComplaints
@@ -71,11 +72,10 @@ function App() {
         .filter((time) => time !== null) as number[];
       const minTime = Math.min(...timeDifferences);
       const maxTime = Math.max(...timeDifferences);
-      setMinMaxTimeInMillisecs({ min: minTime, max: maxTime });
+      setMinMaxTimeInMilliseconds({ min: minTime, max: maxTime });
     };
     calculateMinMaxTime();
   }, [filteredComplaints]);
-  // =============================================
 
   const geoJsonData = useMemo(() => {
     return {
@@ -95,6 +95,7 @@ function App() {
             type: 'Point' as const,
             coordinates: [parseFloat(complaint.longitude!), parseFloat(complaint.latitude!)],
           },
+          id: complaint.unique_key,
         })),
     };
   }, [filteredComplaints]);
@@ -115,12 +116,26 @@ function App() {
   // For development purposes
   useEffect(() => {
     if (selectedComplaint) {
-      console.log('selectedComplaint:', selectedComplaint);
+      console.log('👉 selectedComplaint:', selectedComplaint);
     }
   }, [selectedComplaint]);
 
-  const onMouseEnter = useCallback(() => setCursor('pointer'), []);
-  const onMouseLeave = useCallback(() => setCursor('auto'), []);
+  const handleMouseEnter = useCallback(
+    (event: MapLayerMouseEvent) => {
+      const features = event.features;
+      if (features && features.length > 0) {
+        const hoveredFeature = features[0];
+        setCursor('pointer');
+        setHoveredFeatureId(hoveredFeature.id as string);
+      }
+    },
+    [setHoveredFeatureId]
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    setCursor('auto');
+    setHoveredFeatureId(null);
+  }, []);
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -133,8 +148,8 @@ function App() {
         initialViewState={viewport}
         mapStyle={mapStyle}
         onClick={handleMapClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         cursor={cursor}
         interactiveLayerIds={['complaint-circles']}
       >
@@ -143,20 +158,26 @@ function App() {
             id="complaint-circles"
             type="circle"
             paint={{
-              'circle-radius': 5,
-              'circle-opacity': 0.8,
-              'circle-stroke-width': 1,
+              //  The ?? operator provides a default value when selectedComplaint is null or undefined.
+              'circle-radius': ['case', ['==', ['get', 'unique_key'], selectedComplaint?.unique_key ?? null], 10, 5],
+              'circle-opacity': ['case', ['==', ['get', 'unique_key'], selectedComplaint?.unique_key ?? null], 1, 0.6],
+              'circle-stroke-width': [
+                'case',
+                ['==', ['get', 'unique_key'], selectedComplaint?.unique_key ?? null],
+                2,
+                1,
+              ],
               'circle-stroke-color': 'black',
               'circle-color': [
                 'case',
+                ['==', ['get', 'status'], 'In Progress'],
+                'orangeRed',
                 [
                   '==',
                   ['get', 'resolution_description'],
-                  `The Police Department issued a summons in response to the complaint.`,
+                  'The Police Department issued a summons in response to the complaint.',
                 ],
-                `chartreuse`,
-                ['==', ['get', 'status'], `In Progress`],
-                'orangeRed',
+                'chartreuse',
                 'mediumPurple', // Default color
               ],
             }}
@@ -174,7 +195,7 @@ function App() {
         resolutionLabelColorArray={resolutionLabelColorArray}
         resolutionTimeInMins={resolutionTimeInMins}
         setResolutionTimeInMins={setResolutionTimeInMins}
-        minMaxTimeInMinutes={minMaxTimeInMinutes}
+        minMaxTimeInMilliseconds={minMaxTimeInMilliseconds}
       />
     </div>
   );
