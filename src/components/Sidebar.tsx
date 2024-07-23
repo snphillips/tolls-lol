@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import logo from '../assets/tolls-lol.png';
 import './Sidebar.css';
 import LoadingSpinner from './LoadingSpinner';
+import { formatDurationForSlider } from '../utils/formatDurationForSlider';
 import {
   DisplayResolutionArrayType,
   setDisplayResolutionArrayType,
@@ -98,10 +98,15 @@ function Sidebar({
       ))}
       <hr />
       <h3>Time to Resolution</h3>
-      <span>{isNaN(minTimeInMilliseconds) ? 0 : minTimeInMilliseconds}</span>
-      <input type="range" min={0} max={10000} value={resolutionTimeInMins} onChange={handleRangeChange} />
-      <span>{maxTimeInMilliseconds}</span>
-      {/* <span>{isNaN(maxTimeInMilliseconds) ? 'N/A' : maxTimeInMilliseconds}</span> */}
+      <span>{formatDurationForSlider(minTimeInMilliseconds)}</span>
+      <input
+        type="range"
+        min={minTimeInMilliseconds}
+        max={maxTimeInMilliseconds}
+        value={resolutionTimeInMins}
+        onChange={handleRangeChange}
+      />
+      <span>{formatDurationForSlider(maxTimeInMilliseconds)}</span>
     </div>
   );
 }

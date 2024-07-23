@@ -1,5 +1,5 @@
 import { Popup } from 'react-map-gl';
-import { howLongTillResolvedPhraseUtil } from '../utils/howLongTillResolvedPhraseUtil';
+import { howLongTillResolvedPhrase } from '../utils/howLongTillResolvedPhrase';
 import { ComplaintType, SetSelectedComplaintType } from '../types';
 
 type PropsType = {
@@ -48,7 +48,7 @@ function PopUp({ selectedComplaint, setSelectedComplaint }: PropsType) {
                 </p>
                 <h4>Resolution:</h4>
                 <p className="popup-content">{selectedComplaint.resolution_description}</p>
-                <p>{selectedComplaint.closed_date ? howLongTillResolvedPhraseUtil(selectedComplaint) : ''}</p>
+                <p>{selectedComplaint.closed_date ? howLongTillResolvedPhrase(selectedComplaint) : ''}</p>
               </>
             )}
           </div>

@@ -1,18 +1,14 @@
 import pluralize from 'pluralize';
 import { ComplaintType } from '../types';
 import { calcTimeToResolveComplaintInMilliSeconds } from './calcTimeToResolveComplaintInMilliSeconds';
-import { formatDuration } from './formatDurationUtil';
+import { formatDuration } from './formatDuration';
 
-export const howLongTillResolvedPhraseUtil = (complaint: ComplaintType): string => {
-  // Get the time difference
-  const timeDiff = calcTimeToResolveComplaintInMilliSeconds(complaint);
+export const howLongTillResolvedPhrase = (complaint: ComplaintType): string => {
+  const timeDiffinMilliseconds = calcTimeToResolveComplaintInMilliSeconds(complaint);
 
-  if (!timeDiff) return 'Complaint is still open';
+  if (!timeDiffinMilliseconds) return 'Complaint is still open';
 
-  //
-  // formatDuration(timeDiff);
-
-  const { days, hours, minutes } = formatDuration(timeDiff);
+  const { days, hours, minutes } = formatDuration(timeDiffinMilliseconds);
 
   // If the issue is resolved in less than 1 hour, display only the minutes
   if (days === 0 && hours === 0) {
