@@ -6,9 +6,6 @@ import { formatDuration } from './formatDuration';
 export const formatDurationForSlider = (timeDiffinMilliseconds: number): string => {
   // First format the time difference into days, hours and minutes
   const { days, hours, minutes } = formatDuration(timeDiffinMilliseconds);
-  console.log('days:', days);
-  console.log('hours:', hours);
-  console.log('minutes:', minutes);
 
   // If the issue is resolved in less than 1 hour,
   // display only the minutes

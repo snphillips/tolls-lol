@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Map, { Layer, Source, MapLayerMouseEvent, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -8,12 +7,10 @@ import './App.css';
 import { ComplaintType, DisplayResolutionArrayType } from './types';
 import { resolutionLabelColorArray, allOtherResolutionsArray } from './data/resolutionLabelColorArray';
 import useFetchComplaints from './hooks/useFetchComplaints';
-import { useLoading } from './context/LoadingContext';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11?optimize=true';
 
 function App() {
-  const { setLoading } = useLoading();
   const { allComplaints, error } = useFetchComplaints();
   const [viewport] = useState({
     latitude: 40.69093436877119,
@@ -28,14 +25,14 @@ function App() {
     { label: 'Summons issued', visibility: true },
     { label: 'Summons not issued', visibility: true },
   ]);
-  const [resolutionTimeInMins, setResolutionTimeInMins] = useState<number | string | undefined>();
   const [minTimeInMilliseconds, setMinTimeInMilliseconds] = useState<number>(0);
   const [maxTimeInMilliseconds, setMaxTimeInMilliseconds] = useState<number>(100000000);
+  const [sliderResolutionTime, setSliderResolutionTime] = useState<number>(maxTimeInMilliseconds); // Start with max value
 
   const calculateMinMaxTime = (complaints: ComplaintType[]) => {
     const timeDifferences = complaints
       .map((complaint) => complaint.timeDiffInMilliSeconds)
-      .filter((time) => time !== null) as number[];
+      .filter((time): time is number => time !== null && time !== undefined);
 
     if (timeDifferences.length === 0) {
       return;
@@ -45,6 +42,7 @@ function App() {
     const maxTime = Math.max(...timeDifferences);
     setMinTimeInMilliseconds(minTime);
     setMaxTimeInMilliseconds(maxTime);
+    // setSliderResolutionTime(maxTime); // Initialize slider value to max time
   };
 
   useEffect(() => {
@@ -60,22 +58,29 @@ function App() {
         .map((item) => item.resolution);
 
       const dataWithLatLong = allComplaints.filter((complaint) => {
+        const timeDiff = complaint.timeDiffInMilliSeconds;
+        const withinTimeRange =
+          timeDiff !== undefined && timeDiff >= minTimeInMilliseconds && timeDiff <= sliderResolutionTime;
+
         if (complaint.status === 'In Progress') {
-          return visibleResolutions.includes(undefined);
+          return visibleResolutions.includes(undefined) && withinTimeRange;
         }
         if (
           complaint.resolution_description === 'The Police Department issued a summons in response to the complaint.'
         ) {
-          return visibleResolutions.includes('The Police Department issued a summons in response to the complaint.');
+          return (
+            visibleResolutions.includes('The Police Department issued a summons in response to the complaint.') &&
+            withinTimeRange
+          );
         } else {
-          return visibleResolutions.includes(allOtherResolutionsArray);
+          return visibleResolutions.includes(allOtherResolutionsArray) && withinTimeRange;
         }
       });
 
       setFilteredComplaints(dataWithLatLong);
     };
     filterData();
-  }, [displayResolutionArray, allComplaints]);
+  }, [displayResolutionArray, allComplaints, minTimeInMilliseconds, sliderResolutionTime]);
 
   const geoJsonData = useMemo(() => {
     return {
@@ -186,8 +191,8 @@ function App() {
         displayResolutionArray={displayResolutionArray}
         setDisplayResolutionArray={setDisplayResolutionArray}
         resolutionLabelColorArray={resolutionLabelColorArray}
-        resolutionTimeInMins={resolutionTimeInMins}
-        setResolutionTimeInMins={setResolutionTimeInMins}
+        sliderResolutionTime={sliderResolutionTime}
+        setSliderResolutionTime={setSliderResolutionTime}
         minTimeInMilliseconds={minTimeInMilliseconds}
         maxTimeInMilliseconds={maxTimeInMilliseconds}
       />

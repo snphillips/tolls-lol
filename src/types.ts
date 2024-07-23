@@ -29,7 +29,7 @@ export type DisplayResolutionArrayType = ResolutionDisplayType[];
 
 export type setDisplayResolutionArrayType = React.Dispatch<React.SetStateAction<DisplayResolutionArrayType>>;
 export type SetSelectedComplaintType = React.Dispatch<React.SetStateAction<ComplaintType | null>>;
-export type setResolutionTimeInMinsType = React.Dispatch<React.SetStateAction<number | string | undefined>>;
+export type setSliderResolutionTimeType = React.Dispatch<React.SetStateAction<number>>;
 export type minTimeInMillisecondsType = number;
 export type maxTimeInMillisecondsType = number;
 export type setMinTimeInMillisecondsType = React.Dispatch<React.SetStateAction<minTimeInMillisecondsType>>;

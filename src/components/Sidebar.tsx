@@ -7,7 +7,7 @@ import {
   DisplayResolutionArrayType,
   setDisplayResolutionArrayType,
   resolutionLabelColorArrayType,
-  setResolutionTimeInMinsType,
+  setSliderResolutionTimeType,
   minTimeInMillisecondsType,
   maxTimeInMillisecondsType,
 } from '../types';
@@ -16,8 +16,8 @@ type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
   setDisplayResolutionArray: setDisplayResolutionArrayType;
   resolutionLabelColorArray: resolutionLabelColorArrayType;
-  resolutionTimeInMins: number | string | undefined;
-  setResolutionTimeInMins: setResolutionTimeInMinsType;
+  sliderResolutionTime: number;
+  setSliderResolutionTime: setSliderResolutionTimeType;
   minTimeInMilliseconds: minTimeInMillisecondsType;
   maxTimeInMilliseconds: maxTimeInMillisecondsType;
 };
@@ -26,8 +26,8 @@ function Sidebar({
   displayResolutionArray,
   setDisplayResolutionArray,
   resolutionLabelColorArray,
-  resolutionTimeInMins,
-  setResolutionTimeInMins,
+  sliderResolutionTime,
+  setSliderResolutionTime,
   minTimeInMilliseconds,
   maxTimeInMilliseconds,
 }: Props) {
@@ -44,10 +44,8 @@ function Sidebar({
     );
   };
 
-  const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setResolutionTimeInMins(event.target.value);
-    console.log('Range event.target.value:', event.target.value);
-    // TODO: insert code below that displays markers based on time to resolution
+  const handleRangeSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSliderResolutionTime(Number(event.target.value));
   };
 
   const getCircleBackgroundColor = (label: string): string => {
@@ -97,14 +95,15 @@ function Sidebar({
         </div>
       ))}
       <hr />
-      <h3>Time to Resolution</h3>
+      <h3>Time to Resolution: {formatDurationForSlider(sliderResolutionTime)}</h3>
       <span>{formatDurationForSlider(minTimeInMilliseconds)}</span>
       <input
         type="range"
+        id="time-slider"
         min={minTimeInMilliseconds}
         max={maxTimeInMilliseconds}
-        value={resolutionTimeInMins}
-        onChange={handleRangeChange}
+        value={sliderResolutionTime}
+        onChange={handleRangeSliderChange}
       />
       <span>{formatDurationForSlider(maxTimeInMilliseconds)}</span>
     </div>
