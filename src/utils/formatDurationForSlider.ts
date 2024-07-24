@@ -3,9 +3,9 @@ import pluralize from 'pluralize';
 // import { calcTimeToResolveComplaintInMilliSeconds } from './calcTimeToResolveComplaintInMilliSeconds';
 import { formatDuration } from './formatDuration';
 
-export const formatDurationForSlider = (timeDiffinMilliseconds: number): string => {
+export const formatDurationForSlider = (timeDiffInMilliseconds: number): string => {
   // First format the time difference into days, hours and minutes
-  const { days, hours, minutes } = formatDuration(timeDiffinMilliseconds);
+  const { days, hours, minutes } = formatDuration(timeDiffInMilliseconds);
 
   // If the issue is resolved in less than 1 minute,
   // display one minute

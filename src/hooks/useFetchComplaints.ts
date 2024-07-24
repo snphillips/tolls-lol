@@ -16,7 +16,7 @@ const useFetchComplaints = () => {
     // Calculate time difference between open & closed for every complaint
     const dataWithTimeDifference = dataWithLatLong.map((complaint) => ({
       ...complaint,
-      timeDiffInMilliSeconds: calcTimeToResolveComplaintInMilliSeconds(complaint),
+      timeDiffInMilliseconds: calcTimeToResolveComplaintInMilliSeconds(complaint),
     }));
     return dataWithTimeDifference;
   };

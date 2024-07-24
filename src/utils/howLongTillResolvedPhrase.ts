@@ -4,11 +4,11 @@ import { calcTimeToResolveComplaintInMilliSeconds } from './calcTimeToResolveCom
 import { formatDuration } from './formatDuration';
 
 export const howLongTillResolvedPhrase = (complaint: ComplaintType): string => {
-  const timeDiffinMilliseconds = calcTimeToResolveComplaintInMilliSeconds(complaint);
+  const timeDiffInMilliseconds = calcTimeToResolveComplaintInMilliSeconds(complaint);
 
-  if (!timeDiffinMilliseconds) return 'Complaint is still open';
+  if (!timeDiffInMilliseconds) return 'Complaint is still open';
 
-  const { days, hours, minutes } = formatDuration(timeDiffinMilliseconds);
+  const { days, hours, minutes } = formatDuration(timeDiffInMilliseconds);
 
   // If the issue is resolved in less than 1 hour, display only the minutes
   if (days === 0 && hours === 0) {

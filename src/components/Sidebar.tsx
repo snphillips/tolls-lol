@@ -59,11 +59,19 @@ function Sidebar({
   });
 
   const marks = [
-    { value: minRangeTime, label: '1 min' },
-    { value: 10800000, label: '3hrs' },
-    { value: 21600000, label: '6hrs' },
-    { value: 43200000, label: '12hrs' },
-    { value: maxRangeTime, label: '1day' },
+    { value: 0, label: '0' },
+    { value: 3600000, label: '1' },
+    { value: 7200000, label: '2' },
+    { value: 10800000, label: '3' },
+    { value: 14400000, label: '4' },
+    { value: 18000000, label: '5' },
+    { value: 21600000, label: '6' },
+    { value: 25200000, label: '7' },
+    { value: 28800000, label: '8' },
+    { value: 32400000, label: '9' },
+    { value: 36000000, label: '10' },
+    { value: 39600000, label: '11' },
+    { value: 43200000, label: '12' },
   ];
 
   function valuetext(value: number) {
@@ -131,8 +139,8 @@ function Sidebar({
           getAriaValueText={valuetext}
           step={60000} // 1 minute in milliseconds
           marks={marks}
-          min={minRangeTime}
-          max={maxRangeTime}
+          min={0}
+          max={43200000}
         />
       </Box>
     </div>

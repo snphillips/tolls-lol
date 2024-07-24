@@ -7,7 +7,7 @@ export interface ComplaintType {
   resolution_description?: string;
   latitude?: string;
   longitude?: string;
-  timeDiffInMilliSeconds?: number | null;
+  timeDiffInMilliseconds?: number | null;
 }
 
 export type ResolutionLabelColorType = {

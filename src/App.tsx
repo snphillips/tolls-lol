@@ -25,26 +25,11 @@ function App() {
     { label: 'Summons issued', visibility: true },
     { label: 'Summons not issued', visibility: true },
   ]);
-  const [minRangeTime] = useState<number>(60000);
-  const [maxRangeTime] = useState<number>(86400000);
+  const [minRangeTime] = useState<number>(0); // 0
+  const [maxRangeTime] = useState<number>(43200000); // 12 hrs
   const [rangeSliderResolutionTime, setRangeSliderResolutionTime] = useState<number[]>([minRangeTime, maxRangeTime]);
 
-  const calculateMinMaxTime = (complaints: ComplaintType[]) => {
-    const timeDifferences = complaints
-      .map((complaint) => complaint.timeDiffInMilliSeconds)
-      .filter((time): time is number => time !== null && time !== undefined);
-
-    if (timeDifferences.length === 0) {
-      return;
-    }
-  };
-
   useEffect(() => {
-    // If there are complaints, calculate the minimum and maximum time differences
-    if (allComplaints.length > 0) {
-      calculateMinMaxTime(allComplaints);
-    }
-
     // Function to filter complaints based on visibility and time range
     const filterData = () => {
       // Get the labels of resolutions that are currently set to be visible
@@ -57,31 +42,28 @@ function App() {
 
       // Filter complaints based on their time difference and resolution description
       const dataWithLatLong = allComplaints.filter((complaint) => {
-        // const timeDiff = complaint.timeDiffInMilliSeconds;
+        const timeDiff = complaint.timeDiffInMilliseconds;
         // Check if the complaint's time difference is within the range specified by the slider
-        // const withinTimeRange = maxRangeTime;
-        // timeDiff != null && timeDiff >= minRangeTime && timeDiff >= rangeSliderResolutionTime;
+        const withinTimeRange =
+          timeDiff !== undefined &&
+          timeDiff >= rangeSliderResolutionTime[0] &&
+          timeDiff <= rangeSliderResolutionTime[1];
 
         // Filter 'In Progress' complaints
         if (complaint.status === 'In Progress') {
-          // return visibleResolutions.includes(undefined) && withinTimeRange;
-          return visibleResolutions.includes(undefined);
+          return visibleResolutions.includes(undefined) && withinTimeRange;
         }
         // Filter complaints where a summons was issued
         if (
           complaint.resolution_description === 'The Police Department issued a summons in response to the complaint.'
         ) {
           return (
-            // visibleResolutions.includes('The Police Department issued a summons in response to the complaint.') &&
-            visibleResolutions.includes('The Police Department issued a summons in response to the complaint.')
-            // withinTimeRange
+            visibleResolutions.includes('The Police Department issued a summons in response to the complaint.') &&
+            withinTimeRange
           );
         }
         // Filter all other complaints
-        else {
-          // return visibleResolutions.includes(allOtherResolutionsArray) && withinTimeRange;
-          return visibleResolutions.includes(allOtherResolutionsArray);
-        }
+        return visibleResolutions.includes(allOtherResolutionsArray) && withinTimeRange;
       });
 
       // Update the state with the filtered complaints
@@ -90,7 +72,7 @@ function App() {
 
     // Call the filterData function to filter complaints based on current filters and time range
     filterData();
-  }, [displayResolutionArray, allComplaints, minRangeTime]);
+  }, [displayResolutionArray, allComplaints, rangeSliderResolutionTime]);
 
   const geoJsonData = useMemo(() => {
     return {
@@ -131,7 +113,7 @@ function App() {
   useEffect(() => {
     if (selectedComplaint) {
       console.log('👉 selectedComplaint:', selectedComplaint);
-      console.log('👉 selectedComplaint.timeDiffInMilliSeconds:', selectedComplaint.timeDiffInMilliSeconds);
+      console.log('👉 selectedComplaint.timeDiffInMilliseconds:', selectedComplaint.timeDiffInMilliseconds);
     }
   }, [selectedComplaint]);
 
