@@ -1,4 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// HOW TO slider
+// https://mui.com/material-ui/api/slider/
 import React from 'react';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
+import { styled } from '@mui/material/styles';
 import logo from '../assets/tolls-lol.png';
 import './Sidebar.css';
 import LoadingSpinner from './LoadingSpinner';
@@ -8,28 +15,27 @@ import {
   setDisplayResolutionArrayType,
   resolutionLabelColorArrayType,
   setSliderResolutionTimeType,
-  minTimeInMillisecondsType,
-  maxTimeInMillisecondsType,
+  setRangeSliderResolutionTimeType,
 } from '../types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
   setDisplayResolutionArray: setDisplayResolutionArrayType;
   resolutionLabelColorArray: resolutionLabelColorArrayType;
-  sliderResolutionTime: number;
-  setSliderResolutionTime: setSliderResolutionTimeType;
-  minTimeInMilliseconds: minTimeInMillisecondsType;
-  maxTimeInMilliseconds: maxTimeInMillisecondsType;
+  rangeSliderResolutionTime: number[];
+  setRangeSliderResolutionTime: setRangeSliderResolutionTimeType;
+  minRangeTime: number;
+  maxRangeTime: number;
 };
 
 function Sidebar({
   displayResolutionArray,
   setDisplayResolutionArray,
   resolutionLabelColorArray,
-  sliderResolutionTime,
-  setSliderResolutionTime,
-  minTimeInMilliseconds,
-  maxTimeInMilliseconds,
+  rangeSliderResolutionTime,
+  setRangeSliderResolutionTime,
+  minRangeTime,
+  maxRangeTime,
 }: Props) {
   const handleCheckboxChange = (label: string) => {
     setDisplayResolutionArray((prevState) =>
@@ -44,8 +50,28 @@ function Sidebar({
     );
   };
 
-  const handleRangeSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSliderResolutionTime(Number(event.target.value));
+  const StyledSlider = styled(Slider)({
+    '& .MuiSlider-markLabel': {
+      color: 'white',
+      top: '-20px',
+      fontSize: '10px',
+    },
+  });
+
+  const marks = [
+    { value: minRangeTime, label: '1 min' },
+    { value: 10800000, label: '3hrs' },
+    { value: 21600000, label: '6hrs' },
+    { value: 43200000, label: '12hrs' },
+    { value: maxRangeTime, label: '1day' },
+  ];
+
+  function valuetext(value: number) {
+    return `${value}`;
+  }
+
+  const handleChange = (event: Event, newRangeSliderResolutionTime: number | number[]) => {
+    setRangeSliderResolutionTime(newRangeSliderResolutionTime as number[]);
   };
 
   const getCircleBackgroundColor = (label: string): string => {
@@ -84,28 +110,31 @@ function Sidebar({
 
       {displayResolutionArray.map((item) => (
         <div key={item.label} className="resolution-filter-input">
-          <span className="circle-example" style={{ backgroundColor: getCircleBackgroundColor(item.label) }} />
-          <label htmlFor={`checkbox-${item.label}`}>{item.label}</label>
           <input
             type="checkbox"
             id={`checkbox-${item.label}`}
             checked={item.visibility}
             onChange={() => handleCheckboxChange(item.label)}
           />
+          <label htmlFor={`checkbox-${item.label}`}>{item.label}</label>
+          <span className="circle-example" style={{ backgroundColor: getCircleBackgroundColor(item.label) }} />
         </div>
       ))}
       <hr />
-      <h3>Time to Resolution: {formatDurationForSlider(sliderResolutionTime)}</h3>
-      <span>{formatDurationForSlider(minTimeInMilliseconds)}</span>
-      <input
-        type="range"
-        id="time-slider"
-        min={minTimeInMilliseconds}
-        max={maxTimeInMilliseconds}
-        value={sliderResolutionTime}
-        onChange={handleRangeSliderChange}
-      />
-      <span>{formatDurationForSlider(maxTimeInMilliseconds)}</span>
+      <h3 className="slider-header">Resolution Time Range:</h3>
+      <Box sx={{ width: 300, mt: 4 }}>
+        <StyledSlider
+          getAriaLabel={() => 'Time complaint resolved in range'}
+          value={rangeSliderResolutionTime}
+          onChange={handleChange}
+          valueLabelDisplay="off"
+          getAriaValueText={valuetext}
+          step={60000} // 1 minute in milliseconds
+          marks={marks}
+          min={minRangeTime}
+          max={maxRangeTime}
+        />
+      </Box>
     </div>
   );
 }

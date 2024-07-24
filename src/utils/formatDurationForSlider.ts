@@ -7,6 +7,12 @@ export const formatDurationForSlider = (timeDiffinMilliseconds: number): string 
   // First format the time difference into days, hours and minutes
   const { days, hours, minutes } = formatDuration(timeDiffinMilliseconds);
 
+  // If the issue is resolved in less than 1 minute,
+  // display one minute
+  if (days === 0 && hours === 0 && minutes < 1) {
+    return `1 min`;
+  }
+
   // If the issue is resolved in less than 1 hour,
   // display only the minutes
   if (days === 0 && hours === 0) {
