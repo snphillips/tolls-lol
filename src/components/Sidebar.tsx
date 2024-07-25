@@ -50,13 +50,13 @@ function Sidebar({
     );
   };
 
-  const StyledSlider = styled(Slider)({
-    '& .MuiSlider-markLabel': {
-      color: 'white',
-      top: '-20px',
-      fontSize: '10px',
-    },
-  });
+  // const StyledSlider = styled(Slider)({
+  //   '& .MuiSlider-markLabel': {
+  //     color: 'white',
+  //     top: '-20px',
+  //     fontSize: '10px',
+  //   },
+  // });
 
   const marks = [
     { value: 0, label: '0' },
@@ -71,7 +71,7 @@ function Sidebar({
     { value: 32400000, label: '9' },
     { value: 36000000, label: '10' },
     { value: 39600000, label: '11' },
-    { value: 43200000, label: '12' },
+    { value: 43200000, label: '12+' },
   ];
 
   function valuetext(value: number) {
@@ -129,18 +129,27 @@ function Sidebar({
         </div>
       ))}
       <hr />
-      <h3 className="slider-header">Resolution Time Range:</h3>
-      <Box sx={{ width: 300, mt: 4 }}>
-        <StyledSlider
+      <h3 className="slider-header">Resolution Time Range in Hours:</h3>
+      <Box sx={{ width: 260, mt: 4 }}>
+        <Slider
           getAriaLabel={() => 'Time complaint resolved in range'}
           value={rangeSliderResolutionTime}
           onChange={handleChange}
           valueLabelDisplay="off"
           getAriaValueText={valuetext}
-          step={60000} // 1 minute in milliseconds
+          step={3600000} // 1 hour in milliseconds
           marks={marks}
           min={0}
           max={43200000}
+          // Using sx prop improves performance by avoiding
+          // unnecessary re-renders and optimizing the component rendering process.
+          sx={{
+            '& .MuiSlider-markLabel': {
+              color: 'white',
+              top: '-20px',
+              fontSize: '10px',
+            },
+          }}
         />
       </Box>
     </div>

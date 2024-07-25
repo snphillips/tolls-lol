@@ -35,7 +35,7 @@ function App() {
       // Get the labels of resolutions that are currently set to be visible
       const visibleLabels = displayResolutionArray.filter((item) => item.visibility).map((item) => item.label);
 
-      // Get the actual resolution descriptions that correspond to the visible labels
+      // Get the resolution descriptions that correspond to the visible labels
       const visibleResolutions = resolutionLabelColorArray
         .filter((item) => visibleLabels.includes(item.label))
         .map((item) => item.resolution);
@@ -49,11 +49,11 @@ function App() {
           timeDiff >= rangeSliderResolutionTime[0] &&
           timeDiff <= rangeSliderResolutionTime[1];
 
-        // Filter 'In Progress' complaints
+        // Handle 'In Progress' complaints
         if (complaint.status === 'In Progress') {
           return visibleResolutions.includes(undefined) && withinTimeRange;
         }
-        // Filter complaints where a summons was issued
+        // Handle complaints where a summons was issued
         if (
           complaint.resolution_description === 'The Police Department issued a summons in response to the complaint.'
         ) {
@@ -62,7 +62,7 @@ function App() {
             withinTimeRange
           );
         }
-        // Filter all other complaints
+        // Handle all other complaints
         return visibleResolutions.includes(allOtherResolutionsArray) && withinTimeRange;
       });
 
