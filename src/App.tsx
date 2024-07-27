@@ -10,7 +10,7 @@ import useFetchComplaints from './hooks/useFetchComplaints';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11?optimize=true';
 
-function App() {
+const App = () => {
   const { allComplaints, error } = useFetchComplaints();
   const [viewport] = useState({
     latitude: 40.69093436877119,
@@ -26,56 +26,60 @@ function App() {
     { label: 'Summons not issued', visibility: true },
   ]);
   const [minRangeTime] = useState<number>(0); // 0
-  const [maxRangeTime] = useState<number>(43200000); // 12 hrs
-  const [rangeSliderResolutionTime, setRangeSliderResolutionTime] = useState<number[]>([minRangeTime, maxRangeTime]);
+  const [maxAndUpRangeTime] = useState<number>(43200000); // 12 hrs
+  const [rangeSliderResolutionTime, setRangeSliderResolutionTime] = useState<number[]>([
+    minRangeTime,
+    maxAndUpRangeTime,
+  ]);
+
+  // Function to filter complaints based on visibility and time range
+  const filterData = () => {
+    // Get the labels of resolutions that are currently set to be visible
+    const visibleLabels = displayResolutionArray.filter((item) => item.visibility).map((item) => item.label);
+
+    // Get the resolution descriptions that correspond to the visible labels
+    const visibleResolutions = resolutionLabelColorArray
+      .filter((item) => visibleLabels.includes(item.label))
+      .map((item) => item.resolution);
+
+    // Filter complaints based on their time difference and resolution description
+    const dataWithLatLong = allComplaints.filter((complaint) => {
+      const timeDiff = complaint.timeDiffInMilliseconds;
+      // Check if the complaint's time difference is within the range specified by the slider
+      // [0] is the minRangeTime & [1] is the maxAndUpRangeTime
+      const lowestTimeOnSlider = rangeSliderResolutionTime[0];
+      const highestTimeOnSlider = rangeSliderResolutionTime[1];
+      const withinTimeRange =
+        timeDiff !== undefined &&
+        timeDiff !== null &&
+        timeDiff >= lowestTimeOnSlider &&
+        (highestTimeOnSlider === maxAndUpRangeTime
+          ? true // Include everything if the slider is at maxAndUpRangeTime
+          : timeDiff <= highestTimeOnSlider);
+
+      // Handle 'In Progress' complaints that have undefined in the
+      if (complaint.status === 'In Progress') {
+        return visibleResolutions.includes(undefined) && withinTimeRange;
+      }
+      // Handle complaints where a summons was issued
+      if (complaint.resolution_description === 'The Police Department issued a summons in response to the complaint.') {
+        return (
+          visibleResolutions.includes('The Police Department issued a summons in response to the complaint.') &&
+          withinTimeRange
+        );
+      }
+      // Handle all other complaints
+      return visibleResolutions.includes(allOtherResolutionsArray) && withinTimeRange;
+    });
+
+    // Update the state with the filtered complaints
+    setFilteredComplaints(dataWithLatLong);
+  };
 
   useEffect(() => {
-    // Function to filter complaints based on visibility and time range
-    const filterData = () => {
-      // Get the labels of resolutions that are currently set to be visible
-      const visibleLabels = displayResolutionArray.filter((item) => item.visibility).map((item) => item.label);
-
-      // Get the resolution descriptions that correspond to the visible labels
-      const visibleResolutions = resolutionLabelColorArray
-        .filter((item) => visibleLabels.includes(item.label))
-        .map((item) => item.resolution);
-
-      // Filter complaints based on their time difference and resolution description
-      const dataWithLatLong = allComplaints.filter((complaint) => {
-        const timeDiff = complaint.timeDiffInMilliseconds;
-        // Check if the complaint's time difference is within the range specified by the slider
-        const withinTimeRange =
-          timeDiff !== undefined &&
-          timeDiff !== null &&
-          timeDiff >= rangeSliderResolutionTime[0] &&
-          (rangeSliderResolutionTime[1] === maxRangeTime
-            ? timeDiff >= rangeSliderResolutionTime[1]
-            : timeDiff <= rangeSliderResolutionTime[1]);
-
-        // Handle 'In Progress' complaints
-        if (complaint.status === 'In Progress') {
-          return visibleResolutions.includes(undefined) && withinTimeRange;
-        }
-        // Handle complaints where a summons was issued
-        if (
-          complaint.resolution_description === 'The Police Department issued a summons in response to the complaint.'
-        ) {
-          return (
-            visibleResolutions.includes('The Police Department issued a summons in response to the complaint.') &&
-            withinTimeRange
-          );
-        }
-        // Handle all other complaints
-        return visibleResolutions.includes(allOtherResolutionsArray) && withinTimeRange;
-      });
-
-      // Update the state with the filtered complaints
-      setFilteredComplaints(dataWithLatLong);
-    };
-
     // Call the filterData function to filter complaints based on current filters and time range
     filterData();
-  }, [displayResolutionArray, allComplaints, rangeSliderResolutionTime]);
+  }, [displayResolutionArray, allComplaints, rangeSliderResolutionTime, maxAndUpRangeTime]);
 
   const geoJsonData = useMemo(() => {
     return {
@@ -187,12 +191,12 @@ function App() {
         setDisplayResolutionArray={setDisplayResolutionArray}
         resolutionLabelColorArray={resolutionLabelColorArray}
         minRangeTime={minRangeTime}
-        maxRangeTime={maxRangeTime}
+        maxAndUpRangeTime={maxAndUpRangeTime}
         rangeSliderResolutionTime={rangeSliderResolutionTime}
         setRangeSliderResolutionTime={setRangeSliderResolutionTime}
       />
     </div>
   );
-}
+};
 
 export default App;

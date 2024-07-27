@@ -31,5 +31,5 @@ export type setDisplayResolutionArrayType = React.Dispatch<React.SetStateAction<
 export type SetSelectedComplaintType = React.Dispatch<React.SetStateAction<ComplaintType | null>>;
 export type setSliderResolutionTimeType = React.Dispatch<React.SetStateAction<number>>;
 export type setMinRangeTimeType = React.Dispatch<React.SetStateAction<number>>;
-export type setMaxRangeTimeType = React.Dispatch<React.SetStateAction<number>>;
+export type setmaxAndUpRangeTimeType = React.Dispatch<React.SetStateAction<number>>;
 export type setRangeSliderResolutionTimeType = React.Dispatch<React.SetStateAction<number[]>>;

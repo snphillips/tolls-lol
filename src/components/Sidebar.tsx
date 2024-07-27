@@ -25,7 +25,7 @@ type Props = {
   rangeSliderResolutionTime: number[];
   setRangeSliderResolutionTime: setRangeSliderResolutionTimeType;
   minRangeTime: number;
-  maxRangeTime: number;
+  maxAndUpRangeTime: number;
 };
 
 function Sidebar({
@@ -35,7 +35,7 @@ function Sidebar({
   rangeSliderResolutionTime,
   setRangeSliderResolutionTime,
   minRangeTime,
-  maxRangeTime,
+  maxAndUpRangeTime,
 }: Props) {
   const handleCheckboxChange = (label: string) => {
     setDisplayResolutionArray((prevState) =>
