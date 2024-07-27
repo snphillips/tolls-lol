@@ -46,8 +46,11 @@ function App() {
         // Check if the complaint's time difference is within the range specified by the slider
         const withinTimeRange =
           timeDiff !== undefined &&
+          timeDiff !== null &&
           timeDiff >= rangeSliderResolutionTime[0] &&
-          timeDiff <= rangeSliderResolutionTime[1];
+          (rangeSliderResolutionTime[1] === maxRangeTime
+            ? timeDiff >= rangeSliderResolutionTime[1]
+            : timeDiff <= rangeSliderResolutionTime[1]);
 
         // Handle 'In Progress' complaints
         if (complaint.status === 'In Progress') {
