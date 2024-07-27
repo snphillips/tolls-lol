@@ -57,10 +57,11 @@ const App = () => {
           ? true // Include everything if the slider is at maxAndUpRangeTime
           : timeDiff <= highestTimeOnSlider);
 
-      // Handle 'In Progress' complaints that have undefined in the
+      // Handle 'In Progress' complaints that have undefined timeDiff
       if (complaint.status === 'In Progress') {
-        return visibleResolutions.includes(undefined) && withinTimeRange;
+        return visibleLabels.includes('Complaint in progress');
       }
+
       // Handle complaints where a summons was issued
       if (complaint.resolution_description === 'The Police Department issued a summons in response to the complaint.') {
         return (
@@ -68,6 +69,7 @@ const App = () => {
           withinTimeRange
         );
       }
+
       // Handle all other complaints
       return visibleResolutions.includes(allOtherResolutionsArray) && withinTimeRange;
     });
