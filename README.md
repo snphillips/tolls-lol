@@ -1,6 +1,10 @@
 # Obscured License Plate Complaints Visualized
 
-This React application uses Mapbox to visualize 311 complaints about obscured license plates in New York City. It fetches data from the City of New York's Open Data API and displays the complaints on an interactive map. The application caches the data to optimize performance, fetching new data only if the cached data is older than 12 hours.
+==== THIS APP IS STILL IN DEVELOPMENT ====
+
+View app here: https://tolls-lol.surge.sh/
+
+This React application uses Mapbox to visualize 311 complaints about obscured license plates in New York City, for 2024. It fetches data from the City of New York's Open Data API and displays the complaints on an interactive map. The application caches the data to optimize performance, fetching new data only if the cached data is older than 12 hours.
 
 ## Background
 
