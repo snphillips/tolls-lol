@@ -1,20 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// HOW TO slider
-// https://mui.com/material-ui/api/slider/
-import React from 'react';
+// import React from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import { styled } from '@mui/material/styles';
 import logo from '../assets/tolls-lol.png';
 import './Sidebar.css';
 import LoadingSpinner from './LoadingSpinner';
-import { formatDurationForSlider } from '../utils/formatDurationForSlider';
+// import { formatDurationForSlider } from '../utils/formatDurationForSlider';
 import {
   DisplayResolutionArrayType,
   setDisplayResolutionArrayType,
   resolutionLabelColorArrayType,
-  setSliderResolutionTimeType,
+  // setSliderResolutionTimeType,
   setRangeSliderResolutionTimeType,
 } from '../types';
 
@@ -37,6 +34,7 @@ function Sidebar({
   minRangeTime,
   maxAndUpRangeTime,
 }: Props) {
+  const oneHourInMilliseconds = 3600000;
   const handleCheckboxChange = (label: string) => {
     setDisplayResolutionArray((prevState) =>
       prevState.map((item) =>
@@ -50,16 +48,8 @@ function Sidebar({
     );
   };
 
-  // const StyledSlider = styled(Slider)({
-  //   '& .MuiSlider-markLabel': {
-  //     color: 'white',
-  //     top: '-20px',
-  //     fontSize: '10px',
-  //   },
-  // });
-
   const marks = [
-    { value: 0, label: '0' },
+    { value: minRangeTime, label: '0' },
     { value: 3600000, label: '1' },
     { value: 7200000, label: '2' },
     { value: 10800000, label: '3' },
@@ -71,7 +61,7 @@ function Sidebar({
     { value: 32400000, label: '9' },
     { value: 36000000, label: '10' },
     { value: 39600000, label: '11' },
-    { value: 43200000, label: '12+' },
+    { value: maxAndUpRangeTime, label: '12+' },
   ];
 
   function valuetext(value: number) {
@@ -84,7 +74,7 @@ function Sidebar({
 
   const getCircleBackgroundColor = (label: string): string => {
     const resolution = resolutionLabelColorArray.find((item) => item.label === label);
-    return resolution ? resolution.color : 'red';
+    return resolution ? resolution.color : 'mediumPurple';
   };
 
   return (
@@ -128,6 +118,7 @@ function Sidebar({
           <span className="circle-example" style={{ backgroundColor: getCircleBackgroundColor(item.label) }} />
         </div>
       ))}
+
       <hr />
       <h3 className="slider-header">Resolution Time Range in Hours:</h3>
       <Box sx={{ width: 260, mt: 4 }}>
@@ -137,12 +128,10 @@ function Sidebar({
           onChange={handleChange}
           valueLabelDisplay="off"
           getAriaValueText={valuetext}
-          step={3600000} // 1 hour in milliseconds
+          step={oneHourInMilliseconds}
           marks={marks}
-          min={0}
-          max={43200000}
-          // Using sx prop improves performance by avoiding
-          // unnecessary re-renders and optimizing the component rendering process.
+          min={minRangeTime}
+          max={maxAndUpRangeTime}
           sx={{
             '& .MuiSlider-markLabel': {
               color: 'white',
