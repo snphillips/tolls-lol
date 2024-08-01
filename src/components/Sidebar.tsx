@@ -1,6 +1,7 @@
 import logo from '../assets/tolls-lol.png';
 import './Sidebar.css';
 import LoadingSpinner from './LoadingSpinner';
+import ResolutionCheckbox from './ResolutionCheckbox';
 import RangeSlider from './RangeSlider';
 import {
   DisplayResolutionArrayType,
@@ -28,24 +29,6 @@ function Sidebar({
   minRangeTime,
   maxAndUpRangeTime,
 }: Props) {
-  const handleCheckboxChange = (label: string) => {
-    setDisplayResolutionArray((prevState) =>
-      prevState.map((item) =>
-        item.label === label
-          ? {
-              ...item,
-              visibility: !item.visibility,
-            }
-          : item
-      )
-    );
-  };
-
-  const getCircleBackgroundColor = (label: string): string => {
-    const resolution = resolutionLabelColorArray.find((item) => item.label === label);
-    return resolution ? resolution.color : 'mediumPurple';
-  };
-
   return (
     <div className="sidebar">
       <img src={logo} alt={'a New York State vanity plate that says TOLLS L.O.L'} />
@@ -73,20 +56,11 @@ function Sidebar({
         </section>
       </div>
       <hr />
-      <h3>Complaint Resolution:</h3>
-
-      {displayResolutionArray.map((item) => (
-        <div key={item.label} className="resolution-filter-input">
-          <input
-            type="checkbox"
-            id={`checkbox-${item.label}`}
-            checked={item.visibility}
-            onChange={() => handleCheckboxChange(item.label)}
-          />
-          <label htmlFor={`checkbox-${item.label}`}>{item.label}</label>
-          <span className="circle-example" style={{ backgroundColor: getCircleBackgroundColor(item.label) }} />
-        </div>
-      ))}
+      <ResolutionCheckbox
+        displayResolutionArray={displayResolutionArray}
+        setDisplayResolutionArray={setDisplayResolutionArray}
+        resolutionLabelColorArray={resolutionLabelColorArray}
+      />
 
       <hr />
       <RangeSlider
