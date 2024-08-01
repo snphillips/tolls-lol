@@ -31,11 +31,16 @@ function Sidebar({
 }: Props) {
   return (
     <div className="sidebar">
-      <img src={logo} alt={'a New York State vanity plate that says TOLLS L.O.L'} />
-      <h1>Obscured License Plates Map</h1>
-      <h2>Visualizing NYC's 311 Complaint Data</h2>
-      <div className="sidebar-links-and-loader">
-        <section className="link-section">
+      <header>
+        <img id="site-logo" src={logo} alt={'a New York State vanity license plate that says TOLLS L.O.L'} />
+        <div id="mobile-logo">TOLLS-LOL</div>
+        <div id="subheadings-section">
+          <h1>Obscured License Plates Map</h1>
+          <h2>Visualizing NYC's 311 Complaint Data</h2>
+        </div>
+      </header>
+      <section className="sidebar-links-and-loader">
+        <div className="link-section">
           <a
             className="source-link"
             href="https://github.com/snphillips/obscured-license-plate-visualizer.git"
@@ -50,11 +55,11 @@ function Sidebar({
           >
             View nyc.gov source data ↗
           </a>
-        </section>
-        <section className="loading-container">
+        </div>
+        <div className="loading-container">
           <LoadingSpinner />
-        </section>
-      </div>
+        </div>
+      </section>
       <hr />
       <ResolutionCheckbox
         displayResolutionArray={displayResolutionArray}

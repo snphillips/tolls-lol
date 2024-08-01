@@ -40,7 +40,7 @@ function RangeSlider({
   };
 
   return (
-    <section className="range-slider-section">
+    <section id="range-slider-section">
       <h3 className="slider-header">Resolution Time Range in Hours:</h3>
       <Box sx={{ width: 250, mt: 4 }}>
         <Slider
