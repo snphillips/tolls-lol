@@ -1,17 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// import React from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import logo from '../assets/tolls-lol.png';
 import './Sidebar.css';
 import LoadingSpinner from './LoadingSpinner';
-// import { formatDurationForSlider } from '../utils/formatDurationForSlider';
 import {
   DisplayResolutionArrayType,
   setDisplayResolutionArrayType,
   resolutionLabelColorArrayType,
-  // setSliderResolutionTimeType,
   setRangeSliderResolutionTimeType,
 } from '../types';
 
