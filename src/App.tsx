@@ -7,6 +7,7 @@ import './App.css';
 import { ComplaintType, DisplayResolutionArrayType } from './types';
 import { resolutionLabelColorArray, allOtherResolutionsArray } from './data/resolutionLabelColorArray';
 import useFetchComplaints from './hooks/useFetchComplaints';
+// import ResponsiveDrawer from './components/ResponsiveDrawer';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11?optimize=true';
 
@@ -196,6 +197,7 @@ const App = () => {
         rangeSliderResolutionTime={rangeSliderResolutionTime}
         setRangeSliderResolutionTime={setRangeSliderResolutionTime}
       />
+      {/* <ResponsiveDrawer /> */}
     </div>
   );
 };
