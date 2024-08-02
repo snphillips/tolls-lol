@@ -39,6 +39,7 @@ function ResolutionCheckbox({ displayResolutionArray, setDisplayResolutionArray,
           />
           <label htmlFor={`checkbox-${item.label}`}>{item.label}</label>
           <span className="circle-example" style={{ backgroundColor: getCircleBackgroundColor(item.label) }} />
+          <span>count:{item.count}</span>
         </div>
       ))}
     </section>

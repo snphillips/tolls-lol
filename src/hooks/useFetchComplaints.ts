@@ -13,12 +13,11 @@ const useFetchComplaints = () => {
 
   const processComplaints = (complaints: ComplaintType[]) => {
     const dataWithLatLong = complaints.filter((item: ComplaintType) => item.latitude && item.longitude);
-    // Calculate time difference between open & closed for every complaint
-    const dataWithTimeDifference = dataWithLatLong.map((complaint) => ({
+    const dataWithTimeDiffBetweenOpenAndClosed = dataWithLatLong.map((complaint) => ({
       ...complaint,
       timeDiffInMilliseconds: calcTimeToResolveComplaintInMilliSeconds(complaint),
     }));
-    return dataWithTimeDifference;
+    return dataWithTimeDiffBetweenOpenAndClosed;
   };
 
   const fetchData = useCallback(async () => {
