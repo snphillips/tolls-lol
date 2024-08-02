@@ -1,10 +1,10 @@
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import { setRangeSliderResolutionTimeType } from '../types';
+import { SetRangeSliderResolutionTimeType } from '../types';
 
 type Props = {
   rangeSliderResolutionTime: number[];
-  setRangeSliderResolutionTime: setRangeSliderResolutionTimeType;
+  setRangeSliderResolutionTime: SetRangeSliderResolutionTimeType;
   minRangeTime: number;
   maxAndUpRangeTime: number;
 };
@@ -42,7 +42,7 @@ function RangeSlider({
   return (
     <section id="range-slider-section">
       <h3 className="slider-header">Resolution Time Range in Hours:</h3>
-      <Box sx={{ width: 250, mt: 4, ml: 1 }}>
+      <Box sx={{ width: 300, mt: 4, ml: 1 }}>
         <Slider
           getAriaLabel={() => 'Time complaint resolved in range'}
           value={rangeSliderResolutionTime}

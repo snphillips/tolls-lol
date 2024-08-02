@@ -1,13 +1,19 @@
-import { DisplayResolutionArrayType, setDisplayResolutionArrayType, resolutionLabelColorArrayType } from '../types';
+import {
+  DisplayResolutionArrayType,
+  SetDisplayResolutionArrayType,
+  ResolutionLabelColorArrayType,
+  ResolutionLabelType,
+  ColorTypes,
+} from '../types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
-  setDisplayResolutionArray: setDisplayResolutionArrayType;
-  resolutionLabelColorArray: resolutionLabelColorArrayType;
+  setDisplayResolutionArray: SetDisplayResolutionArrayType;
+  resolutionLabelColorArray: ResolutionLabelColorArrayType;
 };
 
 function ResolutionCheckbox({ displayResolutionArray, setDisplayResolutionArray, resolutionLabelColorArray }: Props) {
-  const handleCheckboxChange = (label: string) => {
+  const handleCheckboxChange = (label: ResolutionLabelType) => {
     setDisplayResolutionArray((prevState) =>
       prevState.map((item) =>
         item.label === label
@@ -20,7 +26,7 @@ function ResolutionCheckbox({ displayResolutionArray, setDisplayResolutionArray,
     );
   };
 
-  const getCircleBackgroundColor = (label: string): string => {
+  const getCircleBackgroundColor = (label: ResolutionLabelType): ColorTypes => {
     const resolution = resolutionLabelColorArray.find((item) => item.label === label);
     return resolution ? resolution.color : 'mediumPurple';
   };

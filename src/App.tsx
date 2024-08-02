@@ -4,10 +4,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Sidebar from './components/Sidebar';
 import PopUp from './components/PopUp';
 import './App.css';
-import { ComplaintType, DisplayResolutionArrayType } from './types';
+import { ComplaintType, DisplayResolutionArrayType, ResolutionLabelType } from './types';
 import { resolutionLabelColorArray, allOtherResolutionsArray } from './data/resolutionLabelColorArray';
 import useFetchComplaints from './hooks/useFetchComplaints';
-// import ResponsiveDrawer from './components/ResponsiveDrawer';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11?optimize=true';
 
@@ -22,11 +21,11 @@ const App = () => {
   const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintType | null>(null);
   const [displayResolutionArray, setDisplayResolutionArray] = useState<DisplayResolutionArrayType>([
-    { label: 'Complaint in progress', visibility: true },
-    { label: 'Summons issued', visibility: true },
-    { label: 'Summons not issued', visibility: true },
+    { label: 'Complaint in progress', visibility: true, count: 0, percent: 0 },
+    { label: 'Summons issued', visibility: true, count: 0, percent: 0 },
+    { label: 'Summons not issued', visibility: true, count: 0, percent: 0 },
   ]);
-  const [minRangeTime] = useState<number>(0); // 0
+  const [minRangeTime] = useState<number>(0);
   const [maxAndUpRangeTime] = useState<number>(43200000); // 12 hrs
   const [rangeSliderResolutionTime, setRangeSliderResolutionTime] = useState<number[]>([
     minRangeTime,
@@ -35,11 +34,13 @@ const App = () => {
 
   useEffect(() => {
     const filterBasedOnVisibilityAndTimeRange = () => {
-      const userSetVisibleLabels = displayResolutionArray.filter((item) => item.visibility).map((item) => item.label);
+      const userSetVisibleLabels = displayResolutionArray
+        .filter((item) => item.visibility)
+        .map((item) => item.label as ResolutionLabelType);
 
       // Get the resolution descriptions that correspond to the visible labels
       const visibleResolutions = resolutionLabelColorArray
-        .filter((item) => userSetVisibleLabels.includes(item.label))
+        .filter((item) => userSetVisibleLabels.includes(item.label as ResolutionLabelType))
         .map((item) => item.resolution);
 
       // Filter complaints based on their time difference and resolution description

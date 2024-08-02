@@ -3,33 +3,44 @@ export interface ComplaintType {
   created_date: string;
   closed_date?: string;
   incident_address: string;
-  status: 'In Progress' | 'Closed' | string;
+  status: 'In Progress' | 'Closed';
   resolution_description?: string;
   latitude?: string;
   longitude?: string;
   timeDiffInMilliseconds?: number | null;
 }
 
+export type ResolutionLabelType = 'Complaint in progress' | 'Summons issued' | 'Summons not issued';
+
+export type ColorTypes = 'orangeRed' | 'chartreuse' | 'mediumPurple';
+
 export type ResolutionLabelColorType = {
-  status: 'In Progress' | 'Closed' | string;
-  resolution?: string[] | undefined[] | string;
-  label: string;
-  color: string;
-  borderColor: string;
+  status: 'In Progress' | 'Closed';
+  resolution?: string[] | undefined[] | `The Police Department issued a summons in response to the complaint.`;
+  label: ResolutionLabelType;
+  color: ColorTypes;
 };
 
-export type resolutionLabelColorArrayType = ResolutionLabelColorType[];
+export type ResolutionCountsType = {
+  'Complaint in progress': number;
+  'Summons issued': number;
+  'Summons not issued': number;
+};
+
+export type ResolutionLabelColorArrayType = ResolutionLabelColorType[];
 
 export type ResolutionDisplayType = {
-  label: string;
+  label: ResolutionLabelType;
   visibility: boolean;
+  count: number;
+  percent: number;
 };
 
 export type DisplayResolutionArrayType = ResolutionDisplayType[];
 
-export type setDisplayResolutionArrayType = React.Dispatch<React.SetStateAction<DisplayResolutionArrayType>>;
+export type SetDisplayResolutionArrayType = React.Dispatch<React.SetStateAction<DisplayResolutionArrayType>>;
 export type SetSelectedComplaintType = React.Dispatch<React.SetStateAction<ComplaintType | null>>;
-export type setSliderResolutionTimeType = React.Dispatch<React.SetStateAction<number>>;
-export type setMinRangeTimeType = React.Dispatch<React.SetStateAction<number>>;
-export type setmaxAndUpRangeTimeType = React.Dispatch<React.SetStateAction<number>>;
-export type setRangeSliderResolutionTimeType = React.Dispatch<React.SetStateAction<number[]>>;
+export type SetSliderResolutionTimeType = React.Dispatch<React.SetStateAction<number>>;
+export type SetMinRangeTimeType = React.Dispatch<React.SetStateAction<number>>;
+export type SetMaxAndUpRangeTimeType = React.Dispatch<React.SetStateAction<number>>;
+export type SetRangeSliderResolutionTimeType = React.Dispatch<React.SetStateAction<number[]>>;

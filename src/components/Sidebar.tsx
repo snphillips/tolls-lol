@@ -5,17 +5,17 @@ import ResolutionCheckbox from './ResolutionCheckbox';
 import RangeSlider from './RangeSlider';
 import {
   DisplayResolutionArrayType,
-  setDisplayResolutionArrayType,
-  resolutionLabelColorArrayType,
-  setRangeSliderResolutionTimeType,
+  SetDisplayResolutionArrayType,
+  ResolutionLabelColorArrayType,
+  SetRangeSliderResolutionTimeType,
 } from '../types';
 
 type Props = {
   displayResolutionArray: DisplayResolutionArrayType;
-  setDisplayResolutionArray: setDisplayResolutionArrayType;
-  resolutionLabelColorArray: resolutionLabelColorArrayType;
+  setDisplayResolutionArray: SetDisplayResolutionArrayType;
+  resolutionLabelColorArray: ResolutionLabelColorArrayType;
   rangeSliderResolutionTime: number[];
-  setRangeSliderResolutionTime: setRangeSliderResolutionTimeType;
+  setRangeSliderResolutionTime: SetRangeSliderResolutionTimeType;
   minRangeTime: number;
   maxAndUpRangeTime: number;
 };

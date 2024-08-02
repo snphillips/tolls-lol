@@ -26,6 +26,7 @@
   height: 10px;
   margin-left: 6px;
   width: 10px;
+  border: 1px solid black;
 }
 
 #mobile-logo {
