@@ -42,7 +42,7 @@ function RangeSlider({
   return (
     <section id="range-slider-section">
       <h3 className="slider-header">Resolution Time Range in Hours:</h3>
-      <Box sx={{ width: 250, mt: 4 }}>
+      <Box sx={{ width: 250, mt: 4, ml: 1 }}>
         <Slider
           getAriaLabel={() => 'Time complaint resolved in range'}
           value={rangeSliderResolutionTime}
