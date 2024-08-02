@@ -23,7 +23,6 @@ export type resolutionLabelColorArrayType = ResolutionLabelColorType[];
 export type ResolutionDisplayType = {
   label: string;
   visibility: boolean;
-  count: number;
 };
 
 export type DisplayResolutionArrayType = ResolutionDisplayType[];

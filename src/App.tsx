@@ -7,6 +7,7 @@ import './App.css';
 import { ComplaintType, DisplayResolutionArrayType } from './types';
 import { resolutionLabelColorArray, allOtherResolutionsArray } from './data/resolutionLabelColorArray';
 import useFetchComplaints from './hooks/useFetchComplaints';
+// import ResponsiveDrawer from './components/ResponsiveDrawer';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11?optimize=true';
 
@@ -21,9 +22,9 @@ const App = () => {
   const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintType | null>(null);
   const [displayResolutionArray, setDisplayResolutionArray] = useState<DisplayResolutionArrayType>([
-    { label: 'Complaint in progress', visibility: true, count: 0 },
-    { label: 'Summons issued', visibility: true, count: 0 },
-    { label: 'Summons not issued', visibility: true, count: 0 },
+    { label: 'Complaint in progress', visibility: true },
+    { label: 'Summons issued', visibility: true },
+    { label: 'Summons not issued', visibility: true },
   ]);
   const [minRangeTime] = useState<number>(0); // 0
   const [maxAndUpRangeTime] = useState<number>(43200000); // 12 hrs
@@ -41,19 +42,12 @@ const App = () => {
         .filter((item) => userSetVisibleLabels.includes(item.label))
         .map((item) => item.resolution);
 
-      // Create a mapping from resolution descriptions to labels
-      const resolutionDescriptionToLabelMap: { [key: string]: string } = {
-        'The Police Department issued a summons in response to the complaint.': 'Summons issued',
-        // Add other mappings as needed
-      };
-
-      // Count the number of complaints for each visible resolution
-      const counts = { 'Complaint in progress': 0, 'Summons issued': 0, 'Summons not issued': 0 };
-
       // Filter complaints based on their time difference and resolution description
       const dataWithLatLong = allComplaints.filter((complaint) => {
         const timeDiff = complaint.timeDiffInMilliseconds;
         // Check if complaint's time difference is within the range specified by the slider
+        // The MaterialUI range slider accepts two values
+        // [0] is the minRangeTime & [1] is the maxAndUpRangeTime
         const lowestTimeOnSlider = rangeSliderResolutionTime[0];
         const highestTimeOnSlider = rangeSliderResolutionTime[1];
         const withinTimeRange =
@@ -66,7 +60,6 @@ const App = () => {
 
         // Handle 'In Progress' complaints that have undefined timeDiff
         if (complaint.status === 'In Progress') {
-          counts['Complaint in progress'] += 1;
           return userSetVisibleLabels.includes('Complaint in progress');
         }
 
@@ -74,7 +67,6 @@ const App = () => {
         if (
           complaint.resolution_description === 'The Police Department issued a summons in response to the complaint.'
         ) {
-          counts['Summons issued'] += 1;
           return (
             visibleResolutions.includes('The Police Department issued a summons in response to the complaint.') &&
             withinTimeRange
@@ -82,22 +74,11 @@ const App = () => {
         }
 
         // Handle all other complaints
-        const resolutionLabel =
-          resolutionDescriptionToLabelMap[complaint.resolution_description] || 'Summons not issued';
-        counts[resolutionLabel] += 1;
         return visibleResolutions.includes(allOtherResolutionsArray) && withinTimeRange;
       });
 
       // Update the state with the filtered complaints
       setFilteredComplaints(dataWithLatLong);
-
-      // Update the displayResolutionArray with the counts
-      setDisplayResolutionArray((prevArray) =>
-        prevArray.map((item) => ({
-          ...item,
-          count: counts[item.label] || 0,
-        }))
-      );
     };
     filterBasedOnVisibilityAndTimeRange();
   }, [displayResolutionArray, allComplaints, rangeSliderResolutionTime, maxAndUpRangeTime]);
