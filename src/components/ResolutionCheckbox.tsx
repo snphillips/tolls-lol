@@ -1,3 +1,4 @@
+import './ResolutionCheckbox.css';
 import {
   DisplayResolutionArrayType,
   SetDisplayResolutionArrayType,
@@ -43,7 +44,9 @@ function ResolutionCheckbox({ displayResolutionArray, setDisplayResolutionArray,
             checked={item.visibility}
             onChange={() => handleCheckboxChange(item.label)}
           />
-          <label htmlFor={`checkbox-${item.label}`}>{item.label}</label>
+          <label className="checkbox-label" htmlFor={`checkbox-${item.label}`}>
+            {item.label}
+          </label>
           <span className="circle-example" style={{ backgroundColor: getCircleBackgroundColor(item.label) }} />
         </div>
       ))}

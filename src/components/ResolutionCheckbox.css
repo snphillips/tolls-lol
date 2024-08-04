@@ -1,0 +1,12 @@
+.checkbox-label {
+  padding-left: 6px;
+}
+
+.circle-example {
+  border-radius: 6px;
+  display: inline-block;
+  height: 10px;
+  margin-left: 6px;
+  width: 10px;
+  border: 1px solid black;
+}

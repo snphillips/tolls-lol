@@ -39,7 +39,7 @@ function Sidebar({
           <h2>Visualizing NYC's 311 Complaint Data</h2>
         </div>
       </header>
-      <section className="sidebar-links-and-loader">
+      <section className="links-and-loader">
         <div className="link-section">
           <a
             className="source-link"
