@@ -2,10 +2,7 @@
 @import './index.css';
 
 #root {
-  /* max-width: 1280px; */
   margin: 0 auto;
-  /* padding: 2rem; */
-  /* text-align: center; */
 }
 
 #map {
@@ -24,28 +21,6 @@
   width: 7px;
   height: 7px;
   opacity: 70%;
-}
-
-.popup-container {
-  font-size: 12px;
-  color: #f3f7f2;
-  background: #2b2f3b;
-  border-radius: 3px;
-  text-align: left;
-}
-
-.popup-content {
-  font-size: 11px;
-  margin-block-start: 0.5em;
-  margin-block-end: 0.5em;
-}
-
-.mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
-  border-bottom-color: #2b2f3b;
-}
-
-.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
-  border-top-color: #2b2f3b !important;
 }
 
 .marker-btn {

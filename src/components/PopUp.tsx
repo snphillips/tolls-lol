@@ -1,4 +1,5 @@
 import { Popup } from 'react-map-gl';
+import './PopUp.css';
 import { howLongTillResolvedPhrase } from '../utils/howLongTillResolvedPhrase';
 import { ComplaintType, SetSelectedComplaintType } from '../types';
 
