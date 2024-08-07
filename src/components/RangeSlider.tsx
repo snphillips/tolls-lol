@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import { SetRangeSliderResolutionTimeType } from '../types';
+import './RangeSlider.css';
 
 type Props = {
   rangeSliderResolutionTime: number[];
@@ -40,7 +41,7 @@ function RangeSlider({
   };
 
   return (
-    <section id="range-slider-section">
+    <div id="range-slider-section">
       <h3 className="slider-header">Resolution Time Range in Hours:</h3>
       <Box sx={{ width: 300, mt: 4, ml: 1 }}>
         <Slider
@@ -62,7 +63,7 @@ function RangeSlider({
           }}
         />
       </Box>
-    </section>
+    </div>
   );
 }
 

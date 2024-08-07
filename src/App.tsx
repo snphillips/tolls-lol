@@ -3,7 +3,9 @@ import Map, { Layer, Source, MapLayerMouseEvent, NavigationControl } from 'react
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Sidebar from './components/Sidebar';
 import PopUp from './components/PopUp';
+import LoadingSpinner from './components/LoadingSpinner';
 import './App.css';
+import './components/PopUp.css';
 import { ComplaintType, DisplayResolutionArrayType, ResolutionLabelType } from './types';
 import { resolutionLabelColorArray, allOtherResolutionsArray } from './data/resolutionLabelColorArray';
 import useFetchComplaints from './hooks/useFetchComplaints';
@@ -143,8 +145,12 @@ const App = () => {
   }
 
   return (
-    <div id="map">
+    <div id="site">
+      <div className="loading-container">
+        <LoadingSpinner />
+      </div>
       <Map
+        id="map"
         mapboxAccessToken={import.meta.env.VITE_REACT_APP_MAPBOX_TOKEN}
         initialViewState={viewport}
         mapStyle={mapStyle}
@@ -198,7 +204,6 @@ const App = () => {
         rangeSliderResolutionTime={rangeSliderResolutionTime}
         setRangeSliderResolutionTime={setRangeSliderResolutionTime}
       />
-      {/* <ResponsiveDrawer /> */}
     </div>
   );
 };

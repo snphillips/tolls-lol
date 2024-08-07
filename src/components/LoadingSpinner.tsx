@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { CSSProperties } from 'react';
 import ScaleLoader from 'react-spinners/ScaleLoader';
-import { useLoading } from '../context/LoadingContext'; // Import useLoading from the context file
+import { useLoading } from '../context/LoadingContext';
 
 const override: CSSProperties = {
   margin: '0 auto',
@@ -9,10 +9,11 @@ const override: CSSProperties = {
 };
 
 export default function LoadingSpinner() {
-  const { loadingBoolean, loadingMessage } = useLoading(); // Access loading state from the context
+  // Access loading state from the context
+  const { loadingBoolean, loadingMessage } = useLoading();
 
   return (
-    <section className="loading-container">
+    <div className="loading-container">
       <ScaleLoader
         className="loading-spinner"
         color={'#fefefe'}
@@ -23,7 +24,6 @@ export default function LoadingSpinner() {
         data-testid="loader"
       />
       <div className="loading-message">{loadingMessage}</div>
-      {/* <div className="loading-message">Fetching data...</div> */}
-    </section>
+    </div>
   );
 }

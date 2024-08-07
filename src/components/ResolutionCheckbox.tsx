@@ -14,10 +14,10 @@ type Props = {
 };
 
 function ResolutionCheckbox({ displayResolutionArray, setDisplayResolutionArray, resolutionLabelColorArray }: Props) {
-  const handleCheckboxChange = (label: ResolutionLabelType) => {
+  const handleCheckboxChange = (resolutionLabel: ResolutionLabelType) => {
     setDisplayResolutionArray((prevState) =>
       prevState.map((item) =>
-        item.label === label
+        item.label === resolutionLabel
           ? {
               ...item,
               visibility: !item.visibility,
@@ -27,8 +27,8 @@ function ResolutionCheckbox({ displayResolutionArray, setDisplayResolutionArray,
     );
   };
 
-  const getCircleBackgroundColor = (label: ResolutionLabelType): ColorTypes => {
-    const resolution = resolutionLabelColorArray.find((item) => item.label === label);
+  const getCircleBackgroundColor = (resolutionLabel: ResolutionLabelType): ColorTypes => {
+    const resolution = resolutionLabelColorArray.find((item) => item.label === resolutionLabel);
     return resolution ? resolution.color : 'mediumPurple';
   };
 

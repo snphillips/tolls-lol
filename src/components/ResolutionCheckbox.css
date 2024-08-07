@@ -10,3 +10,13 @@
   width: 10px;
   border: 1px solid black;
 }
+
+.resolution-filter-input {
+  line-height: 2;
+}
+
+@media only screen and (max-width: 600px) {
+  .resolution-filter-input {
+    line-height: 1.5;
+  }
+}

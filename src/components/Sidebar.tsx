@@ -1,6 +1,6 @@
 import logo from '../assets/tolls-lol.png';
 import './Sidebar.css';
-import LoadingSpinner from './LoadingSpinner';
+// import LoadingSpinner from './LoadingSpinner';
 import ResolutionCheckbox from './ResolutionCheckbox';
 import RangeSlider from './RangeSlider';
 import {
@@ -32,14 +32,14 @@ function Sidebar({
   return (
     <div className="sidebar">
       <header>
-        <img id="site-logo" src={logo} alt={'a New York State vanity license plate that says TOLLS L.O.L'} />
-        <div id="mobile-logo">TOLLS-LOL</div>
-        <div id="subheadings-section">
+        <img className="site-logo" src={logo} alt={'a New York State vanity license plate that says TOLLS L.O.L'} />
+        <div className="mobile-logo">TOLLS-LOL</div>
+        <div className="subheadings-section">
           <h1>Obscured License Plates Map</h1>
           <h2>Visualizing NYC's 311 Complaint Data</h2>
         </div>
       </header>
-      <section className="links-and-loader">
+      <div className="links-and-loader">
         <div className="link-section">
           <a
             className="source-link"
@@ -56,10 +56,7 @@ function Sidebar({
             View nyc.gov source data ↗
           </a>
         </div>
-        <div className="loading-container">
-          <LoadingSpinner />
-        </div>
-      </section>
+      </div>
       <hr />
       <ResolutionCheckbox
         displayResolutionArray={displayResolutionArray}

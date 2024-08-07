@@ -5,42 +5,16 @@
   margin: 0 auto;
 }
 
-#map {
+#site {
+  display: flex;
   width: 100vw;
   height: 100vh;
+}
+
+#map {
+  width: 100%;
+  display: block;
   cursor: pointer;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-.marker {
-  background-color: #fff;
-  border-radius: 50%;
-  width: 7px;
-  height: 7px;
-  opacity: 70%;
-}
-
-.marker-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.marker-btn img {
-  width: 20px;
-  height: 20px;
-}
-
-.mapboxgl-popup-content {
-  background: #2b2f3b;
-  border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  padding: 10px 10px 15px;
-  pointer-events: auto;
-  position: relative;
 }
 
 .links-and-loader {
@@ -49,4 +23,21 @@
 
 .mapboxgl-ctrl-group button:last-child {
   display: none;
+}
+
+.loading-container {
+  position: fixed;
+  z-index: 999;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+}
+
+.loading-message {
+  display: block;
 }

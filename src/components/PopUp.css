@@ -1,22 +1,35 @@
-.popup-container {
-  font-size: 12px;
-  color: #f3f7f2;
-  background: #2b2f3b;
-  border-radius: 3px;
-  text-align: left;
+div.mapboxgl-popup-content {
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 10px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 10px 10px 15px;
+  pointer-events: auto;
+  position: relative;
 }
 
 .popup-content {
-  font-size: 11px;
+  display: inline;
+  margin-block-start: 0.5em;
+}
+
+.mapboxgl-popup-tip {
+  border-bottom-color: var(--light) !important;
+  border-top-color: var(--light) !important;
+}
+
+h3 {
   margin-block-start: 0.5em;
   margin-block-end: 0.5em;
 }
 
-.mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
-.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
-.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
-.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip,
-.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip,
-.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip {
-  border-bottom-color: #2b2f3b;
+h4 {
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+}
+
+h5 {
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+  display: inline;
 }

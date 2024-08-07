@@ -23,31 +23,35 @@ function PopUp({ selectedComplaint, setSelectedComplaint }: PropsType) {
             <h3 id="incident_address">
               {selectedComplaint.incident_address.toLowerCase().replace(/\b\w/g, (char: string) => char.toUpperCase())}
             </h3>
-            <h4>Complaint opened:</h4>
-            <p className="popup-content">
-              {new Date(selectedComplaint.created_date).toLocaleString('en-us', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </p>
+            <div className="complaint-time">
+              <h5>Opened:</h5>
+              <p className="popup-content">
+                {new Date(selectedComplaint.created_date).toLocaleString('en-us', {
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </p>
+            </div>
             {selectedComplaint.status === 'Closed' && (
               <>
-                <h4>Complaint closed:</h4>
-                <p className="popup-content">
-                  {selectedComplaint.closed_date
-                    ? new Date(selectedComplaint.closed_date).toLocaleString('en-us', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })
-                    : 'Complaint is still open'}
-                </p>
-                <h4>Resolution:</h4>
+                <div className="complaint-time">
+                  <h5>Closed:</h5>
+                  <p className="popup-content">
+                    {selectedComplaint.closed_date
+                      ? new Date(selectedComplaint.closed_date).toLocaleString('en-us', {
+                          year: 'numeric',
+                          month: 'numeric',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })
+                      : 'Complaint is still open'}
+                  </p>
+                </div>
+                <h5>Resolution:</h5>
                 <p className="popup-content">{selectedComplaint.resolution_description}</p>
                 <p>{selectedComplaint.closed_date ? howLongTillResolvedPhrase(selectedComplaint) : ''}</p>
               </>

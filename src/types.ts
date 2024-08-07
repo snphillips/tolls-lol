@@ -1,9 +1,11 @@
+export type statusType = 'In Progress' | 'Closed';
+
 export interface ComplaintType {
   unique_key: string;
   created_date: string;
   closed_date?: string;
   incident_address: string;
-  status: 'In Progress' | 'Closed';
+  status: statusType;
   resolution_description?: string;
   latitude?: string;
   longitude?: string;
@@ -15,7 +17,7 @@ export type ResolutionLabelType = 'Complaint in progress' | 'Summons issued' | '
 export type ColorTypes = 'orangeRed' | 'chartreuse' | 'mediumPurple';
 
 export type ResolutionLabelColorType = {
-  status: 'In Progress' | 'Closed';
+  status: statusType;
   resolution?: string[] | undefined[] | `The Police Department issued a summons in response to the complaint.`;
   label: ResolutionLabelType;
   color: ColorTypes;
