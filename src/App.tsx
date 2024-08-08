@@ -146,9 +146,7 @@ const App = () => {
 
   return (
     <div id="site">
-      <div className="loading-container">
-        <LoadingSpinner />
-      </div>
+      <LoadingSpinner />
       <Map
         id="map"
         mapboxAccessToken={import.meta.env.VITE_REACT_APP_MAPBOX_TOKEN}

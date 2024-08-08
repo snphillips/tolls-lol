@@ -14,6 +14,7 @@
   position: absolute;
   top: 0;
   height: 100%;
+  box-sizing: border-box;
 }
 
 .mobile-logo {
@@ -24,9 +25,8 @@
   font-size: medium;
 }
 
-.links-and-loader {
-  display: flex;
-  justify-content: space-between;
+.links {
+  display: block;
 }
 
 hr {
@@ -52,13 +52,13 @@ label {
   div.sidebar {
     width: 100%;
     max-width: 100%;
-    padding: 0.5rem;
+    padding: 1rem;
     height: unset;
     max-height: 50%;
   }
 
   .subheadings-section {
-    margin: 0.5em 0;
+    /* margin: 0.5em 0; */
   }
 
   h1,
@@ -66,17 +66,17 @@ label {
   h3,
   h4 {
     font-size: smaller;
-    /* margin-block-end: 0.25em; */
-    /* margin-block-start: 0.25em; */
     line-height: 1.1;
   }
 
   hr {
-    display: none;
+    margin: 1rem 0;
+    border: 1px solid #4a4d63;
   }
 
   header {
     display: flex;
+    margin-bottom: 1rem;
   }
 
   img.site-logo {
@@ -93,7 +93,7 @@ label {
     padding: 2px 8px;
     display: inline;
     font-family: 'PT Sans Narrow', sans-serif;
-    margin: 0.5em;
+    margin-right: 0.5em;
   }
 
   label {
