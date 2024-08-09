@@ -23,8 +23,8 @@ function PopUp({ selectedComplaint, setSelectedComplaint }: PropsType) {
             <h3 id="incident_address">
               {selectedComplaint.incident_address.toLowerCase().replace(/\b\w/g, (char: string) => char.toUpperCase())}
             </h3>
-            <div className="complaint-time">
-              <h5>Opened:</h5>
+            <div className="popup-section">
+              <p className="popup-section-label">Opened: </p>
               <p className="popup-content">
                 {new Date(selectedComplaint.created_date).toLocaleString('en-us', {
                   year: 'numeric',
@@ -37,8 +37,8 @@ function PopUp({ selectedComplaint, setSelectedComplaint }: PropsType) {
             </div>
             {selectedComplaint.status === 'Closed' && (
               <>
-                <div className="complaint-time">
-                  <h5>Closed:</h5>
+                <div className="popup-section">
+                  <p className="popup-section-label">Closed: </p>
                   <p className="popup-content">
                     {selectedComplaint.closed_date
                       ? new Date(selectedComplaint.closed_date).toLocaleString('en-us', {
@@ -51,7 +51,7 @@ function PopUp({ selectedComplaint, setSelectedComplaint }: PropsType) {
                       : 'Complaint is still open'}
                   </p>
                 </div>
-                <h5>Resolution:</h5>
+                <p className="popup-section-label">Resolution: </p>
                 <p className="popup-content">{selectedComplaint.resolution_description}</p>
                 <p>{selectedComplaint.closed_date ? howLongTillResolvedPhrase(selectedComplaint) : ''}</p>
               </>

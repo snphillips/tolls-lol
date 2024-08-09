@@ -16,8 +16,8 @@ export const howLongTillResolvedPhrase = (complaint: ComplaintType): string => {
   }
 
   // Otherwise, display the days, hours, and minutes
-  return `Issue resolved in: ${days > 0 ? `${days} ${pluralize('day', days)}, ` : ''}${hours} ${pluralize(
-    'hour',
+  return `Resolved in: ${days > 0 ? `${days} ${pluralize('day', days)}, ` : ''}${hours} ${pluralize(
+    'hr',
     hours
-  )}, and ${minutes} ${pluralize('minute', minutes)}`;
+  )}, ${minutes} ${pluralize('min', minutes)}`;
 };
