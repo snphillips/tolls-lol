@@ -51,9 +51,16 @@ function PopUp({ selectedComplaint, setSelectedComplaint }: PropsType) {
                       : 'Complaint is still open'}
                   </p>
                 </div>
-                <p className="popup-section-label">Resolution: </p>
-                <p className="popup-content">{selectedComplaint.resolution_description}</p>
-                <p>{selectedComplaint.closed_date ? howLongTillResolvedPhrase(selectedComplaint) : ''}</p>
+                <div className="popup-section">
+                  <p className="popup-section-label">Resolution: </p>
+                  <p className="popup-content">{selectedComplaint.resolution_description}</p>
+                </div>
+                <div className="popup-section">
+                  <p className="popup-section-label">Resolved in: </p>
+                  <p className="popup-content">
+                    {selectedComplaint.closed_date ? howLongTillResolvedPhrase(selectedComplaint) : ''}
+                  </p>
+                </div>
               </>
             )}
           </div>

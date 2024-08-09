@@ -6,6 +6,7 @@ div.mapboxgl-popup-content {
   padding: 10px 10px 15px;
   pointer-events: auto;
   position: relative;
+  width: 240px;
 }
 
 .popup-content {
@@ -31,7 +32,7 @@ div.mapboxgl-popup-content {
   position: absolute;
   right: 0;
   top: 0;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: var(--dark);
 }
 
