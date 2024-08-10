@@ -62,7 +62,7 @@ function Sidebar({
         resolutionLabelColorArray={resolutionLabelColorArray}
       />
 
-      <hr />
+      <hr className="slider-horizontal-rule" />
       <RangeSlider
         minRangeTime={minRangeTime}
         maxAndUpRangeTime={maxAndUpRangeTime}

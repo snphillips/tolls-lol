@@ -103,4 +103,8 @@ label {
   .source-link {
     font-size: smaller;
   }
+
+  .slider-horizontal-rule {
+    display: none;
+  }
 }
