@@ -58,7 +58,7 @@ function RangeSlider({
             '& .MuiSlider-markLabel': {
               color: 'white',
               top: '-20px',
-              fontSize: '10px',
+              fontSize: '12px',
             },
           }}
         />

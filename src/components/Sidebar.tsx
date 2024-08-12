@@ -1,6 +1,7 @@
 import logo from '../assets/tolls-lol.png';
+import { useLoading } from '../context/LoadingContext';
 import './Sidebar.css';
-// import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
 import ResolutionCheckbox from './ResolutionCheckbox';
 import RangeSlider from './RangeSlider';
 import {
@@ -29,16 +30,37 @@ function Sidebar({
   minRangeTime,
   maxAndUpRangeTime,
 }: Props) {
+  // Access loading state from the context
+  const { loadingBoolean } = useLoading();
   return (
     <div className="sidebar">
       <header>
-        <img className="site-logo" src={logo} alt={'a New York State vanity license plate that says TOLLS L.O.L'} />
-        <div className="mobile-logo">TOLLS-LOL</div>
+        <div style={{ display: 'flex' }}>
+          <div className="site-name">
+            <img className="site-logo" src={logo} alt={'a New York State vanity license plate that says TOLLS L.O.L'} />
+            <div className="mobile-logo">TOLLS-LOL</div>
+          </div>
+          <div className="loading-container">{loadingBoolean && <LoadingSpinner />}</div>
+        </div>
         <div className="subheadings-section">
           <h1>Obscured License Plates Map</h1>
-          <h2>Visualizing NYC's 311 Complaint Data</h2>
         </div>
       </header>
+      <p className="site-description">Visualizing NYC's 311 "obscured license plate" complaint data for 2024.</p>
+      <hr />
+      <ResolutionCheckbox
+        displayResolutionArray={displayResolutionArray}
+        setDisplayResolutionArray={setDisplayResolutionArray}
+        resolutionLabelColorArray={resolutionLabelColorArray}
+      />
+
+      <hr className="slider-horizontal-rule" />
+      <RangeSlider
+        minRangeTime={minRangeTime}
+        maxAndUpRangeTime={maxAndUpRangeTime}
+        rangeSliderResolutionTime={rangeSliderResolutionTime}
+        setRangeSliderResolutionTime={setRangeSliderResolutionTime}
+      />
       <div className="links">
         <a
           className="source-link"
@@ -55,20 +77,6 @@ function Sidebar({
           View nyc.gov source data ↗
         </a>
       </div>
-      <hr />
-      <ResolutionCheckbox
-        displayResolutionArray={displayResolutionArray}
-        setDisplayResolutionArray={setDisplayResolutionArray}
-        resolutionLabelColorArray={resolutionLabelColorArray}
-      />
-
-      <hr className="slider-horizontal-rule" />
-      <RangeSlider
-        minRangeTime={minRangeTime}
-        maxAndUpRangeTime={maxAndUpRangeTime}
-        rangeSliderResolutionTime={rangeSliderResolutionTime}
-        setRangeSliderResolutionTime={setRangeSliderResolutionTime}
-      />
     </div>
   );
 }

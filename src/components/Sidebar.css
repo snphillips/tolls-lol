@@ -1,64 +1,73 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap');
 
-.sidebar {
-  display: block;
-  background: #2b2f3b;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  color: var(--light);
-  /* font-size: medium; */
-  line-height: 2;
-  max-width: 520px;
-  outline: none;
-  padding: 1.5rem;
-  position: absolute;
-  top: 0;
-  height: 100%;
-  box-sizing: border-box;
-}
-
-.mobile-logo {
-  display: none;
-}
-
-.source-link {
-  font-size: medium;
-}
-
-.links {
-  display: block;
+div {
+  /* border: 1px solid red; */
 }
 
 hr {
-  margin: 2rem 0;
   border: 2px solid #4a4d63;
+  margin: 2rem 0;
 }
 
 label {
   display: inline-block;
 }
 
+.links {
+  bottom: 3rem;
+  display: block;
+  position: fixed;
+}
+
 .loading-container {
   align-items: center;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  margin-left: 20px;
+  overflow: show;
+  position: relative;
+  top: 0;
+  z-index: 2;
+}
+
+.mobile-logo {
+  display: none;
+}
+
+.sidebar {
+  background: #2b2f3b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  color: var(--light);
+  display: block;
+  height: 100%;
+  line-height: 2;
+  max-width: 24rem;
+  outline: none;
+  padding: 1.5rem;
+  position: absolute;
+  top: 0;
+}
+
+.site-description {
+  line-height: 1.5;
 }
 
 .source-link {
   display: block;
+  font-size: medium;
 }
 
 @media only screen and (max-width: 700px) {
   div.sidebar {
-    width: 100%;
-    max-width: 100%;
-    padding: 1rem;
     height: unset;
     max-height: 50%;
-  }
-
-  .subheadings-section {
-    /* margin: 0.5em 0; */
+    max-width: 100%;
+    padding: 1rem;
+    width: 100%;
   }
 
   h1,
@@ -69,42 +78,61 @@ label {
     line-height: 1.1;
   }
 
-  hr {
-    margin: 1rem 0;
-    border: 1px solid #4a4d63;
-  }
-
   header {
     display: flex;
     margin-bottom: 1rem;
+  }
+
+  hr {
+    border: 1px solid #4a4d63;
+    margin: 1rem 0;
   }
 
   img.site-logo {
     display: none;
   }
 
-  .mobile-logo {
-    display: inline-block;
-    width: 63px;
-    height: 33px;
-    font-size: medium;
-    border: 1px solid var(--light);
-    border-radius: 5px;
-    padding: 2px 8px;
-    display: inline;
-    font-family: 'PT Sans Narrow', sans-serif;
-    margin-right: 0.5em;
-  }
-
   label {
     font-size: smaller;
+  }
+
+  .links {
+    display: none;
+  }
+
+  .loading-container {
+    display: block;
+    position: fixed;
+    right: 20%;
+    top: 27%;
+  }
+
+  .mobile-logo {
+    border: 1px solid var(--light);
+    border-radius: 5px;
+    display: block;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: medium;
+    height: 33px;
+    margin-right: 0.5em;
+    padding: 2px 8px;
+    width: 63px;
+  }
+
+  .site-description {
+    line-height: 1.5;
+  }
+
+  .slider-horizontal-rule {
+    display: none;
   }
 
   .source-link {
     font-size: smaller;
   }
 
-  .slider-horizontal-rule {
-    display: none;
+  .subheadings-section {
+    font-size: larger;
+    margin: 0.5em 0;
   }
 }

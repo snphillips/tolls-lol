@@ -3,45 +3,23 @@
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap');
 
 :root {
-  --light: #ded7f5;
   --dark: #2b2f3b;
-  --light-purple: #b1b5fa;
   --darker-purple: #959af9;
+  --light: #ded7f5;
+  --light-purple: #b1b5fa;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
   font-family: Nunito, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-size: medium;
-  line-height: 1.5;
   font-weight: 400;
+  line-height: 1.5;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  box-sizing: border-box;
-}
-
-h1,
-h2,
-h3 {
-  line-height: 1.1;
-}
-
-h1 {
-  font-size: x-large;
-  margin-block-end: 0.25em;
-  margin-block-start: 0.25em;
-}
-
-h3 {
-  margin-block-start: 0.5em;
-  margin-block-end: 0.5em;
-}
-
-h2,
-h3 {
-  font-size: large;
 }
 
 a {
-  font-weight: 500;
   color: #b1b5fa;
+  font-weight: 500;
   text-decoration: inherit;
 }
 
@@ -50,11 +28,29 @@ a:hover {
 }
 
 body {
-  margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  margin: 0;
   min-height: 100vh;
+  min-width: 320px;
+  place-items: center;
+}
+
+h1 {
+  font-size: x-large;
+  line-height: 1.1;
+  margin-block-end: 0.25em;
+  margin-block-start: 0.25em;
+}
+
+h2,
+h3 {
+  font-size: large;
+  line-height: 1.1;
+}
+
+h3 {
+  margin-block-end: 0.5em;
+  margin-block-start: 0.5em;
 }
 
 .mapboxgl-map {
@@ -68,25 +64,24 @@ body {
   h3,
   h4 {
     font-size: smaller;
+    line-height: 1.1;
     margin-block-end: 0.25em;
     margin-block-start: 0.25em;
-    line-height: 1.1;
   }
 
   h3 {
     font-size: medium;
-    margin-block-start: 0.5em;
     margin-block-end: 0.5em;
+    margin-block-start: 0.5em;
   }
 
-  h4 {
-    margin-block-start: 0.5em;
+  h4,
+  h5 {
     margin-block-end: 0.5em;
+    margin-block-start: 0.5em;
   }
 
   h5 {
-    margin-block-start: 0.5em;
-    margin-block-end: 0.5em;
     display: inline;
   }
 }

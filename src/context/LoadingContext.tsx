@@ -3,24 +3,19 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 
 type LoadingContextType = {
   loadingBoolean: boolean;
-  loadingMessage: string;
-  setLoading: (loadingBoolean: boolean, loadingMessage?: string) => void;
+  setLoading: (loadingBoolean: boolean) => void;
 };
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 
 export const LoadingProvider = ({ children }: { children: ReactNode }) => {
-  const [loadingBoolean, setLoadingState] = useState<boolean>(false);
-  const [loadingMessage, setLoadingMessage] = useState<string>('');
+  const [loadingBoolean, setLoadingBoolean] = useState<boolean>(false);
 
-  const setLoading = (loading: boolean, loadingMessage: string = '') => {
-    setLoadingState(loading);
-    setLoadingMessage(loadingMessage);
+  const setLoading = (loading: boolean) => {
+    setLoadingBoolean(loading);
   };
 
-  return (
-    <LoadingContext.Provider value={{ loadingBoolean, loadingMessage, setLoading }}>{children}</LoadingContext.Provider>
-  );
+  return <LoadingContext.Provider value={{ loadingBoolean, setLoading }}>{children}</LoadingContext.Provider>;
 };
 
 export const useLoading = () => {
