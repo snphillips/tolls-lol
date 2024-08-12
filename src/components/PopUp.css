@@ -7,11 +7,14 @@ div.mapboxgl-popup-content {
   pointer-events: auto;
   position: relative;
   width: 240px;
+  -webkit-font-smoothing: antialiased;
 }
 
 .popup-content {
   display: inline;
   margin-block-start: 0.5em;
+  -webkit-font-smoothing: antialiased;
+  /* -webkit-font-smoothing: subpixel-antialiased; */
 }
 
 .mapboxgl-popup-tip {
