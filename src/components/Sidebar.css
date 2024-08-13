@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap');
 
-div {
-  /* border: 1px solid red; */
-}
-
 hr {
   border: 2px solid #4a4d63;
   margin: 2rem 0;
@@ -20,6 +16,10 @@ label {
   position: fixed;
 }
 
+.logo-container {
+  display: flex;
+}
+
 .loading-container {
   align-items: center;
   display: flex;
@@ -33,10 +33,6 @@ label {
   z-index: 2;
 }
 
-.mobile-logo {
-  display: none;
-}
-
 .sidebar {
   background: #2b2f3b;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -45,7 +41,7 @@ label {
   display: block;
   height: 100%;
   line-height: 2;
-  max-width: 24rem;
+  max-width: 23rem;
   outline: none;
   padding: 1.5rem;
   position: absolute;
@@ -70,14 +66,6 @@ label {
     width: 100%;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-size: smaller;
-    line-height: 1.1;
-  }
-
   header {
     display: flex;
     margin-bottom: 1rem;
@@ -89,11 +77,8 @@ label {
   }
 
   img.site-logo {
-    display: none;
-  }
-
-  label {
-    /* font-size: smaller; */
+    width: 100px;
+    height: auto;
   }
 
   .links {
@@ -108,9 +93,10 @@ label {
   }
 
   .mobile-logo {
+    display: block;
+    display: none;
     border: 1px solid var(--light);
     border-radius: 5px;
-    display: block;
     font-family: 'PT Sans Narrow', sans-serif;
     font-size: medium;
     height: 33px;

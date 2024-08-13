@@ -1,3 +1,7 @@
+div.mapboxgl-popup {
+  /* add rules to combat popup content fuzzyness */
+}
+
 div.mapboxgl-popup-content {
   background: var(--light);
   color: var(--dark);

@@ -35,18 +35,15 @@ function Sidebar({
   return (
     <div className="sidebar">
       <header>
-        <div style={{ display: 'flex' }}>
-          <div className="site-name">
-            <img className="site-logo" src={logo} alt={'a New York State vanity license plate that says TOLLS L.O.L'} />
-            <div className="mobile-logo">TOLLS-LOL</div>
-          </div>
+        <div className="logo-container">
+          <img className="site-logo" src={logo} alt={'a New York State vanity license plate that says TOLLS L.O.L'} />
           <div className="loading-container">{loadingBoolean && <LoadingSpinner />}</div>
         </div>
-        <div className="subheadings-section">
-          <h1>Obscured License Plates Map</h1>
-        </div>
+        <h1>Ghost License Plates Map</h1>
       </header>
-      <p className="site-description">Visualizing NYC's 311 "obscured license plate" complaint data for 2024.</p>
+      <p className="site-description">
+        Visualizing NYC's 311 "illegal parking obscured license plate" complaint data for 2024.
+      </p>
       <hr />
       <ResolutionCheckbox
         displayResolutionArray={displayResolutionArray}
