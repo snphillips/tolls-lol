@@ -52,7 +52,7 @@ div.mapboxgl-popup-content {
   }
   div.mapboxgl-popup {
     position: fixed;
-    top: 50%;
+    top: 59%;
     left: 48%;
     transform: translate(-50%, -10%) !important;
   }

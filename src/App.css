@@ -7,14 +7,16 @@
 }
 
 #site {
-  display: flex;
+  display: block;
+  position: relative;
   width: 100vw;
   height: 100vh;
 }
 
 #map {
-  width: 100%;
   display: block;
+  position: relative;
+  left: var(--sidebar-width);
   cursor: pointer;
 }
 
@@ -24,4 +26,21 @@
 
 .mapboxgl-ctrl-group button:last-child {
   display: none;
+}
+
+/* Media query for small screens */
+@media only screen and (max-width: 700px) {
+  #map {
+    /* TODO: replace this hard coded value */
+    top: 299px;
+    left: unset;
+    position: relative;
+    display: block;
+    width: 100vw;
+    height: 50%;
+  }
+}
+
+/* Media query for landscape mode on small screens */
+@media only screen and (max-width: 767px) and (orientation: landscape) {
 }

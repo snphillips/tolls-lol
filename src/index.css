@@ -7,6 +7,9 @@
   --darker-purple: #959af9;
   --light: #ded7f5;
   --light-purple: #b1b5fa;
+  --sidebar-width: 23rem;
+  --sidebar-padding: 1.5rem;
+  --sidebar-padding-small: 1rem;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;

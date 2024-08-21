@@ -191,7 +191,7 @@ const App = () => {
         {selectedComplaint && selectedComplaint.latitude && selectedComplaint.longitude && (
           <PopUp selectedComplaint={selectedComplaint} setSelectedComplaint={setSelectedComplaint} />
         )}
-        <NavigationControl position="bottom-right" />
+        <NavigationControl position="top-left" />
       </Map>
       <Sidebar
         displayResolutionArray={displayResolutionArray}
