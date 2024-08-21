@@ -43,4 +43,13 @@
 
 /* Media query for landscape mode on small screens */
 @media only screen and (max-width: 767px) and (orientation: landscape) {
+  #map {
+    /* TODO: replace this hard coded value */
+    top: 0;
+    left: 50%;
+    position: relative;
+    display: block;
+    width: 50%;
+    height: 100vh;
+  }
 }

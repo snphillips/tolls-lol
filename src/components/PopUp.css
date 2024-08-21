@@ -57,3 +57,13 @@ div.mapboxgl-popup-content {
     transform: translate(-50%, -10%) !important;
   }
 }
+
+/* Media query for landscape mode on small screens */
+@media only screen and (max-width: 767px) and (orientation: landscape) {
+  div.mapboxgl-popup {
+    position: fixed;
+    top: 15%;
+    left: 49%;
+    transform: translate(-50%, -10%) !important;
+  }
+}

@@ -3,3 +3,10 @@
     display: none;
   }
 }
+
+/* Media query for landscape mode on small screens */
+@media only screen and (max-width: 767px) and (orientation: landscape) {
+  #range-slider-section {
+    display: none;
+  }
+}
