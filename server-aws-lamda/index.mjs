@@ -2,7 +2,6 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import https from 'https';
 
-// Initialize clients
 const s3 = new S3Client({ region: process.env.AWS_REGION });
 const ses = new SESClient({ region: process.env.AWS_REGION });
 
