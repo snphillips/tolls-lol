@@ -3,7 +3,6 @@ import Map, { Layer, Source, MapLayerMouseEvent, NavigationControl } from 'react
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Sidebar from './components/Sidebar';
 import PopUp from './components/PopUp';
-// import LoadingSpinner from './components/LoadingSpinner';
 import './App.css';
 import './components/PopUp.css';
 import { ComplaintType, DisplayResolutionArrayType, ResolutionLabelType } from './types';
