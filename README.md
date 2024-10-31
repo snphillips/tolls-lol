@@ -25,6 +25,29 @@ To ensure data freshness, an AWS Lambda function fetches data from the City of N
 ### S3 JSON Storage
 The Lambda function saves the fetched data as obscured-license-plate-complaints.json in an S3 bucket. The app then retrieves this JSON file when loading the map, ensuring the latest data is always available. S3 permissions are configured to allow public read access to this file.
 
+To set up S3 for this project:
+
+1. Create an S3 Bucket:
+
+- Go to the S3 console, create a new bucket, and name it appropriately.
+- Set permissions to allow public read access for this specific file. Configure the bucket’s CORS policy to allow requests from http://localhost:5173 for local development and your deployment URL.
+
+  Example CORS policy:
+  ```
+  [
+    {
+        "AllowedHeaders": ["*"],
+        "AllowedMethods": ["GET"],
+        "AllowedOrigins": ["http://localhost:5173"],
+        "ExposeHeaders": [],
+        "MaxAgeSeconds": 3000
+    }
+   ]
+   ```
+2. Set Public Access Permissions:
+
+Grant read permissions for the obscured-license-plate-complaints.json file to ensure it can be accessed publicly by the app.
+
 ## Getting Started
 
 Follow the instructions below to get a copy of the project up and running on your local machine.
@@ -75,8 +98,9 @@ Follow the instructions below to get a copy of the project up and running on you
    yarn install
    ```
 4. **Zip the contents of server-aws-lambda into a file like Archive.zip:**
+   - This zip file will be used to upload the Lambda function to AWS. Ensure whatever you call your zip file, it appears in your `.gitignore`.
 
-5. **Set up environment variables:**
+6. **Set up environment variables:**
 
    Create a `.env` file in the root of the project and add your Mapbox access token & AWS credentials:
 
@@ -88,7 +112,7 @@ Follow the instructions below to get a copy of the project up and running on you
    AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
    ```
 
-6. **Start the development server:**
+7. **Start the development server:**
 
    Using npm:
 
@@ -114,6 +138,7 @@ Once the application is running, you can interact with the map to view complaint
 - `src/Sidebar.tsx`: Component for controlling the visibility of complaint resolutions.
 - `src/types.ts`: Type definitions for the project.
 - `src/resolutionLabelColorArray.ts`: Array of resolution descriptions and their associated colors.
+- `server-aws-lambda/index.mjs`: AWS Lambda function to fetch, process, and store complaint data.
 
 ## Data Update Mechanism
 The application relies on the nightly refreshed JSON data stored in S3 by AWS Lambda. This setup ensures that only the most recent data is retrieved and displayed, reducing the number of direct API calls and improving performance.
