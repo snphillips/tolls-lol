@@ -6,8 +6,7 @@ import PopUp from './components/PopUp';
 import './App.css';
 import './components/PopUp.css';
 import { ComplaintType, DisplayResolutionArrayType, ResolutionLabelType } from './types';
-// import { resolutionLabelColorArray, allOtherResolutionsArray } from './data/resolutionLabelColorArray';
-import { resolutionLabelColorArray } from './data/resolutionLabelColorArray';
+import { resolutionLabelColorArray, allOtherResolutionsArray } from './data/resolutionLabelColorArray';
 import useFetchComplaints from './hooks/useFetchComplaints';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11?optimize=true';
@@ -35,7 +34,6 @@ const App = () => {
   ]);
 
   useEffect(() => {
-    console.log('filteredComplaints', filteredComplaints);
     const filterBasedOnVisibilityAndTimeRange = () => {
       const userSetVisibleLabels = displayResolutionArray
         .filter((item) => item.visibility)
@@ -44,7 +42,10 @@ const App = () => {
       // Map visible labels to their corresponding resolution descriptions
       const visibleResolutions = resolutionLabelColorArray
         .filter((item) => userSetVisibleLabels.includes(item.label as ResolutionLabelType))
-        .map((item) => item.resolution);
+        .flatMap((item) => item.resolution) // flattens nested arrays
+        .filter((res) => res !== undefined); // Remove undefined values
+
+      console.log('Corrected Visible Resolutions:', visibleResolutions); // Debug log
 
       const dataWithLatLong = allComplaints.filter((complaint) => {
         const timeDiff = complaint.timeDiffInMilliseconds;
@@ -55,11 +56,13 @@ const App = () => {
           timeDiff !== null &&
           timeDiff >= lowestTimeOnSlider &&
           (highestTimeOnSlider === maxAndUpRangeTime || timeDiff <= highestTimeOnSlider);
-        // Filter based on `status` and `resolution_description`
+
+        // Handle complaints in progress
         if (complaint.status === 'In Progress' && userSetVisibleLabels.includes('Complaint in progress')) {
           return true;
         }
 
+        // Handle "Summons issued"
         if (
           complaint.resolution_description === 'The Police Department issued a summons in response to the complaint.' &&
           visibleResolutions.includes(complaint.resolution_description) &&
@@ -68,15 +71,18 @@ const App = () => {
           return true;
         }
 
-        // Handle other complaints based on `visibleResolutions`
-        return (
+        // Handle all other complaints with resolutions in `allOtherResolutionsArray`
+        if (
           complaint.resolution_description &&
-          visibleResolutions.includes(complaint.resolution_description) &&
+          allOtherResolutionsArray.includes(complaint.resolution_description) &&
           withinTimeRange
-        );
+        ) {
+          return visibleResolutions.includes(complaint.resolution_description);
+        }
+
+        return false;
       });
 
-      // Update state with filtered complaints
       setFilteredComplaints(dataWithLatLong);
     };
 
@@ -119,13 +125,6 @@ const App = () => {
     [setSelectedComplaint]
   );
 
-  useEffect(() => {
-    if (selectedComplaint) {
-      console.log('👉 selectedComplaint:', selectedComplaint);
-      console.log('👉 selectedComplaint.timeDiffInMilliseconds:', selectedComplaint.timeDiffInMilliseconds);
-    }
-  }, [selectedComplaint]);
-
   const handleMouseEnter = useCallback((event: MapLayerMouseEvent) => {
     const features = event.features;
     if (features && features.length > 0) {
@@ -143,7 +142,6 @@ const App = () => {
 
   return (
     <div id="site">
-      {/* <LoadingSpinner /> */}
       <Map
         id="map"
         mapboxAccessToken={import.meta.env.VITE_REACT_APP_MAPBOX_TOKEN}
@@ -184,7 +182,6 @@ const App = () => {
             }}
           />
         </Source>
-
         {selectedComplaint && selectedComplaint.latitude && selectedComplaint.longitude && (
           <PopUp selectedComplaint={selectedComplaint} setSelectedComplaint={setSelectedComplaint} />
         )}
