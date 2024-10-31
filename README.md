@@ -60,10 +60,14 @@ Follow the instructions below to get a copy of the project up and running on you
 
 3. **Set up environment variables:**
 
-   Create a `.env` file in the root of the project and add your Mapbox access token:
+   Create a `.env` file in the root of the project and add your Mapbox access token & AWS credentials:
 
    ```env
    VITE_REACT_APP_MAPBOX_TOKEN=your_mapbox_access_token
+   AWS_S3_BUCKET_NAME=your_aws_s3_bucket_name
+   AWS_S3_BUCKET_REGION=your_aws_s3_bucket_region
+   AWS_ACCESS_KEY_ID=your_aws_access_key
+   AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
    ```
 
 4. **Start the development server:**
