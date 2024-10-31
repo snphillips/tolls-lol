@@ -34,6 +34,7 @@ Follow the instructions below to get a copy of the project up and running on you
 - Node.js (v18.19.0 or higher)
 - npm (v6.14.8 or higher) or yarn (v1.22.10 or higher)
 - A Mapbox account and access token (sign up at [Mapbox](https://www.mapbox.com/signup/))
+- Access to AWS for setting up Lambda, S3, and EventBridge if replicating backend setup
 
 ### Installation
 
