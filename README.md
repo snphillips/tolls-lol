@@ -93,10 +93,6 @@ Once the application is running, you can interact with the map to view complaint
 - `src/types.ts`: Type definitions for the project.
 - `src/resolutionLabelColorArray.ts`: Array of resolution descriptions and their associated colors.
 
-## Caching Mechanism
-
-The application uses `localStorage` to cache the fetched data. It checks if the data is older than 12 hours before fetching new data. This optimization reduces unnecessary API calls and improves performance.
-
 ## Data Update Mechanism
 The application relies on the nightly refreshed JSON data stored in S3 by AWS Lambda. This setup ensures that only the most recent data is retrieved and displayed, reducing the number of direct API calls and improving performance.
 
