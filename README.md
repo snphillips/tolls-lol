@@ -42,10 +42,10 @@ Follow the instructions below to get a copy of the project up and running on you
 
    ```bash
    git clone https://github.com/your-username/license-plate-obscured-visualizer.git
-   cd license-plate-obscured-visualizer
+   cd tolls-lol
    ```
 
-2. **Install dependencies:**
+2. **Install dependencies for React app:**
 
    Using npm:
 
@@ -59,7 +59,24 @@ Follow the instructions below to get a copy of the project up and running on you
    yarn install
    ```
 
-3. **Set up environment variables:**
+3. **Install dependencies for AWS Lambda:**
+
+   Using npm:
+
+   ```bash
+   cd server-aws-lambda
+   npm install
+   ```
+
+   Or using yarn:
+
+   ```bash
+   cd server-aws-lambda
+   yarn install
+   ```
+4. **Zip the contents of server-aws-lambda into a file like Archive.zip:**
+
+5. **Set up environment variables:**
 
    Create a `.env` file in the root of the project and add your Mapbox access token & AWS credentials:
 
@@ -71,7 +88,7 @@ Follow the instructions below to get a copy of the project up and running on you
    AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
    ```
 
-4. **Start the development server:**
+6. **Start the development server:**
 
    Using npm:
 
