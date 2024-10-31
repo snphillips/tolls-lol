@@ -10,7 +10,7 @@ const useFetchComplaints = () => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = async () => {
-    console.log('Fetching data from S3 bucket...');
+    // console.log('Fetching data from S3 bucket...');
     setLoading(true);
     setError(null);
 
@@ -27,7 +27,6 @@ const useFetchComplaints = () => {
         throw new Error('Data is not an array');
       }
       setAllComplaints(data);
-      console.log('data[13]', data[13]);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);

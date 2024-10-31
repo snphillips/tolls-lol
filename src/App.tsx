@@ -45,8 +45,6 @@ const App = () => {
         .flatMap((item) => item.resolution) // flattens nested arrays
         .filter((res) => res !== undefined); // Remove undefined values
 
-      console.log('Corrected Visible Resolutions:', visibleResolutions); // Debug log
-
       const dataWithLatLong = allComplaints.filter((complaint) => {
         const timeDiff = complaint.timeDiffInMilliseconds;
         const lowestTimeOnSlider = rangeSliderResolutionTime[0];
