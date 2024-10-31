@@ -22,7 +22,7 @@ Obscuring motor vehicle licenses plate is illegal in New York City. Those with o
 ### AWS Lambda and EventBridge
 To ensure data freshness, an AWS Lambda function fetches data from the City of New York's Open Data API every night. This Lambda function is scheduled with EventBridge to run at 3:00 am EST daily, retrieving up-to-date complaint data.
 
-S3 JSON Storage
+### S3 JSON Storage
 The Lambda function saves the fetched data as obscured-license-plate-complaints.json in an S3 bucket. The app then retrieves this JSON file when loading the map, ensuring the latest data is always available. S3 permissions are configured to allow public read access to this file.
 
 ## Getting Started
