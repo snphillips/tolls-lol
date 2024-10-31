@@ -4,7 +4,7 @@
 
 View app here: https://tolls-lol.surge.sh/
 
-This React application uses Mapbox to visualize 2024's 311 complaints about obscured license plates in New York City. It fetches data from the City of New York's Open Data API and displays the complaints on an interactive map. The application caches the data to optimize performance, fetching new data only if the cached data is older than 12 hours.
+This React application uses Mapbox to visualize 2024's 311 complaints about obscured license plates in New York City. It fetches data daily through an AWS Lambda function, which saves a JSON file to an S3 bucket. This data is then accessed by the app for display, ensuring the most recent complaints are visualized on the map.
 
 ## Background
 
@@ -13,10 +13,17 @@ Obscuring motor vehicle licenses plate is illegal in New York City. Those with o
 ## Features
 
 - Interactive Mapbox map to visualize complaints.
-- Fetches data from the City of New York's Open Data API.
-- Caches data locally to minimize unnecessary API calls.
+- Nightly fetches data from the City of New York's Open Data API.
+- Fetching data using AWS Lambda and S3 for storage.
 - Customizable markers based on the resolution of complaints.
 - Popup details for each complaint.
+
+## Data Fetching and Storage
+### AWS Lambda and EventBridge
+To ensure data freshness, an AWS Lambda function fetches data from the City of New York's Open Data API every night. This Lambda function is scheduled with EventBridge to run at 3:00 am EST daily, retrieving up-to-date complaint data.
+
+S3 JSON Storage
+The Lambda function saves the fetched data as obscured-license-plate-complaints.json in an S3 bucket. The app then retrieves this JSON file when loading the map, ensuring the latest data is always available. S3 permissions are configured to allow public read access to this file.
 
 ## Getting Started
 
@@ -89,6 +96,9 @@ Once the application is running, you can interact with the map to view complaint
 ## Caching Mechanism
 
 The application uses `localStorage` to cache the fetched data. It checks if the data is older than 12 hours before fetching new data. This optimization reduces unnecessary API calls and improves performance.
+
+## Data Update Mechanism
+The application relies on the nightly refreshed JSON data stored in S3 by AWS Lambda. This setup ensures that only the most recent data is retrieved and displayed, reducing the number of direct API calls and improving performance.
 
 ## Contributing
 
