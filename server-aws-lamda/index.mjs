@@ -14,6 +14,16 @@ export async function handler() {
   let allData = [];
   let hasMoreData = true;
 
+  const calcTimeToResolveComplaintInMilliSeconds = (complaint) => {
+    if (!complaint) return null;
+
+    const createdDate = new Date(complaint.created_date);
+    if (!complaint.closed_date) return null;
+    const closedDate = new Date(complaint.closed_date);
+    const diffTimeInMilliSecs = closedDate.getTime() - createdDate.getTime();
+    return diffTimeInMilliSecs;
+  };
+
   try {
     // Fetch data in batches using do...while
     do {
@@ -28,15 +38,22 @@ export async function handler() {
       }
     } while (hasMoreData);
 
+    // Calculate `timeDiffInMilliseconds` for each complaint
+    allData = allData.map((complaint) => ({
+      ...complaint,
+      timeDiffInMilliseconds: calcTimeToResolveComplaintInMilliSeconds(complaint),
+    }));
+
     // Save the aggregated data to S3
-    const params = {
+    const uploadS3Params = {
       Bucket: s3BucketName,
       Key: s3Key,
       Body: JSON.stringify(allData),
       ContentType: 'application/json',
+      ACL: 'public-read',
     };
 
-    await s3.send(new PutObjectCommand(params));
+    await s3.send(new PutObjectCommand(uploadS3Params));
 
     // Send email notification using SES
     await sendEmailNotification(allData.length);
@@ -58,8 +75,8 @@ export async function handler() {
 function buildQuery(limit, offset) {
   return `
     SELECT
-      unique_key, created_date, incident_address,
-      status, latitude, longitude
+      unique_key, created_date, closed_date, incident_address,
+      status, resolution_description, latitude, longitude
     WHERE
       caseless_one_of(complaint_type, 'Illegal Parking') AND
       caseless_one_of(descriptor, 'License Plate Obscured') AND

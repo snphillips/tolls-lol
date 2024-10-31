@@ -6,7 +6,8 @@ import PopUp from './components/PopUp';
 import './App.css';
 import './components/PopUp.css';
 import { ComplaintType, DisplayResolutionArrayType, ResolutionLabelType } from './types';
-import { resolutionLabelColorArray, allOtherResolutionsArray } from './data/resolutionLabelColorArray';
+// import { resolutionLabelColorArray, allOtherResolutionsArray } from './data/resolutionLabelColorArray';
+import { resolutionLabelColorArray } from './data/resolutionLabelColorArray';
 import useFetchComplaints from './hooks/useFetchComplaints';
 
 const mapStyle = 'mapbox://styles/mapbox/dark-v11?optimize=true';
@@ -34,54 +35,51 @@ const App = () => {
   ]);
 
   useEffect(() => {
+    console.log('filteredComplaints', filteredComplaints);
     const filterBasedOnVisibilityAndTimeRange = () => {
       const userSetVisibleLabels = displayResolutionArray
         .filter((item) => item.visibility)
         .map((item) => item.label as ResolutionLabelType);
 
-      // Get the resolution descriptions that correspond to the visible labels
+      // Map visible labels to their corresponding resolution descriptions
       const visibleResolutions = resolutionLabelColorArray
         .filter((item) => userSetVisibleLabels.includes(item.label as ResolutionLabelType))
         .map((item) => item.resolution);
 
-      // Filter complaints based on their time difference and resolution description
       const dataWithLatLong = allComplaints.filter((complaint) => {
         const timeDiff = complaint.timeDiffInMilliseconds;
-        // Check if complaint's time difference is within the range specified by the slider
-        // The MaterialUI range slider accepts two values
-        // [0] is the minRangeTime & [1] is the maxAndUpRangeTime
         const lowestTimeOnSlider = rangeSliderResolutionTime[0];
         const highestTimeOnSlider = rangeSliderResolutionTime[1];
         const withinTimeRange =
           timeDiff !== undefined &&
           timeDiff !== null &&
           timeDiff >= lowestTimeOnSlider &&
-          (highestTimeOnSlider === maxAndUpRangeTime
-            ? true // Include everything if the slider is at maxAndUpRangeTime
-            : timeDiff <= highestTimeOnSlider);
-
-        // Handle 'In Progress' complaints that have undefined timeDiff
-        if (complaint.status === 'In Progress') {
-          return userSetVisibleLabels.includes('Complaint in progress');
+          (highestTimeOnSlider === maxAndUpRangeTime || timeDiff <= highestTimeOnSlider);
+        // Filter based on `status` and `resolution_description`
+        if (complaint.status === 'In Progress' && userSetVisibleLabels.includes('Complaint in progress')) {
+          return true;
         }
 
-        // Handle complaints where a summons was issued
         if (
-          complaint.resolution_description === 'The Police Department issued a summons in response to the complaint.'
+          complaint.resolution_description === 'The Police Department issued a summons in response to the complaint.' &&
+          visibleResolutions.includes(complaint.resolution_description) &&
+          withinTimeRange
         ) {
-          return (
-            visibleResolutions.includes('The Police Department issued a summons in response to the complaint.') &&
-            withinTimeRange
-          );
+          return true;
         }
 
-        // Handle all other complaints
-        return visibleResolutions.includes(allOtherResolutionsArray) && withinTimeRange;
+        // Handle other complaints based on `visibleResolutions`
+        return (
+          complaint.resolution_description &&
+          visibleResolutions.includes(complaint.resolution_description) &&
+          withinTimeRange
+        );
       });
 
-      // Update the state with the filtered complaints
+      // Update state with filtered complaints
       setFilteredComplaints(dataWithLatLong);
     };
+
     filterBasedOnVisibilityAndTimeRange();
   }, [displayResolutionArray, allComplaints, rangeSliderResolutionTime, maxAndUpRangeTime]);
 

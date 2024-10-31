@@ -1,6 +1,6 @@
 import pluralize from 'pluralize';
 import { ComplaintType } from '../types';
-import { calcTimeToResolveComplaintInMilliSeconds } from './calcTimeToResolveComplaintInMilliSeconds';
+// import { calcTimeToResolveComplaintInMilliSeconds } from '../../server-aws-lamda/calcTimeToResolveComplaintInMilliSeconds';
 import { formatDuration } from './formatDuration';
 
 export const howLongTillResolvedPhrase = (complaint: ComplaintType): string => {
