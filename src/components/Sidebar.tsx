@@ -41,9 +41,7 @@ function Sidebar({
         </div>
         <h1>Ghost License Plates Map</h1>
       </header>
-      <p className="site-description">
-        Visualizing NYC's 311 "illegal parking obscured license plate" complaint data for 2024.
-      </p>
+      <p className="site-description">Visualizing NYC's 311 "illegal parking obscured license plate" complaint data.</p>
       <hr />
       <ResolutionCheckbox
         displayResolutionArray={displayResolutionArray}
