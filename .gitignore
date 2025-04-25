@@ -29,4 +29,5 @@ TODO.txt
 .env
 server-aws-lamda/node_modules
 server-aws-lamda/Archive.zip
-Archive.zip
+# Archive is for uploading to AWS
+Archive.zip 
