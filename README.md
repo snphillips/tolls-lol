@@ -1,7 +1,5 @@
 # Obscured License Plate Complaints Visualized
 
-==== THIS APP IS STILL IN DEVELOPMENT ====
-
 View app here: https://tolls-lol.surge.sh/
 
 This React application uses Mapbox to visualize 2024's 311 complaints about obscured license plates in New York City. It fetches data daily through an AWS Lambda function, which saves a JSON file to an S3 bucket. This data is then accessed by the app for display, ensuring the most recent complaints are visualized on the map.
