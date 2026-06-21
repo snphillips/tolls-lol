@@ -1,3 +1,5 @@
+import { ResolutionLabelColorArrayType } from '../types';
+
 export const allOtherResolutionsArray = [
   'The Police Department responded and upon arrival those responsible for the condition were gone.',
   'The Police Department responded to the complaint and a report was prepared.',
@@ -10,23 +12,23 @@ export const allOtherResolutionsArray = [
   `Your request can not be processed at this time because of insufficient contact information. Please create a new Service Request on NYC.gov and provide more detailed contact information.`,
 ];
 
-export const resolutionLabelColorArray = [
+export const resolutionLabelColorArray: ResolutionLabelColorArrayType = [
   {
     status: 'In Progress',
     resolution: undefined,
-    label: `Complaint in progress`,
-    color: `orangeRed`,
+    label: 'Complaint in progress',
+    color: 'orangeRed',
   },
   {
     status: 'Closed',
     resolution: `The Police Department issued a summons in response to the complaint.`,
-    label: `Summons issued`,
-    color: `chartreuse`,
+    label: 'Summons issued',
+    color: 'chartreuse',
   },
   {
     status: 'Closed',
     resolution: allOtherResolutionsArray,
-    label: `Summons not issued`,
-    color: `mediumPurple`,
+    label: 'Summons not issued',
+    color: 'mediumPurple',
   },
 ];

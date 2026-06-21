@@ -18,7 +18,7 @@ export type ColorTypes = 'orangeRed' | 'chartreuse' | 'mediumPurple';
 
 export type ResolutionLabelColorType = {
   status: statusType;
-  resolution?: string[] | undefined[] | `The Police Department issued a summons in response to the complaint.`;
+  resolution?: string | string[];
   label: ResolutionLabelType;
   color: ColorTypes;
 };

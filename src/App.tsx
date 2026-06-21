@@ -1,6 +1,5 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import Map, { Layer, Source, MapLayerMouseEvent, NavigationControl } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
 import Sidebar from './components/Sidebar';
 import PopUp from './components/PopUp';
 import './App.css';
@@ -9,123 +8,102 @@ import { ComplaintType, DisplayResolutionArrayType, ResolutionLabelType } from '
 import { resolutionLabelColorArray, allOtherResolutionsArray } from './data/resolutionLabelColorArray';
 import useFetchComplaints from './hooks/useFetchComplaints';
 
-const mapStyle = 'mapbox://styles/mapbox/dark-v11?optimize=true';
+// Constants
+const MAP_STYLE = 'mapbox://styles/mapbox/dark-v11?optimize=true';
+const MIN_RANGE_TIME = 0;
+const MAX_AND_UP_RANGE_TIME = 43200000; // 12 hrs
+const INITIAL_VIEW_STATE = {
+  latitude: 40.69093436877119,
+  longitude: -73.960938659505,
+  zoom: 11,
+};
+
+const SUMMONS_ISSUED_DESCRIPTION = 'The Police Department issued a summons in response to the complaint.';
 
 const App = () => {
   const { allComplaints, error } = useFetchComplaints();
-  const [viewport] = useState({
-    latitude: 40.69093436877119,
-    longitude: -73.960938659505,
-    zoom: 11,
-  });
   const [cursor, setCursor] = useState<string>('auto');
-  const [filteredComplaints, setFilteredComplaints] = useState<ComplaintType[]>([]);
   const [selectedComplaint, setSelectedComplaint] = useState<ComplaintType | null>(null);
   const [displayResolutionArray, setDisplayResolutionArray] = useState<DisplayResolutionArrayType>([
     { label: 'Complaint in progress', visibility: true, count: 0, percent: 0 },
     { label: 'Summons issued', visibility: true, count: 0, percent: 0 },
     { label: 'Summons not issued', visibility: true, count: 0, percent: 0 },
   ]);
-  const [minRangeTime] = useState<number>(0);
-  const [maxAndUpRangeTime] = useState<number>(43200000); // 12 hrs
   const [rangeSliderResolutionTime, setRangeSliderResolutionTime] = useState<number[]>([
-    minRangeTime,
-    maxAndUpRangeTime,
+    MIN_RANGE_TIME,
+    MAX_AND_UP_RANGE_TIME,
   ]);
 
-  useEffect(() => {
-    const filterBasedOnVisibilityAndTimeRange = () => {
-      const userSetVisibleLabels = displayResolutionArray
-        .filter((item) => item.visibility)
-        .map((item) => item.label as ResolutionLabelType);
+  const filteredComplaints = useMemo(() => {
+    const userSetVisibleLabels = displayResolutionArray
+      .filter((item) => item.visibility)
+      .map((item) => item.label as ResolutionLabelType);
 
-      // Map visible labels to their corresponding resolution descriptions
-      const visibleResolutions = resolutionLabelColorArray
-        .filter((item) => userSetVisibleLabels.includes(item.label as ResolutionLabelType))
-        .flatMap((item) => item.resolution) // flattens nested arrays
-        .filter((res) => res !== undefined); // Remove undefined values
+    const visibleResolutions = resolutionLabelColorArray
+      .filter((item) => userSetVisibleLabels.includes(item.label as ResolutionLabelType))
+      .flatMap((item) => item.resolution)
+      .filter((res) => res !== undefined);
 
-      const dataWithLatLong = allComplaints.filter((complaint) => {
-        const timeDiff = complaint.timeDiffInMilliseconds;
-        const lowestTimeOnSlider = rangeSliderResolutionTime[0];
-        const highestTimeOnSlider = rangeSliderResolutionTime[1];
-        const withinTimeRange =
-          timeDiff !== undefined &&
-          timeDiff !== null &&
-          timeDiff >= lowestTimeOnSlider &&
-          (highestTimeOnSlider === maxAndUpRangeTime || timeDiff <= highestTimeOnSlider);
+    const [lowestTimeOnSlider, highestTimeOnSlider] = rangeSliderResolutionTime;
 
-        // Handle complaints in progress
-        if (complaint.status === 'In Progress' && userSetVisibleLabels.includes('Complaint in progress')) {
-          return true;
-        }
+    return allComplaints.filter((complaint) => {
+      if (!complaint.latitude || !complaint.longitude) return false;
 
-        // Handle "Summons issued"
-        if (
-          complaint.resolution_description === 'The Police Department issued a summons in response to the complaint.' &&
-          visibleResolutions.includes(complaint.resolution_description) &&
-          withinTimeRange
-        ) {
-          return true;
-        }
+      const timeDiff = complaint.timeDiffInMilliseconds;
+      const withinTimeRange =
+        timeDiff !== undefined &&
+        timeDiff !== null &&
+        timeDiff >= lowestTimeOnSlider &&
+        (highestTimeOnSlider === MAX_AND_UP_RANGE_TIME || timeDiff <= highestTimeOnSlider);
 
-        // Handle all other complaints with resolutions in `allOtherResolutionsArray`
-        if (
-          complaint.resolution_description &&
-          allOtherResolutionsArray.includes(complaint.resolution_description) &&
-          withinTimeRange
-        ) {
-          return visibleResolutions.includes(complaint.resolution_description);
-        }
-
-        return false;
-      });
-
-      setFilteredComplaints(dataWithLatLong);
-    };
-
-    filterBasedOnVisibilityAndTimeRange();
-  }, [displayResolutionArray, allComplaints, rangeSliderResolutionTime, maxAndUpRangeTime]);
-
-  const geoJsonData = useMemo(() => {
-    return {
-      type: 'FeatureCollection' as const,
-      features: filteredComplaints
-        .filter(
-          (complaint) =>
-            complaint.latitude !== undefined &&
-            complaint.longitude !== undefined &&
-            complaint.latitude !== '' &&
-            complaint.longitude !== ''
-        )
-        .map((complaint) => ({
-          type: 'Feature' as const,
-          properties: { ...complaint },
-          geometry: {
-            type: 'Point' as const,
-            coordinates: [parseFloat(complaint.longitude!), parseFloat(complaint.latitude!)],
-          },
-          id: complaint.unique_key,
-        })),
-    };
-  }, [filteredComplaints]);
-
-  const handleMapClick = useCallback(
-    (event: MapLayerMouseEvent) => {
-      const features = event.features;
-      if (features && features.length > 0) {
-        const clickedFeature = features[0];
-        setSelectedComplaint(clickedFeature.properties as ComplaintType);
-      } else {
-        setSelectedComplaint(null);
+      // Complaints in progress have no time range to check
+      if (complaint.status === 'In Progress') {
+        return userSetVisibleLabels.includes('Complaint in progress');
       }
-    },
-    [setSelectedComplaint]
+
+      // Summons issued
+      if (complaint.resolution_description === SUMMONS_ISSUED_DESCRIPTION) {
+        return visibleResolutions.includes(complaint.resolution_description) && withinTimeRange;
+      }
+
+      // All other resolutions
+      if (complaint.resolution_description && allOtherResolutionsArray.includes(complaint.resolution_description)) {
+        return visibleResolutions.includes(complaint.resolution_description) && withinTimeRange;
+      }
+
+      return false;
+    });
+  }, [allComplaints, displayResolutionArray, rangeSliderResolutionTime]);
+
+  // Coordinates are already guaranteed by the filter above, so no need to re-check here
+  const geoJsonData = useMemo(
+    () => ({
+      type: 'FeatureCollection' as const,
+      features: filteredComplaints.map((complaint) => ({
+        type: 'Feature' as const,
+        properties: { ...complaint },
+        geometry: {
+          type: 'Point' as const,
+          coordinates: [parseFloat(complaint.longitude!), parseFloat(complaint.latitude!)],
+        },
+        id: complaint.unique_key,
+      })),
+    }),
+    [filteredComplaints]
   );
 
-  const handleMouseEnter = useCallback((event: MapLayerMouseEvent) => {
+  // setSelectedComplaint is stable (guaranteed by React), so omitted from deps
+  const handleMapClick = useCallback((event: MapLayerMouseEvent) => {
     const features = event.features;
     if (features && features.length > 0) {
+      setSelectedComplaint(features[0].properties as ComplaintType);
+    } else {
+      setSelectedComplaint(null);
+    }
+  }, []);
+
+  const handleMouseEnter = useCallback((event: MapLayerMouseEvent) => {
+    if (event.features && event.features.length > 0) {
       setCursor('pointer');
     }
   }, []);
@@ -143,8 +121,8 @@ const App = () => {
       <Map
         id="map"
         mapboxAccessToken={import.meta.env.VITE_REACT_APP_MAPBOX_TOKEN}
-        initialViewState={viewport}
-        mapStyle={mapStyle}
+        initialViewState={INITIAL_VIEW_STATE}
+        mapStyle={MAP_STYLE}
         onClick={handleMapClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -169,18 +147,15 @@ const App = () => {
                 'case',
                 ['==', ['get', 'status'], 'In Progress'],
                 'orangeRed',
-                [
-                  '==',
-                  ['get', 'resolution_description'],
-                  'The Police Department issued a summons in response to the complaint.',
-                ],
+                ['==', ['get', 'resolution_description'], SUMMONS_ISSUED_DESCRIPTION],
                 'chartreuse',
                 'mediumPurple',
               ],
             }}
           />
         </Source>
-        {selectedComplaint && selectedComplaint.latitude && selectedComplaint.longitude && (
+        {/* PopUp handles its own lat/lon guard internally */}
+        {selectedComplaint && (
           <PopUp selectedComplaint={selectedComplaint} setSelectedComplaint={setSelectedComplaint} />
         )}
         <NavigationControl position="top-left" />
@@ -189,8 +164,8 @@ const App = () => {
         displayResolutionArray={displayResolutionArray}
         setDisplayResolutionArray={setDisplayResolutionArray}
         resolutionLabelColorArray={resolutionLabelColorArray}
-        minRangeTime={minRangeTime}
-        maxAndUpRangeTime={maxAndUpRangeTime}
+        minRangeTime={MIN_RANGE_TIME}
+        maxAndUpRangeTime={MAX_AND_UP_RANGE_TIME}
         rangeSliderResolutionTime={rangeSliderResolutionTime}
         setRangeSliderResolutionTime={setRangeSliderResolutionTime}
       />
